@@ -61,7 +61,7 @@ export default function HomePage() {
   };
 
   return (
-    <main className="relative min-h-screen bg-gradient-to-br from-indigo-100 via-white to-blue-100 text-gray-800 overflow-hidden">
+    <main className=" relative min-h-screen bg-gradient-to-br from-indigo-100 via-white to-blue-100 text-gray-800 overflow-hidden">
       {/* Hero Section */}
      <section
         className="relative bg-cover bg-center bg-no-repeat px-6 py-20 flex items-center justify-center min-h-[600px]"
@@ -253,6 +253,42 @@ export default function HomePage() {
     Submit Request
   </button>
 </form>
+  </div>
+</section>
+<section className="bg-gradient-to-br from-indigo-50 to-violet-50 py-24">
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <h2 className="text-4xl md:text-5xl font-extrabold text-violet-800 mb-12 drop-shadow-xl animate-bounce">
+      WHY CHOOSE EDEN?
+    </h2>
+
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-10 text-left">
+      {/* Card 1 */}
+      <div className="bg-white rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-transform hover:-translate-y-2 hover:rotate-1 duration-300">
+        <div className="text-violet-700 text-3xl mb-4">♿</div>
+        <h4 className="text-xl font-semibold text-violet-800 mb-3">Accessibility</h4>
+        <p className="text-gray-600">
+          Personalized wheelchair & non-emergency transport services tailored to your needs.
+        </p>
+      </div>
+
+      {/* Card 2 */}
+      <div className="bg-white rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-transform hover:-translate-y-2 hover:rotate-1 duration-300">
+        <div className="text-violet-700 text-3xl mb-4">🚑</div>
+        <h4 className="text-xl font-semibold text-violet-800 mb-3">Safe & Certified</h4>
+        <p className="text-gray-600">
+          Certified EMRs ride along every gurney van ensuring full medical support.
+        </p>
+      </div>
+
+      {/* Card 3 */}
+      <div className="bg-white rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-transform hover:-translate-y-2 hover:rotate-1 duration-300">
+        <div className="text-violet-700 text-3xl mb-4">⏱</div>
+        <h4 className="text-xl font-semibold text-violet-800 mb-3">On-Time Always</h4>
+        <p className="text-gray-600">
+          Doctor appointments, rehab centers or any medical visit – always on schedule.
+        </p>
+      </div>
+    </div>
   </div>
 </section>
 
