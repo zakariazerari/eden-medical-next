@@ -1,103 +1,261 @@
-import Image from "next/image";
+"use client";
+import { useState } from "react";
+import toast from "react-hot-toast";
+import FloatingBubbles from "./components/FloatingBulbbles";
 
-export default function Home() {
+export default function HomePage() {
+  const [formData, setFormData] = useState({
+    serviceType: "Non-Emergency",
+    mobility: "Wheelchair",
+    date: "",
+    time: "",
+    pickup: "",
+    destination: "",
+    patientName: "",
+    phone: "",
+    email: "",
+    paymentMethod: "",
+    specialNotes: "",
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await fetch("/api/bookings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+        toast.success("✅ Booking submitted successfully!");
+        setFormData({
+          serviceType: "Non-Emergency",
+          mobility: "Wheelchair",
+          date: "",
+          time: "",
+          pickup: "",
+          destination: "",
+          patientName: "",
+          phone: "",
+          email: "",
+          paymentMethod: "",
+          specialNotes: "",
+        });
+      } else {
+        toast.error("❌ Error: " + data.message);
+      }
+    } catch (err) {
+      console.error("Error:", err);
+      toast.error("⚠ Something went wrong.");
+    }
+  };
+
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.js
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <main className="relative min-h-screen bg-gradient-to-br from-indigo-100 via-white to-blue-100 text-gray-800 overflow-hidden">
+      {/* Hero Section */}
+     <section
+        className="relative bg-cover bg-center bg-no-repeat px-6 py-20 flex items-center justify-center min-h-[600px]"
+        style={{
+          backgroundImage: "url('/image3.jpg')",
+        }}
+      >
+        <div className="absolute inset-0 bg-indigo-900 opacity-40"></div>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
+        <div className="relative z-10 max-w-4xl text-center text-white">
+          <h2 className="text-3xl md:text-4xl font-extrabold mb-6 drop-shadow-md text-violet-100">
+            Comfortable and Safe Medical Transportation for All Your Healthcare Needs
+          </h2>
+          <p className="text-lg md:text-xl mb-8 text-indigo-100">
+            Eden Medical Transport offers non-emergency medical transport services with the highest level of comfort and safety in California.
+          </p>
           <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="#book"
+            className="bg-gradient-to-r from-violet-600 to-blue-500 text-white px-6 py-4 rounded-lg font-semibold hover:shadow-xl transition-all"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
+            Book Now
           </a>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      </section>
+    
+
+
+      {/* Booking Section */}
+     <section
+  className="relative min-h-screen flex items-center justify-center px-4 py-10 overflow-hidden bg-gradient-to-br from-indigo-100 via-white to-blue-100"
+  id="book"
+>
+  {/* فقاعات طافية */}
+  <FloatingBubbles />
+
+  <div className="relative z-10 backdrop-blur-md bg-white/80 border border-white/30 shadow-[0_15px_40px_rgba(0,0,0,0.2)] rounded-3xl w-full max-w-4xl p-10">
+    <h2 className="text-4xl font-extrabold text-center text-violet-800 mb-10 drop-shadow-lg">
+      Book a Medical Ride
+    </h2>
+
+    <form onSubmit={handleSubmit} className="space-y-6">
+  {/* Service & Mobility */}
+  <div className="grid md:grid-cols-2 gap-6">
+    <div>
+      <label className="text-sm font-semibold block mb-2">Type of Service</label>
+      <select
+        name="serviceType"
+        value={formData.serviceType}
+        onChange={handleChange}
+        className="w-full p-3 border border-gray-300 rounded-xl shadow-inner focus:ring-2 focus:ring-violet-500 bg-white"
+      >
+        <option>Non-Emergency</option>
+        <option>Emergency</option>
+      </select>
     </div>
+    <div>
+      <label className="text-sm font-semibold block mb-2">Mobility</label>
+      <select
+        name="mobility"
+        value={formData.mobility}
+        onChange={handleChange}
+        className="w-full p-3 border border-gray-300 rounded-xl shadow-inner focus:ring-2 focus:ring-violet-500 bg-white"
+      >
+        <option>Wheelchair</option>
+        <option>Stretcher</option>
+        <option>Sedan</option>
+      </select>
+    </div>
+  </div>
+
+  {/* Date & Time */}
+  <div className="grid md:grid-cols-2 gap-6">
+    <div>
+      <label className="text-sm font-semibold block mb-2">Transport Date</label>
+      <input
+        type="date"
+        name="date"
+        value={formData.date}
+        onChange={handleChange}
+        className="w-full p-3 border border-gray-300 rounded-xl shadow-inner focus:ring-2 focus:ring-violet-500 bg-white"
+      />
+    </div>
+    <div>
+      <label className="text-sm font-semibold block mb-2">Pick-Up Time</label>
+      <input
+        type="time"
+        name="time"
+        value={formData.time}
+        onChange={handleChange}
+        className="w-full p-3 border border-gray-300 rounded-xl shadow-inner focus:ring-2 focus:ring-violet-500 bg-white"
+      />
+    </div>
+  </div>
+
+  {/* Address */}
+  <div>
+    <label className="text-sm font-semibold block mb-2">Pick-Up Address</label>
+    <input
+      type="text"
+      name="pickup"
+      placeholder="123 Main St"
+      value={formData.pickup}
+      onChange={handleChange}
+      className="w-full p-3 border border-gray-300 rounded-xl shadow-inner focus:ring-2 focus:ring-violet-500 bg-white"
+    />
+  </div>
+
+  <div>
+    <label className="text-sm font-semibold block mb-2">Destination Address</label>
+    <input
+      type="text"
+      name="destination"
+      placeholder="456 Elm St"
+      value={formData.destination}
+      onChange={handleChange}
+      className="w-full p-3 border border-gray-300 rounded-xl shadow-inner focus:ring-2 focus:ring-violet-500 bg-white"
+    />
+  </div>
+
+  {/* Contact */}
+  <div className="grid md:grid-cols-2 gap-6">
+    <div>
+      <label className="text-sm font-semibold block mb-2">Patient's Name</label>
+      <input
+        type="text"
+        name="patientName"
+        value={formData.patientName}
+        onChange={handleChange}
+        className="w-full p-3 border border-gray-300 rounded-xl shadow-inner focus:ring-2 focus:ring-violet-500 bg-white"
+      />
+    </div>
+    <div>
+      <label className="text-sm font-semibold block mb-2">Phone Number</label>
+      <input
+        type="tel"
+        name="phone"
+        value={formData.phone}
+        onChange={handleChange}
+        className="w-full p-3 border border-gray-300 rounded-xl shadow-inner focus:ring-2 focus:ring-violet-500 bg-white"
+      />
+    </div>
+  </div>
+
+  <div className="grid md:grid-cols-2 gap-6">
+    <div>
+      <label className="text-sm font-semibold block mb-2">Email</label>
+      <input
+        type="email"
+        name="email"
+        value={formData.email}
+        onChange={handleChange}
+        className="w-full p-3 border border-gray-300 rounded-xl shadow-inner focus:ring-2 focus:ring-violet-500 bg-white"
+      />
+    </div>
+    <div>
+      <label className="text-sm font-semibold block mb-2">Payment Method</label>
+      <select
+        name="paymentMethod"
+        value={formData.paymentMethod}
+        onChange={handleChange}
+        className="w-full p-3 border border-gray-300 rounded-xl shadow-inner focus:ring-2 focus:ring-violet-500 bg-white"
+      >
+        <option value="">Select payment method</option>
+        <option>Cash</option>
+        <option>Credit Card</option>
+        <option>Zelle</option>
+        <option>Insurance</option>
+      </select>
+    </div>
+  </div>
+
+  {/* Notes */}
+  <div>
+    <label className="text-sm font-semibold block mb-2">Special Requirements</label>
+    <textarea
+      rows="4"
+      name="specialNotes"
+      value={formData.specialNotes}
+      onChange={handleChange}
+      placeholder="Any instructions..."
+      className="w-full p-3 border border-gray-300 rounded-xl shadow-inner focus:ring-2 focus:ring-violet-500 bg-white"
+    />
+  </div>
+
+  <button
+    type="submit"
+    className="w-full bg-violet-600 text-white py-3 rounded-xl hover:bg-violet-700 transition text-lg font-semibold shadow-lg"
+  >
+    Submit Request
+  </button>
+</form>
+  </div>
+</section>
+
+    </main>
   );
 }
