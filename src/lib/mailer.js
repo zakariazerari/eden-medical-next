@@ -1,5 +1,6 @@
 import nodemailer from "nodemailer";
 
+// Send mail for bookings
 export const sendMail = async (bookingData) => {
   const transporter = nodemailer.createTransport({
     service: "gmail",
@@ -11,7 +12,7 @@ export const sendMail = async (bookingData) => {
 
   const mailOptions = {
     from: `"Eden Transport" <${process.env.EMAIL_USER}>`,
-    to: process.env.EMAIL_USER, // ترسل الإيميل لنفسك
+    to: process.env.EMAIL_USER,
     subject: "✅ New Booking Received",
     html: `
       <h2>New Booking Details</h2>
@@ -28,6 +29,32 @@ export const sendMail = async (bookingData) => {
         <li><strong>Payment Method:</strong> ${bookingData.paymentMethod}</li>
         <li><strong>Special Notes:</strong> ${bookingData.specialNotes || "None"}</li>
       </ul>
+    `,
+  };
+
+  await transporter.sendMail(mailOptions);
+};
+
+// Send mail for contact form
+export const sendContactMail = async (contactData) => {
+  const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
+    },
+  });
+
+  const mailOptions = {
+    from: `"Eden Contact" <${process.env.EMAIL_USER}>`,
+    to: process.env.TO_EMAIL,
+    subject: "📬 New Contact Message",
+    html: `
+      <h2>New Contact Message</h2>
+      <p><strong>Full Name:</strong> ${contactData.fullName}</p>
+      <p><strong>Email:</strong> ${contactData.email}</p>
+      <p><strong>Message:</strong></p>
+      <p>${contactData.message}</p>
     `,
   };
 
