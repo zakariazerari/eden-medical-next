@@ -2,7 +2,7 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { FaExclamationTriangle } from "react-icons/fa";
-import FloatingBubbles from "./components/FloatingBulbbles";
+import ParticlesBg from "./components/ParticlesBg"
 ;
 
 export default function HomePage() {
@@ -130,8 +130,10 @@ export default function HomePage() {
         className="relative min-h-screen flex items-center justify-center px-4 py-10 overflow-hidden bg-gradient-to-br from-indigo-100 via-white to-blue-100"
         id="book"
       >
-        <FloatingBubbles />
-
+     
+  <div className="absolute inset-0 z-0">
+    <ParticlesBg />
+  </div>
         <div className="relative z-10 backdrop-blur-md bg-white/80 border border-white/30 shadow-[0_15px_40px_rgba(0,0,0,0.2)] rounded-3xl w-full max-w-4xl p-10">
           <h2 className="text-4xl font-extrabold text-center text-violet-800 mb-10 drop-shadow-lg">
             Book a Medical Ride

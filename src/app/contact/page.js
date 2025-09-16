@@ -5,7 +5,8 @@ import {
   FaExclamationTriangle,
   FaCheckCircle,
 } from "react-icons/fa";
-import FloatingBubblesBg from "./component/FloatingBubblesBg";
+import ContactSnowTwinkleBG from "./component/ContactSnowTwinkleBG";
+
 
 export default function Contact() {
   const [fullName, setFullName] = useState("");
@@ -78,7 +79,10 @@ export default function Contact() {
       id="contact"
       className="relative bg-gradient-to-br from-white via-indigo-50 to-violet-100 py-16 sm:py-24 overflow-hidden"
     >
-      <FloatingBubblesBg />
+      <div className="absolute inset-0 z-0">
+             <ContactSnowTwinkleBG />
+              </div>
+      
 
       {/* ✅ Popup Message */}
       {popup && (
