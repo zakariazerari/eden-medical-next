@@ -1,4 +1,3 @@
-// app/admin/login/page.js
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -7,51 +6,72 @@ import { FaUser, FaLock } from "react-icons/fa";
 export default function AdminLoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const router = useRouter();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    // يمكنك تبديل هادشي بـ real auth later
-    if (email === "admin@eden.com" && password === "123456") {
-      router.push("/admin/dashboard");
-    } else {
-      alert("❌ Invalid credentials");
+    setError("");
+
+    if (!email.trim() || !password.trim()) {
+      setError("⚠️ Email and Password are required");
+      return;
+    }
+
+    try {
+      const res = await fetch("/api/admin/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok && data.success) {
+        router.push("/admin/dashboard");
+      } else {
+        setError(data.error || "❌ Invalid credentials");
+      }
+    } catch (err) {
+      setError("🚨 Network error, try again later.");
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-violet-100 via-white to-indigo-100 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-tr from-violet-100 via-white to-indigo-100 px-4">
       <form
         onSubmit={handleLogin}
-        className="bg-white p-8 sm:p-10 rounded-3xl shadow-2xl max-w-md w-full border border-violet-200"
+        className="w-full max-w-md bg-white p-8 sm:p-10 rounded-3xl shadow-xl border border-violet-100 hover:shadow-2xl transition-all duration-300"
       >
-        <h2 className="text-2xl font-bold text-violet-700 mb-6 text-center drop-shadow-md">
+        <h2 className="text-3xl font-extrabold text-violet-700 mb-8 text-center tracking-tight drop-shadow-sm">
           Admin Login
         </h2>
 
-        <div className="mb-4 relative">
-          <FaUser className="absolute top-3 left-3 text-violet-500" />
+        <div className="mb-6 relative">
+          <FaUser className="absolute top-3.5 left-3 text-violet-500" />
           <input
             type="email"
-            placeholder="Email"
-            className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-violet-400 outline-none"
+            placeholder="Your email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            required
+            className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-violet-500 focus:outline-none placeholder-gray-400 transition-all duration-200"
           />
         </div>
 
         <div className="mb-6 relative">
-          <FaLock className="absolute top-3 left-3 text-violet-500" />
+          <FaLock className="absolute top-3.5 left-3 text-violet-500" />
           <input
             type="password"
-            placeholder="Password"
-            className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-violet-400 outline-none"
+            placeholder="Your password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            required
+            className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-violet-500 focus:outline-none placeholder-gray-400 transition-all duration-200"
           />
         </div>
+
+        {error && (
+          <p className="text-red-600 text-sm text-center mb-4">{error}</p>
+        )}
 
         <button
           type="submit"
