@@ -2,19 +2,18 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { FaUser, FaLock } from "react-icons/fa";
+import { toast } from "react-hot-toast"; // 👈 استورد toast
 
 export default function AdminLoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
   const router = useRouter();
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setError("");
 
     if (!email.trim() || !password.trim()) {
-      setError("⚠️ Email and Password are required");
+      toast.error("⚠️ Email and Password are required"); // 👈 toast بدل error العادي
       return;
     }
 
@@ -28,12 +27,13 @@ export default function AdminLoginPage() {
       const data = await res.json();
 
       if (res.ok && data.success) {
+        toast.success("✅ Welcome back, Admin!"); // 👈 نجاح
         router.push("/admin/dashboard");
       } else {
-        setError(data.error || "❌ Invalid credentials");
+        toast.error(data.error || "❌ Invalid credentials"); // 👈 خطأ
       }
     } catch (err) {
-      setError("🚨 Network error, try again later.");
+      toast.error("🚨 Network error, try again later."); // 👈 مشكلة فالنت
     }
   };
 
@@ -68,10 +68,6 @@ export default function AdminLoginPage() {
             className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-violet-500 focus:outline-none placeholder-gray-400 transition-all duration-200"
           />
         </div>
-
-        {error && (
-          <p className="text-red-600 text-sm text-center mb-4">{error}</p>
-        )}
 
         <button
           type="submit"

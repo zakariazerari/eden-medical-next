@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs";
 
-// ⚠️ ها هنا كنديروهم ثابتين بلا .env
+// ⚠️ Email و password hash ثابتين
 const ADMIN_EMAIL = "admin@eden.com";
 // هاش ديال "123456"
 const ADMIN_PASSWORD_HASH = "$2b$10$3yLznd.qNgOzYHHrFyf9qOtvKqMPq/ItK9hIQA/ZZTsmOPNNEPuwG";

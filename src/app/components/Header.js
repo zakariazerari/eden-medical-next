@@ -1,12 +1,22 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
-import { FaUser } from "react-icons/fa"; // ✅ الاستيراد
+import { useState, useEffect } from "react";
+import { FaUser } from "react-icons/fa";
 
 export default function Header() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  // 👇 نجيبو الكوكي من المتصفح
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const cookies = document.cookie.split(";").map((c) => c.trim());
+      const hasAuth = cookies.find((c) => c.startsWith("admin-auth="));
+      setIsAdmin(hasAuth?.split("=")[1] === "true");
+    }
+  }, []);
 
   const navLinks = [
     { name: "Home", path: "/" },
@@ -46,12 +56,13 @@ export default function Header() {
           ))}
         </nav>
 
-        {/* Login Button */}
+        {/* ✅ Login / Dashboard Button */}
         <Link
-          href="/admin/login"
+          href={isAdmin ? "/admin/dashboard" : "/admin/login"}
           className="hidden md:inline-flex items-center gap-2 px-5 py-2 bg-gradient-to-r from-violet-600 to-indigo-500 text-white font-semibold rounded-xl shadow-lg hover:shadow-violet-500/40 hover:scale-105 transition-all duration-300"
         >
-          <FaUser className="text-white text-lg" /> Login
+          <FaUser className="text-white text-lg" />{" "}
+          {isAdmin ? "Dashboard" : "Login"}
         </Link>
 
         {/* Mobile Menu Button */}
@@ -78,14 +89,14 @@ export default function Header() {
               {link.name}
             </Link>
           ))}
-      <Link
-  href="/admin/login"
-  className="block px-6 py-4 text-violet-700 font-semibold hover:bg-violet-50 flex items-center gap-2"
-  onClick={() => setIsOpen(false)}
->
-  <FaUser className="text-violet-700" />
-  Login
-</Link>
+          <Link
+            href={isAdmin ? "/admin/dashboard" : "/admin/login"}
+            className="block px-6 py-4 text-violet-700 font-semibold hover:bg-violet-50 flex items-center gap-2"
+            onClick={() => setIsOpen(false)}
+          >
+            <FaUser className="text-violet-700" />
+            {isAdmin ? "Dashboard" : "Login"}
+          </Link>
         </div>
       )}
     </header>
