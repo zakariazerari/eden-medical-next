@@ -5,7 +5,7 @@ import {
   FaExclamationTriangle,
   FaCheckCircle,
 } from "react-icons/fa";
-import ContactSnowTwinkleBG from "./component/ContactSnowTwinkleBG";
+import ContactSnowTwinkleBG from "../components/ContactSnowTwinkleBG";
 
 
 export default function Contact() {

@@ -1,6 +1,6 @@
 
 import Image from "next/image";
-import ParticlesMaskBG from "./components/ParticlesMaskBG";
+import ParticlesMaskBG from "../components/ParticlesMaskBG";
 
 export default function About() {
   return (

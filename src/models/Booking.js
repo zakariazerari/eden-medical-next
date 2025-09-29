@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const bookingSchema = new mongoose.Schema({
   serviceType: String,
   mobility: String,
-  date: String,
+  date: Date,
   time: String,
   pickup: String,
   destination: String,
@@ -12,8 +12,7 @@ const bookingSchema = new mongoose.Schema({
   email: String,
   paymentMethod: String,
   specialNotes: String,
+  status: { type: String, default: "pending" }, // pending / confirmed / canceled
 }, { timestamps: true });
 
-const Booking = mongoose.models.Booking || mongoose.model("Booking", bookingSchema);
-
-export default Booking;
+export default mongoose.models.Booking || mongoose.model("Booking", bookingSchema);

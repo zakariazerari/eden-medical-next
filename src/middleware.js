@@ -5,12 +5,13 @@ export function middleware(request) {
   const { pathname } = request.nextUrl;
 
   if (pathname.startsWith("/admin/dashboard") && token !== "true") {
-    return NextResponse.redirect(new URL("/admin/login", request.url));
+    const loginUrl = new URL("/admin/login", request.url);
+    return NextResponse.redirect(loginUrl);
   }
 
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/admin/dashboard/:path*", "/admin/dashboard"],
+  matcher: ["/admin/dashboard/:path*"],
 };

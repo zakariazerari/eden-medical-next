@@ -1,11 +1,11 @@
 export const metadata = {
-  title: "Home | Eden Medical Transport - Safe Medical Rides in California",
-  description: "Book safe, non-emergency medical transportation with Eden Medical Transport. Wheelchair, stretcher, or sedan – we serve all California counties with comfort and care.",
+  title: "Contact Us | Eden Medical Transport",
+  description:
+    "Get in touch with Eden Medical Transport. Call our county-specific numbers or send us a message for non-emergency medical ride bookings in California.",
   keywords: [
-    "medical transport California",
-    "non-emergency transportation",
-    "wheelchair van service",
-    "medical rides booking",
-    "Eden Transport"
-  ],
+    "contact Eden Medical Transport",
+    "medical transport phone number",
+    "book medical ride California",
+    "non-emergency transportation contact",
+  ],
 };

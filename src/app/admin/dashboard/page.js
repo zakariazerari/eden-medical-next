@@ -1,8 +1,8 @@
 export default function DashboardPage() {
   return (
-    <div className="min-h-screen flex items-center justify-center">
-      <h1 className="text-3xl font-bold text-violet-700">
-        ✅ Welcome to Admin Dashboard
+    <div className="flex items-center justify-center min-h-[80vh]">
+      <h1 className="text-3xl font-extrabold text-violet-800 drop-shadow-lg">
+        🚀 Welcome to Admin Dashboard
       </h1>
     </div>
   );
