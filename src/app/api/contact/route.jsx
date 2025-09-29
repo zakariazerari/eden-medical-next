@@ -1,8 +1,9 @@
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
-import { connectDB } from "@/lib/mongo";        // استيراد دالة الربط
-import ContactMessage from "@/models/ContactMessage";  // استيراد الموديل
+import { connectDB } from "@/lib/mongo";
+import ContactMessage from "@/models/ContactMessage";
 
+// ✅ POST: Save + send email
 export async function POST(req) {
   const { fullName, email, message } = await req.json();
 
@@ -11,13 +12,12 @@ export async function POST(req) {
   }
 
   try {
-    // 1. ربط بـ MongoDB
     await connectDB();
 
-    // 2. حفظ الرسالة في القاعدة
+    // ⬅️ Save in MongoDB
     await ContactMessage.create({ fullName, email, message });
 
-    // 3. إعداد transporter
+    // ⬅️ Send mail
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
@@ -44,10 +44,29 @@ export async function POST(req) {
 
     return NextResponse.json({ message: "Message sent and saved successfully" });
   } catch (error) {
-    console.error("Error saving or sending contact message:", error);
+    console.error("❌ Error saving/sending contact message:", error);
     return NextResponse.json(
       { error: "Failed to send or save message" },
       { status: 500 }
     );
+  }
+}
+
+// ✅ GET: Fetch last 7 days messages
+export async function GET() {
+  try {
+    await connectDB();
+
+    const oneWeekAgo = new Date();
+    oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+
+    const messages = await ContactMessage.find({
+      createdAt: { $gte: oneWeekAgo },
+    }).sort({ createdAt: -1 });
+
+    return NextResponse.json(messages, { status: 200 });
+  } catch (err) {
+    console.error("❌ Error fetching messages:", err);
+    return NextResponse.json({ error: "Failed to fetch messages" }, { status: 500 });
   }
 }

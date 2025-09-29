@@ -20,7 +20,7 @@ export default function Sidebar() {
     { name: "Dashboard", path: "/admin/dashboard", icon: FaHome },
     { name: "Stats", path: "/admin/stats", icon: FaChartPie },
     { name: "Drivers", path: "/admin/drivers", icon: FaUserMd },
-    { name: "Reviews", path: "/admin/reviews", icon: FaCommentDots },
+    { name: "Reviews", path: "/admin/contact", icon: FaCommentDots },
   ];
 
   return (

@@ -1,18 +1,16 @@
+"use client";
+import Sidebar from "@/app/components/admin/Sidebar";
 
-import "../globals.css"; 
-import { Toaster } from "react-hot-toast";
-
-export const metadata = {
-  title: "Admin Panel | Eden Medical",
-  description: "Secure Admin Dashboard for Eden Medical",
-};
-
-export default function AdminLayout({ children }) {
+export default function DashboardLayout({ children }) {
   return (
-    <section className="min-h-screen bg-gray-50">
-      <Toaster position="top-center" />
-     
-      {children}
-    </section>
+    <div className="flex min-h-screen bg-gradient-to-br from-gray-50 via-violet-50 to-indigo-100">
+      {/* Sidebar */}
+      <Sidebar />
+
+      {/* Main content */}
+      <main className="flex-1 p-6 lg:p-10 overflow-auto">
+        {children}
+      </main>
+    </div>
   );
 }

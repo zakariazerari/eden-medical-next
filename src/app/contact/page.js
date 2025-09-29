@@ -7,7 +7,6 @@ import {
 } from "react-icons/fa";
 import ContactSnowTwinkleBG from "../components/ContactSnowTwinkleBG";
 
-
 export default function Contact() {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
@@ -26,7 +25,7 @@ export default function Contact() {
 
   const showPopup = (message, type = "info") => {
     setPopup({ message, type });
-    setTimeout(() => setPopup(""), 4000); // Hide after 4s
+    setTimeout(() => setPopup(""), 4000);
   };
 
   const handleSubmit = async (e) => {
@@ -36,11 +35,9 @@ export default function Contact() {
     if (!fullName.trim()) newErrors.fullName = "Full Name is required.";
     if (!email.trim()) newErrors.email = "Email is required.";
     if (!message.trim()) newErrors.message = "Message is required.";
-
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length > 0) {
-      setStatus("");
       showPopup("❗ Please fill in all fields", "error");
       return;
     }
@@ -53,8 +50,6 @@ export default function Contact() {
         body: JSON.stringify({ fullName, email, message }),
       });
 
-      const data = await res.json();
-
       if (res.ok) {
         setStatus("");
         showPopup("✅ Message sent successfully!", "success");
@@ -63,10 +58,7 @@ export default function Contact() {
         setMessage("");
         setErrors({});
       } else {
-        showPopup(
-          "❌ Error: " + (data.error || "Something went wrong"),
-          "error"
-        );
+        showPopup("❌ Error sending message", "error");
       }
     } catch (error) {
       console.error(error);
@@ -75,19 +67,15 @@ export default function Contact() {
   };
 
   return (
-    <section
-      id="contact"
-      className="relative bg-gradient-to-br from-white via-indigo-50 to-violet-100 py-16 sm:py-24 overflow-hidden"
-    >
+    <section className="relative bg-gradient-to-br from-white via-indigo-50 to-violet-100 py-16 sm:py-24 overflow-hidden">
       <div className="absolute inset-0 z-0">
-             <ContactSnowTwinkleBG />
-              </div>
-      
+        <ContactSnowTwinkleBG />
+      </div>
 
-      {/* ✅ Popup Message */}
+      {/* ✅ Popup */}
       {popup && (
         <div
-          className={`fixed top-6 left-1/2 transform -translate-x-1/2 px-6 py-3 rounded-xl shadow-lg text-white z-50 transition-all duration-300
+          className={`fixed top-6 left-1/2 transform -translate-x-1/2 px-6 py-3 rounded-xl shadow-lg text-white z-50
             ${popup.type === "success" ? "bg-green-600" : "bg-red-600"}`}
         >
           {popup.type === "success" ? (
@@ -100,110 +88,44 @@ export default function Contact() {
       )}
 
       <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h3 className="text-3xl sm:text-4xl font-bold mb-12 text-center text-violet-800 drop-shadow">
+        <h3 className="text-3xl sm:text-4xl font-bold mb-12 text-center text-violet-800">
           Contact Us
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
           {/* Form */}
           <form
             onSubmit={handleSubmit}
-            className="bg-white p-8 sm:p-10 rounded-3xl shadow-xl border border-violet-100 transition-transform hover:scale-[1.02]"
+            className="bg-white p-8 sm:p-10 rounded-3xl shadow-xl border border-violet-100"
           >
             <h4 className="text-xl font-semibold mb-6 text-violet-800">
               Send us a message
             </h4>
-
-            {/* Full Name */}
-            <div className="mb-4">
-              <label className="block text-gray-700 mb-1">Full Name</label>
-              <input
-                type="text"
-                value={fullName}
-                onChange={(e) => setFullName(e.target.value)}
-                placeholder="John Doe"
-                className={`w-full p-3 rounded-xl border ${
-                  errors.fullName ? "border-red-500" : "border-gray-300"
-                } focus:ring-2 focus:ring-violet-500`}
-              />
-              {errors.fullName && (
-                <div className="text-red-600 text-sm mt-1 flex items-center gap-2">
-                  <FaExclamationTriangle className="text-red-500" />
-                  {errors.fullName}
-                </div>
-              )}
-            </div>
-
-            {/* Email */}
-            <div className="mb-4">
-              <label className="block text-gray-700 mb-1">Email</label>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="you@example.com"
-                className={`w-full p-3 rounded-xl border ${
-                  errors.email ? "border-red-500" : "border-gray-300"
-                } focus:ring-2 focus:ring-violet-500`}
-              />
-              {errors.email && (
-                <div className="text-red-600 text-sm mt-1 flex items-center gap-2">
-                  <FaExclamationTriangle className="text-red-500" />
-                  {errors.email}
-                </div>
-              )}
-            </div>
-
-            {/* Message */}
-            <div className="mb-6">
-              <label className="block text-gray-700 mb-1">Message</label>
-              <textarea
-                rows={5}
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                placeholder="Your message..."
-                className={`w-full p-3 rounded-xl border ${
-                  errors.message ? "border-red-500" : "border-gray-300"
-                } focus:ring-2 focus:ring-violet-500`}
-              />
-              {errors.message && (
-                <div className="text-red-600 text-sm mt-1 flex items-center gap-2">
-                  <FaExclamationTriangle className="text-red-500" />
-                  {errors.message}
-                </div>
-              )}
-            </div>
-
+            <input
+              type="text"
+              placeholder="Full Name"
+              value={fullName}
+              onChange={(e) => setFullName(e.target.value)}
+              className="w-full p-3 mb-4 border rounded-xl"
+            />
+            <input
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full p-3 mb-4 border rounded-xl"
+            />
+            <textarea
+              placeholder="Message"
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              className="w-full p-3 mb-4 border rounded-xl"
+              rows={5}
+            />
             <button
               type="submit"
-              className="w-full py-3 bg-violet-600 text-white rounded-xl font-semibold hover:bg-violet-700 transition"
-              disabled={status === "Sending..."}
+              className="w-full py-3 bg-violet-600 text-white rounded-xl hover:bg-violet-700"
             >
-              {status === "Sending..." ? (
-                <span className="flex items-center justify-center gap-2 animate-pulse">
-                  <svg
-                    className="w-5 h-5 animate-spin"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                  >
-                    <circle
-                      className="opacity-25"
-                      cx="12"
-                      cy="12"
-                      r="10"
-                      stroke="currentColor"
-                      strokeWidth="4"
-                    />
-                    <path
-                      className="opacity-75"
-                      fill="currentColor"
-                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
-                    />
-                  </svg>
-                  Sending...
-                </span>
-              ) : (
-                "Send Message"
-              )}
+              {status === "Sending..." ? "Sending..." : "Send Message"}
             </button>
           </form>
 
@@ -213,17 +135,15 @@ export default function Contact() {
               Contact Information
             </h4>
             <div className="grid sm:grid-cols-2 gap-6">
-              {contacts.map((contact, index) => (
+              {contacts.map((c, i) => (
                 <div
-                  key={index}
-                  className="flex items-start gap-4 p-5 bg-white border border-violet-100 rounded-2xl shadow-md hover:shadow-lg transform hover:scale-[1.03]"
+                  key={i}
+                  className="flex items-start gap-4 p-5 bg-white border rounded-2xl shadow-md"
                 >
                   <FaPhoneAlt className="text-violet-600 mt-1" />
                   <div>
-                    <p className="font-semibold text-gray-800">
-                      {contact.label}
-                    </p>
-                    <p className="text-sm text-gray-600">{contact.number}</p>
+                    <p className="font-semibold">{c.label}</p>
+                    <p className="text-sm">{c.number}</p>
                   </div>
                 </div>
               ))}
