@@ -13,13 +13,21 @@ export async function POST(request) {
     );
   }
 
-  // ✅ إذا كان login صحيح نحط كوكي
   const response = NextResponse.json({ success: true });
   response.cookies.set("admin-auth", "true", {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     path: "/",
-    maxAge: 60 * 60, // 1 ساعة
+    maxAge: 60 * 60 * 24, // 24 hours
+    sameSite: "strict",
+  });
+
+  // Store email in cookie too
+  response.cookies.set("admin-email", email, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    path: "/",
+    maxAge: 60 * 60 * 24,
     sameSite: "strict",
   });
 

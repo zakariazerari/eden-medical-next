@@ -1,85 +1,106 @@
+// app/components/admin/Sidebar.js
 "use client";
 import { useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   FaBars,
   FaTimes,
   FaHome,
-  FaChartPie,
-  FaUserMd,
-  FaCommentDots,
+  FaCalendarCheck,
+  FaEnvelope,
+  FaChartBar,
+  FaSignOutAlt,
+  FaCog,
 } from "react-icons/fa";
+import toast from "react-hot-toast";
 
 export default function Sidebar() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
 
   const links = [
     { name: "Dashboard", path: "/admin/dashboard", icon: FaHome },
-    { name: "Stats", path: "/admin/stats", icon: FaChartPie },
-    { name: "Drivers", path: "/admin/drivers", icon: FaUserMd },
-    { name: "Reviews", path: "/admin/contact", icon: FaCommentDots },
+    { name: "Bookings", path: "/admin/bookings", icon: FaCalendarCheck },
+    { name: "Messages", path: "/admin/contact", icon: FaEnvelope },
+    { name: "Statistics", path: "/admin/stats", icon: FaChartBar },
+    { name: "Settings", path: "/admin/settings", icon: FaCog },
   ];
+
+  const handleLogout = () => {
+    document.cookie = "admin-auth=; path=/; max-age=0";
+    toast.success("👋 Logged out successfully");
+    router.push("/admin/login");
+  };
 
   return (
     <>
-      {/* 🔹 Mobile Header */}
-      {/* 🔹 زر Menu مدموج مع الـ Sidebar */}
-<div className="md:hidden fixed top-4 left-4 z-50">
-  <button
-    onClick={() => setOpen(true)}
-    className="p-3 rounded-full bg-gradient-to-r from-violet-700 to-indigo-800 text-white shadow-lg hover:scale-110 transition-transform"
-  >
-    <FaBars className="text-2xl" />
-  </button>
-</div>
+      {/* Mobile Menu Button */}
+      <div className="md:hidden fixed top-4 left-4 z-50">
+        <button
+          onClick={() => setOpen(true)}
+          className="p-3 rounded-full bg-gradient-to-r from-violet-700 to-indigo-800 text-white shadow-2xl hover:scale-110 transition-transform"
+        >
+          <FaBars className="text-2xl" />
+        </button>
+      </div>
 
-
-      {/* 🔹 Sidebar Desktop */}
-      <div className="hidden md:flex flex-col w-64 h-screen bg-gradient-to-b from-indigo-900 to-violet-900 text-white shadow-xl">
+      {/* Desktop Sidebar */}
+      <div className="hidden md:flex flex-col w-64 h-screen bg-gradient-to-b from-indigo-900 via-violet-900 to-indigo-950 text-white shadow-2xl fixed">
         <div className="p-6 text-center border-b border-violet-600/40">
-          <h2 className="text-xl font-extrabold">Eden Admin</h2>
+          <h2 className="text-2xl font-extrabold bg-gradient-to-r from-violet-300 to-indigo-300 bg-clip-text text-transparent">
+            🚀 Eden Admin
+          </h2>
         </div>
-        <nav className="flex-1 p-6 space-y-3">
+
+        <nav className="flex-1 p-6 space-y-2">
           {links.map(({ name, path, icon: Icon }) => (
             <Link
               key={name}
               href={path}
-              className={`flex items-center gap-3 px-4 py-3 rounded-lg transition ${
+              className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 ${
                 pathname === path
-                  ? "bg-violet-600 shadow-lg"
-                  : "hover:bg-violet-700"
+                  ? "bg-violet-600 shadow-lg scale-105"
+                  : "hover:bg-violet-700/50 hover:translate-x-1"
               }`}
             >
-              <Icon />
-              <span>{name}</span>
+              <Icon className="text-xl" />
+              <span className="font-medium">{name}</span>
             </Link>
           ))}
         </nav>
+
+        <div className="p-6 border-t border-violet-600/40">
+          <button
+            onClick={handleLogout}
+            className="flex items-center gap-3 w-full px-4 py-3 bg-red-600/80 hover:bg-red-700 rounded-xl transition-all duration-300"
+          >
+            <FaSignOutAlt />
+            <span>Logout</span>
+          </button>
+        </div>
       </div>
 
-      {/* 🔹 Fancy Mobile Drawer */}
+      {/* Mobile Drawer */}
       <AnimatePresence>
         {open && (
           <>
-            {/* خلفية ضبابية */}
             <motion.div
-              className="fixed inset-0 bg-black/40 backdrop-blur-sm z-40"
+              className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setOpen(false)}
             />
 
-            {/* Drawer */}
             <motion.div
-              initial={{ x: "-100%", rotateY: 45, opacity: 0 }}
-              animate={{ x: 0, rotateY: 0, opacity: 1 }}
-              exit={{ x: "-100%", rotateY: 45, opacity: 0 }}
-              transition={{ duration: 0.5, type: "spring" }}
-              className="fixed top-0 left-0 w-72 h-full bg-gradient-to-br from-violet-700/95 to-indigo-900/95 text-white z-50 shadow-2xl rounded-r-2xl"
+              initial={{ x: "-100%", opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              exit={{ x: "-100%", opacity: 0 }}
+              transition={{ duration: 0.3, type: "spring" }}
+              className="fixed top-0 left-0 w-72 h-full bg-gradient-to-b from-indigo-900 via-violet-900 to-indigo-950 text-white z-50 shadow-2xl"
             >
               <div className="flex items-center justify-between p-6 border-b border-violet-400/40">
                 <h2 className="text-xl font-extrabold">🚀 Eden Admin</h2>
@@ -88,23 +109,36 @@ export default function Sidebar() {
                 </button>
               </div>
 
-              <nav className="p-6 space-y-4">
+              <nav className="p-6 space-y-2">
                 {links.map(({ name, path, icon: Icon }) => (
                   <Link
                     key={name}
                     href={path}
                     onClick={() => setOpen(false)}
-                    className={`flex items-center gap-4 px-4 py-3 rounded-xl transition-all transform hover:scale-105 ${
+                    className={`flex items-center gap-4 px-4 py-3 rounded-xl transition-all ${
                       pathname === path
-                        ? "bg-violet-600/90 shadow-lg"
-                        : "hover:bg-violet-500/60"
+                        ? "bg-violet-600 shadow-lg"
+                        : "hover:bg-violet-700/50"
                     }`}
                   >
                     <Icon className="text-lg" />
-                    <span className="text-base font-medium">{name}</span>
+                    <span>{name}</span>
                   </Link>
                 ))}
               </nav>
+
+              <div className="absolute bottom-6 left-6 right-6">
+                <button
+                  onClick={() => {
+                    setOpen(false);
+                    handleLogout();
+                  }}
+                  className="flex items-center gap-3 w-full px-4 py-3 bg-red-600 hover:bg-red-700 rounded-xl"
+                >
+                  <FaSignOutAlt />
+                  <span>Logout</span>
+                </button>
+              </div>
             </motion.div>
           </>
         )}
