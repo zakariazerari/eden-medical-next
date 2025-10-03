@@ -7,17 +7,43 @@ export async function GET() {
   try {
     await connectDB();
 
-    // Booking Stats
-    const totalBookings = await Booking.countDocuments();
-    const confirmedBookings = await Booking.countDocuments({ status: "confirmed" });
-    const canceledBookings = await Booking.countDocuments({ status: "canceled" });
-    const pendingBookings = await Booking.countDocuments({ status: "pending" });
+    // Calculate stats for LAST 7 DAYS ONLY
+    const oneWeekAgo = new Date();
+    oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
 
-    // Messages Stats
-    const totalMessages = await ContactMessage.countDocuments();
-    const pendingMessages = await ContactMessage.countDocuments({ status: "pending" });
-    const confirmedMessages = await ContactMessage.countDocuments({ status: "confirmed" });
-    const canceledMessages = await ContactMessage.countDocuments({ status: "canceled" });
+    // Booking Stats (last 7 days)
+    const totalBookings = await Booking.countDocuments({
+      createdAt: { $gte: oneWeekAgo }
+    });
+    const confirmedBookings = await Booking.countDocuments({ 
+      status: "confirmed",
+      createdAt: { $gte: oneWeekAgo }
+    });
+    const canceledBookings = await Booking.countDocuments({ 
+      status: "canceled",
+      createdAt: { $gte: oneWeekAgo }
+    });
+    const pendingBookings = await Booking.countDocuments({ 
+      status: "pending",
+      createdAt: { $gte: oneWeekAgo }
+    });
+
+    // Messages Stats (last 7 days)
+    const totalMessages = await ContactMessage.countDocuments({
+      createdAt: { $gte: oneWeekAgo }
+    });
+    const pendingMessages = await ContactMessage.countDocuments({ 
+      status: "pending",
+      createdAt: { $gte: oneWeekAgo }
+    });
+    const confirmedMessages = await ContactMessage.countDocuments({ 
+      status: "confirmed",
+      createdAt: { $gte: oneWeekAgo }
+    });
+    const canceledMessages = await ContactMessage.countDocuments({ 
+      status: "canceled",
+      createdAt: { $gte: oneWeekAgo }
+    });
 
     return NextResponse.json({
       bookings: { 

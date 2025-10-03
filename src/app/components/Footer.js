@@ -1,66 +1,111 @@
 "use client";
 import Link from "next/link";
-import { FaFacebookF, FaInstagram, FaTwitter, FaPhoneAlt, FaEnvelope } from "react-icons/fa";
+import {
+  FaFacebookF,
+  FaInstagram,
+  FaTwitter,
+  FaPhoneAlt,
+  FaEnvelope,
+  FaMapMarkerAlt,
+} from "react-icons/fa";
 
-export default function SciFiFooter2() {
+export default function Footer() {
   return (
-    <footer className="relative overflow-hidden text-gray-900 bg-gradient-to-tr from-indigo-50 via-violet-100 to-blue-50 dark:from-indigo-900 dark:via-violet-800 dark:to-blue-900 pt-16 pb-10 px-6 md:px-20 z-40">
-      {/* Background with tech lines */}
-      <div className="absolute inset-0 -z-10 bg-[url('/patterns/tech-lines.png')] opacity-20 dark:opacity-30"></div>
+    <footer className="relative overflow-hidden text-gray-900 bg-gradient-to-tr from-indigo-50 via-violet-100 to-blue-50 pt-16 pb-10 px-6 md:px-20">
+      {/* Gradient background instead of image */}
+      <div className="absolute inset-0 -z-10 bg-gradient-to-br from-violet-50/30 via-indigo-50/30 to-blue-50/30"></div>
 
       <div className="max-w-7xl mx-auto grid md:grid-cols-4 gap-12">
         {/* Company Info */}
-        <div className="space-y-4 transform hover:scale-105 transition duration-700">
-          <h2 className="text-3xl font-extrabold text-violet-700">Eden Transport</h2>
-          <p className="text-sm leading-relaxed text-gray-700 dark:text-gray-300">
-            Safe and premium medical transportation. Non-emergency service where your comfort comes first.
+        <div className="space-y-4">
+          <h2 className="text-3xl font-extrabold bg-gradient-to-r from-violet-700 to-indigo-700 bg-clip-text text-transparent">
+            Eden Transport
+          </h2>
+          <p className="text-sm leading-relaxed text-gray-700">
+            California's trusted medical transportation provider since 2014.
+            Safe, comfortable, and reliable non-emergency transport services.
           </p>
+          <div className="flex items-center gap-2 text-sm text-gray-600">
+            <FaMapMarkerAlt className="text-violet-600" />
+            <span>Serving all 58 CA Counties</span>
+          </div>
         </div>
 
         {/* Quick Links */}
         <div className="space-y-4">
-          <h3 className="text-lg font-semibold text-violet-600">Quick Links</h3>
+          <h3 className="text-lg font-bold text-violet-700">Quick Links</h3>
           <ul className="space-y-2">
-            {["Home", "About Us", "Gallery", "Contact"].map((linkText) => (
-              <li key={linkText}>
+            {[
+              { name: "Home", path: "/" },
+              { name: "About Us", path: "/about" },
+              { name: "Gallery", path: "/gallery" },
+              { name: "Contact", path: "/contact" },
+            ].map((link) => (
+              <li key={link.name}>
                 <Link
-                  href={linkText === "Home" ? "/" : `/${linkText.toLowerCase().replace(/\s+/g, "-")}`}
-                  className="text-gray-800 dark:text-gray-200 hover:text-violet-700 dark:hover:text-violet-300 transition-colors duration-300"
+                  href={link.path}
+                  className="text-gray-700 hover:text-violet-700 hover:translate-x-1 transform transition-all duration-300 inline-block"
                 >
-                  {linkText}
+                  → {link.name}
                 </Link>
               </li>
             ))}
           </ul>
         </div>
 
-        {/* Contact */}
+        {/* Contact Info */}
         <div className="space-y-4">
-          <h3 className="text-lg font-semibold text-violet-600">Contact</h3>
-          <ul className="space-y-3 text-sm">
-            <li className="flex items-center gap-2 hover:text-violet-700 transition duration-300">
-              <FaPhoneAlt className="text-xl" />
-              +1 (234) 567-890
+          <h3 className="text-lg font-bold text-violet-700">Contact Us</h3>
+          <ul className="space-y-3">
+            <li>
+              <a
+                href="tel:+15109578383"
+                className="flex items-center gap-3 text-gray-700 hover:text-violet-700 transition group"
+              >
+                <div className="p-2 bg-violet-100 rounded-lg group-hover:bg-violet-200 transition">
+                  <FaPhoneAlt className="text-violet-600" />
+                </div>
+                <div className="text-sm">
+                  <p className="font-semibold">24/7 Hotline</p>
+                  <p>(510) 957-8383</p>
+                </div>
+              </a>
             </li>
-            <li className="flex items-center gap-2 hover:text-violet-700 transition duration-300">
-              <FaEnvelope className="text-xl" />
-              contact@edentransport.com
+            <li>
+              <a
+                href="mailto:info@edentransport.com"
+                className="flex items-center gap-3 text-gray-700 hover:text-violet-700 transition group"
+              >
+                <div className="p-2 bg-violet-100 rounded-lg group-hover:bg-violet-200 transition">
+                  <FaEnvelope className="text-violet-600" />
+                </div>
+                <div className="text-sm">
+                  <p className="font-semibold">Email Us</p>
+                  <p>info@edentransport.com</p>
+                </div>
+              </a>
             </li>
           </ul>
         </div>
 
         {/* Social Media */}
         <div className="space-y-4">
-          <h3 className="text-lg font-semibold text-violet-600">Follow Us</h3>
-          <div className="flex gap-6 text-2xl">
-            {[FaFacebookF, FaInstagram, FaTwitter].map((Icon, i) => (
+          <h3 className="text-lg font-bold text-violet-700">Follow Us</h3>
+          <p className="text-sm text-gray-600">
+            Stay connected for updates and health tips
+          </p>
+          <div className="flex gap-4">
+            {[
+              { Icon: FaFacebookF, link: "#", color: "hover:bg-blue-600" },
+              { Icon: FaInstagram, link: "#", color: "hover:bg-pink-600" },
+              { Icon: FaTwitter, link: "#", color: "hover:bg-sky-500" },
+            ].map(({ Icon, link, color }, i) => (
               <a
                 key={i}
-                href="#"
-                className="relative text-gray-800 dark:text-gray-200 hover:text-violet-700 transition-colors duration-300"
+                href={link}
+                className={`w-12 h-12 flex items-center justify-center bg-violet-100 text-violet-700 rounded-xl ${color} hover:text-white transform hover:scale-110 hover:rotate-6 transition-all duration-300 shadow-md hover:shadow-xl`}
               >
-                <Icon className="transform hover:scale-125 transition-transform duration-500" />
-                <span className="absolute inset-0 rounded-full bg-violet-200/30 dark:bg-violet-700/30 blur-lg scale-0 hover:scale-100 transition-all duration-500"></span>
+                <Icon className="text-xl" />
               </a>
             ))}
           </div>
@@ -68,8 +113,24 @@ export default function SciFiFooter2() {
       </div>
 
       {/* Bottom Bar */}
-      <div className="mt-14 border-t border-violet-300/50 dark:border-violet-700/50 pt-6 text-center text-sm text-gray-600 dark:text-gray-400">
-        &copy; {new Date().getFullYear()} Eden Transport. All rights reserved.
+      <div className="mt-14 pt-8 border-t border-violet-300/50">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-600">
+          <p>
+            &copy; {new Date().getFullYear()} Eden Medical Transport. All rights
+            reserved.
+          </p>
+          <div className="flex gap-6">
+            <Link href="/privacy" className="hover:text-violet-700 transition">
+              Privacy Policy
+            </Link>
+            <Link href="/terms" className="hover:text-violet-700 transition">
+              Terms of Service
+            </Link>
+            <Link href="/admin/login" className="hover:text-violet-700 transition">
+              Admin
+            </Link>
+          </div>
+        </div>
       </div>
     </footer>
   );

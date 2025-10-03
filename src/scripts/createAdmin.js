@@ -3,15 +3,12 @@ const bcrypt = require("bcryptjs");
 
 async function createAdmin() {
   try {
-    // Force specific database name
     await mongoose.connect("mongodb+srv://Raja1949:Raja1949@cluster0.jwruy9i.mongodb.net/eden?retryWrites=true&w=majority");
-    
-    console.log("Connected to database:", mongoose.connection.name);
     
     const AdminSchema = new mongoose.Schema({
       email: String,
       password: String,
-    }, { collection: 'admins' }); // Force collection name
+    }, { timestamps: true });
     
     const Admin = mongoose.model("Admin", AdminSchema);
     
@@ -23,8 +20,10 @@ async function createAdmin() {
       password: hashedPassword,
     });
     
-    console.log("✅ Admin created:", admin);
-    console.log("📊 Total admins:", await Admin.countDocuments());
+    console.log("✅ Admin created successfully!");
+    console.log("Email:", admin.email);
+    console.log("Password: 123456");
+    console.log("ID:", admin._id);
     
     process.exit(0);
   } catch (error) {

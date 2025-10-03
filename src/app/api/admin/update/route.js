@@ -1,11 +1,19 @@
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { connectDB } from "@/lib/mongo";
-import Admin from "@/models/Admin";
+import mongoose from "mongoose";
 
 export async function POST(req) {
   try {
     await connectDB();
+    
+    const AdminSchema = new mongoose.Schema({
+      email: String,
+      password: String,
+    }, { timestamps: true });
+    
+    const Admin = mongoose.models.Admin || mongoose.model("Admin", AdminSchema);
+    
     const { action, email, currentPassword, newPassword } = await req.json();
 
     if (action === "updateEmail") {
@@ -29,6 +37,8 @@ export async function POST(req) {
 
       admin.email = email;
       await admin.save();
+      
+      console.log("✅ Email updated to:", email);
 
       return NextResponse.json({ 
         success: true, 
@@ -58,6 +68,8 @@ export async function POST(req) {
       const hashedPassword = await bcrypt.hash(newPassword, 10);
       admin.password = hashedPassword;
       await admin.save();
+      
+      console.log("✅ Password updated successfully");
 
       return NextResponse.json({ 
         success: true, 
@@ -67,7 +79,7 @@ export async function POST(req) {
 
     return NextResponse.json({ error: "Invalid action" }, { status: 400 });
   } catch (error) {
-    console.error("Update error:", error);
+    console.error("❌ Update error:", error);
     return NextResponse.json({ error: "Failed to update" }, { status: 500 });
   }
 }

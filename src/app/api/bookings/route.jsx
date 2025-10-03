@@ -1,24 +1,21 @@
 import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/mongo";
 import Booking from "@/models/Booking";
-import { sendMail } from "@/lib/mailer"; // ✅ استدعاء المرسل
+import { sendMail } from "@/lib/mailer";
 
-// ✅ GET: جلب الحجوزات ديال آخر 7 أيام فقط
+// GET: Fetch ALL bookings (no date filter)
 export async function GET() {
   try {
     await connectDB();
 
-    // 🔹 غير آخر 7 أيام
-    const oneWeekAgo = new Date();
-    oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
-
-    const bookings = await Booking.find({
-      createdAt: { $gte: oneWeekAgo },
-    }).sort({ createdAt: -1 });
+    // Fetch ALL bookings, sorted by newest first
+    const bookings = await Booking.find()
+      .sort({ createdAt: -1 })
+      .limit(200); // Limit to 200 for performance
 
     return NextResponse.json(bookings, { status: 200 });
   } catch (error) {
-    console.error("❌ API GET error:", error);
+    console.error("API GET error:", error);
     return NextResponse.json(
       { message: "Error fetching bookings" },
       { status: 500 }
@@ -26,21 +23,18 @@ export async function GET() {
   }
 }
 
-// ✅ POST: إنشاء حجز جديد + إرسال إيميل
+// POST: Create new booking + send email
 export async function POST(req) {
   try {
     await connectDB();
     const body = await req.json();
 
-    // إنشاء الحجز
     const booking = await Booking.create(body);
-
-    // إرسال إيميل تأكيد
     await sendMail(body);
 
     return NextResponse.json(booking, { status: 201 });
   } catch (error) {
-    console.error("❌ API POST error:", error);
+    console.error("API POST error:", error);
     return NextResponse.json(
       { message: error.message },
       { status: 500 }
