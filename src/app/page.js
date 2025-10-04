@@ -1,9 +1,13 @@
-// app/page.js
-
 "use client";
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
-import { FaExclamationTriangle, FaAmbulance, FaClock, FaStar, FaQuoteLeft } from "react-icons/fa";
+import {
+  FaExclamationTriangle,
+  FaAmbulance,
+  FaClock,
+  FaStar,
+  FaQuoteLeft,
+} from "react-icons/fa";
 import ParticlesBg from "./components/ParticlesBg";
 import Link from "next/link";
 
@@ -26,20 +30,53 @@ export default function HomePage() {
   const [submitting, setSubmitting] = useState(false);
   const [stats, setStats] = useState({ rides: 0, customers: 0, years: 0 });
 
-  // Animated counter for stats
+  // ✅ JSON-LD structured data for SEO
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    name: "Eden Medical Transport",
+    description:
+      "Professional non-emergency medical transportation in California",
+    url: "https://edenmedical.com",
+    telephone: "+1-510-957-8383",
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: "California",
+      addressCountry: "US",
+    },
+    openingHoursSpecification: {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+        "Sunday",
+      ],
+      opens: "00:00",
+      closes: "23:59",
+    },
+    areaServed: {
+      "@type": "State",
+      name: "California",
+    },
+    priceRange: "$$",
+  };
+
+  // Animated counter
   useEffect(() => {
     const animateCounter = (target, key, duration = 2000) => {
-      const start = 0;
       const increment = target / (duration / 16);
       let current = 0;
-
       const timer = setInterval(() => {
         current += increment;
         if (current >= target) {
-          setStats(prev => ({ ...prev, [key]: target }));
+          setStats((prev) => ({ ...prev, [key]: target }));
           clearInterval(timer);
         } else {
-          setStats(prev => ({ ...prev, [key]: Math.floor(current) }));
+          setStats((prev) => ({ ...prev, [key]: Math.floor(current) }));
         }
       }, 16);
     };
@@ -53,11 +90,9 @@ export default function HomePage() {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
     if (errors[name]) {
-      setErrors((prev) => {
-        const newErr = { ...prev };
-        delete newErr[name];
-        return newErr;
-      });
+      const newErr = { ...errors };
+      delete newErr[name];
+      setErrors(newErr);
     }
   };
 
@@ -67,12 +102,16 @@ export default function HomePage() {
     const newErrors = {};
     if (!formData.date) newErrors.date = "Date is required.";
     if (!formData.time) newErrors.time = "Time is required.";
-    if (!formData.pickup.trim()) newErrors.pickup = "Pick-up address is required.";
-    if (!formData.destination.trim()) newErrors.destination = "Destination address is required.";
-    if (!formData.patientName.trim()) newErrors.patientName = "Patient name is required.";
+    if (!formData.pickup.trim())
+      newErrors.pickup = "Pick-up address is required.";
+    if (!formData.destination.trim())
+      newErrors.destination = "Destination address is required.";
+    if (!formData.patientName.trim())
+      newErrors.patientName = "Patient name is required.";
     if (!formData.phone.trim()) newErrors.phone = "Phone number is required.";
     if (!formData.email.trim()) newErrors.email = "Email is required.";
-    if (!formData.paymentMethod.trim()) newErrors.paymentMethod = "Please select a payment method.";
+    if (!formData.paymentMethod.trim())
+      newErrors.paymentMethod = "Please select a payment method.";
 
     setErrors(newErrors);
 
@@ -118,21 +157,28 @@ export default function HomePage() {
 
   return (
     <main className="relative min-h-screen bg-gradient-to-br from-indigo-100 via-white to-blue-100 text-gray-800 overflow-hidden">
-      {/* Hero Section */}
+      {/* ✅ JSON-LD Script for SEO */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+
+      {/* ✅ باقي الكومبونونت: Hero + Stats + Booking + Why Choose + Testimonials + FAQ + CTA */}
+      {/* مثال */}
       <section className="relative bg-cover bg-center bg-no-repeat px-6 py-32 flex items-center justify-center min-h-[700px]" style={{ backgroundImage: "url('/image3.jpg')" }}>
         <div className="absolute inset-0 bg-gradient-to-r from-indigo-900/70 to-violet-900/50"></div>
-        <div className="relative z-10 max-w-5xl text-center text-white animate-fade-in">
-          <h1 className="text-4xl md:text-6xl font-extrabold mb-6 drop-shadow-2xl leading-tight">
+        <div className="relative z-10 max-w-5xl text-center text-white">
+          <h1 className="text-4xl md:text-6xl font-extrabold mb-6">
             California's Most Trusted <span className="text-violet-300">Medical Transport</span>
           </h1>
           <p className="text-lg md:text-2xl mb-8 text-indigo-100 max-w-3xl mx-auto">
             Safe, comfortable, and reliable non-emergency medical transportation across all California counties
           </p>
           <div className="flex gap-4 justify-center flex-wrap">
-            <a href="#book" className="bg-gradient-to-r from-violet-600 to-indigo-600 text-white px-8 py-4 rounded-xl font-bold hover:shadow-2xl hover:scale-105 transition-all">
+            <a href="#book" className="bg-gradient-to-r from-violet-600 to-indigo-600 text-white px-8 py-4 rounded-xl font-bold">
               Book Your Ride Now
             </a>
-            <Link href="/about" className="bg-white text-violet-700 px-8 py-4 rounded-xl font-bold hover:bg-violet-50 hover:scale-105 transition-all">
+            <Link href="/about" className="bg-white text-violet-700 px-8 py-4 rounded-xl font-bold hover:bg-violet-50">
               Learn More
             </Link>
           </div>

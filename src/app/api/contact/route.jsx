@@ -3,9 +3,9 @@ import nodemailer from "nodemailer";
 import { connectDB } from "@/lib/mongo";
 import ContactMessage from "@/models/ContactMessage";
 
-// ✅ POST: Save + send email
+// POST: Save + send email
 export async function POST(req) {
-  const { fullName, email, message } = await req.json();
+  const { fullName, email, phone, message } = await req.json(); // ✅ Zedna phone
 
   if (!fullName || !email || !message) {
     return NextResponse.json({ error: "Missing fields" }, { status: 400 });
@@ -14,10 +14,10 @@ export async function POST(req) {
   try {
     await connectDB();
 
-    // ⬅️ Save in MongoDB
-    await ContactMessage.create({ fullName, email, message });
+    // Save in MongoDB with phone
+    await ContactMessage.create({ fullName, email, phone, message }); // ✅ Zedna phone
 
-    // ⬅️ Send mail
+    // Send email
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
@@ -26,7 +26,7 @@ export async function POST(req) {
       },
     });
 
-    const mailOptions = {
+    await transporter.sendMail({
       from: `"Contact Form" <${process.env.EMAIL_USER}>`,
       to: process.env.TO_EMAIL,
       subject: "📩 New Contact Message",
@@ -35,38 +35,31 @@ export async function POST(req) {
         <ul>
           <li><strong>Name:</strong> ${fullName}</li>
           <li><strong>Email:</strong> ${email}</li>
+          <li><strong>Phone:</strong> ${phone || 'Not provided'}</li>
           <li><strong>Message:</strong><br />${message}</li>
         </ul>
       `,
-    };
+    });
 
-    await transporter.sendMail(mailOptions);
-
-    return NextResponse.json({ message: "Message sent and saved successfully" });
+    return NextResponse.json({ message: "Message sent successfully" });
   } catch (error) {
-    console.error("❌ Error saving/sending contact message:", error);
-    return NextResponse.json(
-      { error: "Failed to send or save message" },
-      { status: 500 }
-    );
+    console.error("Error:", error);
+    return NextResponse.json({ error: "Failed" }, { status: 500 });
   }
 }
 
-// ✅ GET: Fetch last 7 days messages
+// GET: Fetch ALL messages
 export async function GET() {
   try {
     await connectDB();
 
-    const oneWeekAgo = new Date();
-    oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
-
-    const messages = await ContactMessage.find({
-      createdAt: { $gte: oneWeekAgo },
-    }).sort({ createdAt: -1 });
+    const messages = await ContactMessage.find()
+      .sort({ createdAt: -1 })
+      .limit(200);
 
     return NextResponse.json(messages, { status: 200 });
   } catch (err) {
-    console.error("❌ Error fetching messages:", err);
-    return NextResponse.json({ error: "Failed to fetch messages" }, { status: 500 });
+    console.error("Error:", err);
+    return NextResponse.json({ error: "Failed" }, { status: 500 });
   }
 }

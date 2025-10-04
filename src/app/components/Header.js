@@ -97,10 +97,12 @@ export default function Header() {
           </Link>
         </div>
 
-        {/* Mobile Menu Button */}
+        {/* ✅ Mobile Menu Button (Accessible) */}
         <button
           onClick={() => setIsOpen(!isOpen)}
           className="md:hidden w-10 h-10 flex items-center justify-center text-violet-700 hover:bg-violet-50 rounded-lg transition"
+          aria-label="Toggle navigation menu"
+          aria-expanded={isOpen}
         >
           <span className="text-3xl">{isOpen ? "×" : "☰"}</span>
         </button>
