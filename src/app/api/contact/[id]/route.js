@@ -1,9 +1,9 @@
-// app/api/bookings/[id]/route.js
+// app/api/contact/[id]/route.js
 import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/mongo";
-import Booking from "@/models/Booking";
+import ContactMessage from "@/models/ContactMessage";
 
-// PATCH: Update booking status
+// PATCH: Update message status
 export async function PATCH(req, { params }) {
   try {
     await connectDB();
@@ -18,53 +18,53 @@ export async function PATCH(req, { params }) {
       );
     }
 
-    const booking = await Booking.findByIdAndUpdate(
+    const message = await ContactMessage.findByIdAndUpdate(
       id,
       { status },
       { new: true, runValidators: true }
     );
 
-    if (!booking) {
+    if (!message) {
       return NextResponse.json(
-        { message: "Booking not found" },
+        { message: "Message not found" },
         { status: 404 }
       );
     }
 
-    return NextResponse.json(booking, { status: 200 });
+    return NextResponse.json(message, { status: 200 });
   } catch (error) {
-    console.error("❌ PATCH booking error:", error);
+    console.error("❌ PATCH message error:", error);
     return NextResponse.json(
-      { message: "Error updating booking" },
+      { message: "Error updating message" },
       { status: 500 }
     );
   }
 }
 
-// DELETE: Delete booking
+// DELETE: Delete message
 export async function DELETE(req, { params }) {
   try {
     await connectDB();
     const { id } = params;
 
-    const booking = await Booking.findByIdAndDelete(id);
+    const message = await ContactMessage.findByIdAndDelete(id);
 
-    if (!booking) {
+    if (!message) {
       return NextResponse.json(
-        { message: "Booking not found" },
+        { message: "Message not found" },
         { status: 404 }
       );
     }
 
     return NextResponse.json(
-      { success: true, message: "Booking deleted successfully" },
+      { success: true, message: "Message deleted successfully" },
       { status: 200 }
     );
   } catch (error) {
-    console.error("❌ DELETE booking error:", error);
+    console.error("❌ DELETE message error:", error);
     return NextResponse.json(
-      { message: "Error deleting booking" },
+      { message: "Error deleting message" },
       { status: 500 }
     );
   }
-}             
+}

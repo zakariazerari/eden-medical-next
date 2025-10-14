@@ -1,68 +1,92 @@
+// app/api/stats/route.js
 import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/mongo";
 import Booking from "@/models/Booking";
 import ContactMessage from "@/models/ContactMessage";
+import Driver from "@/models/Driver";
+import Review from "@/models/Review";
 
+// GET: Fetch all statistics
 export async function GET() {
   try {
     await connectDB();
 
-    // Calculate stats for LAST 7 DAYS ONLY
-    const oneWeekAgo = new Date();
-    oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+    // Bookings stats
+    const totalBookings = await Booking.countDocuments();
+    const confirmedBookings = await Booking.countDocuments({ status: 'confirmed' });
+    const pendingBookings = await Booking.countDocuments({ status: 'pending' });
+    const canceledBookings = await Booking.countDocuments({ status: 'canceled' });
 
-    // Booking Stats (last 7 days)
-    const totalBookings = await Booking.countDocuments({
-      createdAt: { $gte: oneWeekAgo }
-    });
-    const confirmedBookings = await Booking.countDocuments({ 
-      status: "confirmed",
-      createdAt: { $gte: oneWeekAgo }
-    });
-    const canceledBookings = await Booking.countDocuments({ 
-      status: "canceled",
-      createdAt: { $gte: oneWeekAgo }
-    });
-    const pendingBookings = await Booking.countDocuments({ 
-      status: "pending",
-      createdAt: { $gte: oneWeekAgo }
+    // Messages stats
+    const totalMessages = await ContactMessage.countDocuments();
+    const pendingMessages = await ContactMessage.countDocuments({ status: 'pending' });
+    const confirmedMessages = await ContactMessage.countDocuments({ status: 'confirmed' });
+    const canceledMessages = await ContactMessage.countDocuments({ status: 'canceled' });
+
+    // Drivers stats
+    const totalDrivers = await Driver.countDocuments();
+    const activeDrivers = await Driver.countDocuments({ isActive: true });
+
+    // Reviews stats
+    const totalReviews = await Review.countDocuments();
+    const approvedReviews = await Review.countDocuments({ isApproved: true });
+    const pendingReviews = await Review.countDocuments({ isApproved: false });
+
+    // Calculate average rating
+    const approvedReviewsList = await Review.find({ isApproved: true });
+    const avgRating = approvedReviewsList.length > 0
+      ? (approvedReviewsList.reduce((sum, r) => sum + r.rating, 0) / approvedReviewsList.length).toFixed(1)
+      : 0;
+
+    // Recent activity (last 7 days)
+    const sevenDaysAgo = new Date();
+    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+
+    const recentBookings = await Booking.countDocuments({
+      createdAt: { $gte: sevenDaysAgo }
     });
 
-    // Messages Stats (last 7 days)
-    const totalMessages = await ContactMessage.countDocuments({
-      createdAt: { $gte: oneWeekAgo }
+    const recentMessages = await ContactMessage.countDocuments({
+      createdAt: { $gte: sevenDaysAgo }
     });
-    const pendingMessages = await ContactMessage.countDocuments({ 
-      status: "pending",
-      createdAt: { $gte: oneWeekAgo }
-    });
-    const confirmedMessages = await ContactMessage.countDocuments({ 
-      status: "confirmed",
-      createdAt: { $gte: oneWeekAgo }
-    });
-    const canceledMessages = await ContactMessage.countDocuments({ 
-      status: "canceled",
-      createdAt: { $gte: oneWeekAgo }
+
+    const recentReviews = await Review.countDocuments({
+      createdAt: { $gte: sevenDaysAgo }
     });
 
     return NextResponse.json({
-      bookings: { 
-        totalBookings, 
-        confirmedBookings, 
-        canceledBookings, 
-        pendingBookings 
+      bookings: {
+        totalBookings,
+        confirmedBookings,
+        pendingBookings,
+        canceledBookings,
+        recentBookings,
       },
-      messages: { 
-        totalMessages, 
-        pendingMessages, 
-        confirmedMessages, 
-        canceledMessages 
+      messages: {
+        totalMessages,
+        pendingMessages,
+        confirmedMessages,
+        canceledMessages,
+        recentMessages,
       },
-    });
+      drivers: {
+        totalDrivers,
+        activeDrivers,
+        inactiveDrivers: totalDrivers - activeDrivers,
+      },
+      reviews: {
+        totalReviews,
+        approvedReviews,
+        pendingReviews,
+        averageRating: parseFloat(avgRating),
+        recentReviews,
+      },
+    }, { status: 200 });
+
   } catch (error) {
-    console.error("Stats API Error:", error);
+    console.error("❌ GET stats error:", error);
     return NextResponse.json(
-      { message: "Error fetching stats" }, 
+      { message: "Error fetching statistics" },
       { status: 500 }
     );
   }

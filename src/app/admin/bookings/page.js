@@ -75,7 +75,7 @@ export default function BookingsPage() {
         setBookings((prev) =>
           prev.map((b) => (b._id === id ? { ...b, status } : b))
         );
-        toast.success(`Booking ${status}`);
+        toast.success(`Booking ${status}!`);
       }
     } catch (error) {
       toast.error("Failed to update status");
@@ -89,7 +89,7 @@ export default function BookingsPage() {
       const res = await fetch(`/api/bookings/${id}`, { method: "DELETE" });
       if (res.ok) {
         setBookings((prev) => prev.filter((b) => b._id !== id));
-        toast.success("Booking deleted");
+        toast.success("Booking deleted!");
       }
     } catch (error) {
       toast.error("Failed to delete booking");
@@ -144,6 +144,7 @@ export default function BookingsPage() {
         </button>
       </div>
 
+      {/* Filters */}
       <div className="bg-white p-6 rounded-2xl shadow-lg">
         <div className="grid md:grid-cols-2 gap-4">
           <div className="relative">
@@ -176,6 +177,7 @@ export default function BookingsPage() {
         Showing {filteredBookings.length} of {bookings.length} bookings
       </div>
 
+      {/* Desktop Table */}
       <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
         <div className="hidden md:block overflow-x-auto">
           <table className="w-full">
@@ -275,6 +277,7 @@ export default function BookingsPage() {
           </table>
         </div>
 
+        {/* Mobile Cards */}
         <div className="md:hidden space-y-4 p-4">
           {filteredBookings.length > 0 ? (
             filteredBookings.map((booking) => (
@@ -342,6 +345,7 @@ export default function BookingsPage() {
         </div>
       </div>
 
+      {/* Booking Details Modal */}
       {selectedBooking && (
         <BookingModal booking={selectedBooking} onClose={() => setSelectedBooking(null)} />
       )}

@@ -83,7 +83,7 @@ export default function ContactPage() {
         setMessages((prev) =>
           prev.map((m) => (m._id === id ? { ...m, status } : m))
         );
-        toast.success(`Message ${status}`);
+        toast.success(`Message ${status}!`);
       }
     } catch (error) {
       toast.error("Failed to update status");
@@ -97,7 +97,7 @@ export default function ContactPage() {
       const res = await fetch(`/api/contact/${id}`, { method: "DELETE" });
       if (res.ok) {
         setMessages((prev) => prev.filter((m) => m._id !== id));
-        toast.success("Message deleted");
+        toast.success("Message deleted!");
       }
     } catch (error) {
       toast.error("Failed to delete message");
@@ -150,6 +150,7 @@ export default function ContactPage() {
         </button>
       </div>
 
+      {/* Filters */}
       <div className="bg-white p-6 rounded-2xl shadow-lg">
         <div className="grid md:grid-cols-2 gap-4">
           <div className="relative">

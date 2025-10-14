@@ -7,5 +7,14 @@ export const metadata = {
     "wheelchair van service",
     "medical rides booking",
     "Eden Transport"
-  ],
+  ],
+  alternates: {
+    canonical: 'https://edenmedical.com',
+  },
+  openGraph: {
+    title: 'Eden Medical Transport - Safe Medical Rides',
+    description: 'Book non-emergency medical transportation in California',
+    images: ['/image3.jpg'],
+    type: 'website',
+  },
 };

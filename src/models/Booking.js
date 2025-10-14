@@ -1,18 +1,87 @@
+// models/Booking.js
 import mongoose from "mongoose";
 
 const bookingSchema = new mongoose.Schema({
-  serviceType: String,
-  mobility: String,
-  date: Date,
-  time: String,
-  pickup: String,
-  destination: String,
-  patientName: String,
-  phone: String,
-  email: String,
-  paymentMethod: String,
-  specialNotes: String,
-  status: { type: String, default: "pending" }, // pending / confirmed / canceled
-}, { timestamps: true });
+  serviceType: { 
+    type: String, 
+    required: true,
+    enum: ['Emergency', 'Non-Emergency']
+  },
+  mobility: { 
+    type: String, 
+    required: true,
+    enum: ['Wheelchair', 'Stretcher', 'Sedan']
+  },
+  date: { 
+    type: Date, 
+    required: true,
+    index: true
+  },
+  time: { 
+    type: String, 
+    required: true,
+    match: /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/
+  },
+  pickup: { 
+    type: String, 
+    required: true,
+    maxlength: 200
+  },
+  destination: { 
+    type: String, 
+    required: true,
+    maxlength: 200
+  },
+  patientName: { 
+    type: String, 
+    required: true,
+    maxlength: 100
+  },
+  phone: { 
+    type: String, 
+    required: true,
+    maxlength: 15
+  },
+  email: { 
+    type: String, 
+    required: true,
+    lowercase: true,
+    trim: true,
+    match: /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  },
+  paymentMethod: { 
+    type: String, 
+    required: true,
+    enum: ['Cash', 'Credit Card', 'Zelle', 'Insurance']
+  },
+  specialNotes: { 
+    type: String,
+    maxlength: 1000,
+    default: ''
+  },
+  status: { 
+    type: String, 
+    enum: ['pending', 'confirmed', 'canceled'],
+    default: 'pending',
+    // Removed index: true to avoid duplicate
+  },
+  ipAddress: {
+    type: String,
+    select: false
+  }
+}, { 
+  timestamps: true,
+  toJSON: {
+    transform: function(doc, ret) {
+      delete ret.ipAddress;
+      delete ret.__v;
+      return ret;
+    }
+  }
+});
+
+// Index for faster queries
+bookingSchema.index({ createdAt: -1 });
+bookingSchema.index({ status: 1, date: 1 });
 
 export default mongoose.models.Booking || mongoose.model("Booking", bookingSchema);

@@ -7,6 +7,9 @@ import {
   FaClock,
   FaStar,
   FaQuoteLeft,
+  FaChevronLeft,
+  FaChevronRight,
+  FaUserCircle,
 } from "react-icons/fa";
 import ParticlesBg from "./components/ParticlesBg";
 import Link from "next/link";
@@ -30,13 +33,17 @@ export default function HomePage() {
   const [submitting, setSubmitting] = useState(false);
   const [stats, setStats] = useState({ rides: 0, customers: 0, years: 0 });
 
-  // ✅ JSON-LD structured data for SEO
+  // Driver Testimonials State
+  const [drivers, setDrivers] = useState([]);
+  const [reviews, setReviews] = useState({});
+  const [loadingDrivers, setLoadingDrivers] = useState(true);
+  const [currentDriverIndex, setCurrentDriverIndex] = useState(0);
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
     name: "Eden Medical Transport",
-    description:
-      "Professional non-emergency medical transportation in California",
+    description: "Professional non-emergency medical transportation in California",
     url: "https://edenmedical.com",
     telephone: "+1-510-957-8383",
     address: {
@@ -46,15 +53,7 @@ export default function HomePage() {
     },
     openingHoursSpecification: {
       "@type": "OpeningHoursSpecification",
-      dayOfWeek: [
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday",
-        "Saturday",
-        "Sunday",
-      ],
+      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
       opens: "00:00",
       closes: "23:59",
     },
@@ -65,7 +64,7 @@ export default function HomePage() {
     priceRange: "$$",
   };
 
-  // Animated counter
+  // Stats Counter Animation
   useEffect(() => {
     const animateCounter = (target, key, duration = 2000) => {
       const increment = target / (duration / 16);
@@ -86,6 +85,49 @@ export default function HomePage() {
     animateCounter(10, "years");
   }, []);
 
+  // Fetch Drivers & Reviews
+  useEffect(() => {
+    fetchDriversData();
+  }, []);
+
+  const fetchDriversData = async () => {
+    try {
+      const driversRes = await fetch("/api/drivers");
+      const driversData = await driversRes.json();
+
+      if (driversData.success) {
+        const activeDrivers = driversData.drivers.filter(d => d.isActive);
+        setDrivers(activeDrivers);
+
+        const reviewsData = {};
+        for (const driver of activeDrivers) {
+          const reviewsRes = await fetch(`/api/reviews?driverId=${driver._id}`);
+          const data = await reviewsRes.json();
+          if (data.success && data.reviews.length > 0) {
+            reviewsData[driver._id] = data.reviews[0];
+          }
+        }
+        setReviews(reviewsData);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    } finally {
+      setLoadingDrivers(false);
+    }
+  };
+
+  // Auto-play Drivers Carousel
+  useEffect(() => {
+    if (drivers.length === 0) return;
+    const interval = setInterval(() => {
+      setCurrentDriverIndex((prev) => (prev + 1) % drivers.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [drivers.length]);
+
+  const nextDriver = () => setCurrentDriverIndex((prev) => (prev + 1) % drivers.length);
+  const prevDriver = () => setCurrentDriverIndex((prev) => (prev - 1 + drivers.length) % drivers.length);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -102,16 +144,12 @@ export default function HomePage() {
     const newErrors = {};
     if (!formData.date) newErrors.date = "Date is required.";
     if (!formData.time) newErrors.time = "Time is required.";
-    if (!formData.pickup.trim())
-      newErrors.pickup = "Pick-up address is required.";
-    if (!formData.destination.trim())
-      newErrors.destination = "Destination address is required.";
-    if (!formData.patientName.trim())
-      newErrors.patientName = "Patient name is required.";
+    if (!formData.pickup.trim()) newErrors.pickup = "Pick-up address is required.";
+    if (!formData.destination.trim()) newErrors.destination = "Destination address is required.";
+    if (!formData.patientName.trim()) newErrors.patientName = "Patient name is required.";
     if (!formData.phone.trim()) newErrors.phone = "Phone number is required.";
     if (!formData.email.trim()) newErrors.email = "Email is required.";
-    if (!formData.paymentMethod.trim())
-      newErrors.paymentMethod = "Please select a payment method.";
+    if (!formData.paymentMethod.trim()) newErrors.paymentMethod = "Please select a payment method.";
 
     setErrors(newErrors);
 
@@ -148,7 +186,7 @@ export default function HomePage() {
       } else {
         toast.error("❌ Error: " + (data.message || "Something went wrong"));
       }
-    } catch (err) {
+    } catch (err) {                                                                                             
       toast.error("⚠ Something went wrong.");
     } finally {
       setSubmitting(false);
@@ -157,14 +195,12 @@ export default function HomePage() {
 
   return (
     <main className="relative min-h-screen bg-gradient-to-br from-indigo-100 via-white to-blue-100 text-gray-800 overflow-hidden">
-      {/* ✅ JSON-LD Script for SEO */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      {/* ✅ باقي الكومبونونت: Hero + Stats + Booking + Why Choose + Testimonials + FAQ + CTA */}
-      {/* مثال */}
+      {/* Hero Section */}
       <section className="relative bg-cover bg-center bg-no-repeat px-6 py-32 flex items-center justify-center min-h-[700px]" style={{ backgroundImage: "url('/image3.jpg')" }}>
         <div className="absolute inset-0 bg-gradient-to-r from-indigo-900/70 to-violet-900/50"></div>
         <div className="relative z-10 max-w-5xl text-center text-white">
@@ -175,10 +211,10 @@ export default function HomePage() {
             Safe, comfortable, and reliable non-emergency medical transportation across all California counties
           </p>
           <div className="flex gap-4 justify-center flex-wrap">
-            <a href="#book" className="bg-gradient-to-r from-violet-600 to-indigo-600 text-white px-8 py-4 rounded-xl font-bold">
+            <a href="#book" className="bg-gradient-to-r from-violet-600 to-indigo-600 text-white px-8 py-4 rounded-xl font-bold hover:shadow-2xl hover:scale-105 transition-all">
               Book Your Ride Now
             </a>
-            <Link href="/about" className="bg-white text-violet-700 px-8 py-4 rounded-xl font-bold hover:bg-violet-50">
+            <Link href="/about" className="bg-white text-violet-700 px-8 py-4 rounded-xl font-bold hover:bg-violet-50 hover:scale-105 transition-all">
               Learn More
             </Link>
           </div>
@@ -327,7 +363,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Testimonials */}
+      {/* Patient Testimonials */}
       <section className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-6">
           <h2 className="text-5xl font-extrabold text-center text-violet-800 mb-16">What Our Patients Say</h2>
@@ -337,7 +373,7 @@ export default function HomePage() {
               { name: "John D.", text: "The drivers are knowledgeable and compassionate. I feel safe every time I ride with Eden.", rating: 5 },
               { name: "Sarah L.", text: "Reliable service at fair prices. They helped my mother get to her chemotherapy sessions with dignity.", rating: 5 }
             ].map((testimonial, i) => (
-              <div key={i} className="bg-gradient-to-br from-violet-50 to-indigo-50 p-8 rounded-2xl shadow-lg">
+              <div key={i} className="bg-gradient-to-br from-violet-50 to-indigo-50 p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow">
                 <FaQuoteLeft className="text-3xl text-violet-400 mb-4" />
                 <p className="text-gray-700 mb-4 italic">"{testimonial.text}"</p>
                 <div className="flex items-center justify-between">
@@ -351,6 +387,178 @@ export default function HomePage() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Driver Testimonials Section - LIGHTWEIGHT */}
+      <section className="py-16 md:py-24 bg-gradient-to-br from-slate-50 to-indigo-50 overflow-hidden">
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-violet-700 to-indigo-700 mb-3">
+              Meet Our Drivers
+            </h2>
+            <p className="text-base md:text-lg text-slate-600">Professional, certified, and compassionate</p>
+          </div>
+
+          {loadingDrivers ? (
+            <div className="text-center py-12">
+              <div className="inline-block w-12 h-12 border-4 border-violet-200 rounded-full border-t-violet-600 animate-spin"></div>
+            </div>
+          ) : drivers.length > 0 ? (
+            <>
+              <div className="relative">
+                <div className="overflow-hidden">
+                  <div 
+                    className="flex transition-transform duration-700 ease-out"
+                    style={{ transform: `translateX(-${currentDriverIndex * 100}%)` }}
+                  >
+                    {drivers.map((driver) => {
+                      const review = reviews[driver._id];
+                      
+                      return (
+                        <div key={driver._id} className="w-full flex-shrink-0 px-2 md:px-4">
+                          <div className="bg-white rounded-2xl shadow-xl p-6 md:p-8 max-w-3xl mx-auto transform hover:scale-[1.02] transition-transform duration-300">
+                            <div className="flex flex-col sm:flex-row items-center gap-4 md:gap-6 mb-6">
+                              <div className="relative group">
+                                <div className="absolute -inset-1 bg-gradient-to-r from-violet-600 to-indigo-600 rounded-full blur opacity-40 group-hover:opacity-60 transition"></div>
+                                <div className="relative w-20 h-20 md:w-24 md:h-24 rounded-full overflow-hidden border-4 border-white shadow-lg">
+                                  {driver.image ? (
+                                    <img src={driver.image} alt={driver.name} className="w-full h-full object-cover" />
+                                  ) : (
+                                    <div className="w-full h-full bg-gradient-to-br from-violet-500 to-indigo-600 flex items-center justify-center">
+                                      <FaUserCircle className="text-5xl text-white" />
+                                    </div>
+                                  )}
+                                </div>
+                                <div className="absolute -bottom-1 -right-1 bg-green-500 w-6 h-6 rounded-full border-2 border-white"></div>
+                              </div>
+
+                              <div className="text-center sm:text-left flex-1">
+                                <h3 className="text-xl md:text-2xl font-bold text-slate-800 mb-1">
+                                  {driver.name}
+                                </h3>
+                                <p className="text-slate-600 text-sm md:text-base mb-2">
+                                  {driver.age} years old • Professional Driver
+                                </p>
+                                
+                                <div className="flex items-center justify-center sm:justify-start gap-2">
+                                  <div className="flex gap-0.5">
+                                    {[...Array(5)].map((_, i) => (
+                                      <FaStar
+                                        key={i}
+                                        className={`text-sm md:text-base ${
+                                          i < Math.round(driver.averageRating) ? "text-yellow-500" : "text-slate-300"
+                                        }`}
+                                      />
+                                    ))}
+                                  </div>
+                                  <span className="text-slate-800 font-bold text-sm md:text-base">
+                                    {driver.averageRating || 0}
+                                  </span>
+                                  <span className="text-slate-600 text-xs md:text-sm">
+                                    ({driver.totalReviews || 0} reviews)
+                                  </span>
+                                </div>
+
+                                {driver.averageRating >= 4.5 && (
+                                  <span className="inline-block mt-2 bg-gradient-to-r from-green-500 to-emerald-600 text-white px-3 py-1 rounded-full text-xs font-bold">
+                                    ⭐ TOP RATED
+                                  </span>
+                                )}
+                              </div>
+                            </div>
+
+                            {review ? (
+                              <div className="bg-gradient-to-br from-violet-50 to-indigo-50 rounded-xl p-4 md:p-6">
+                                <div className="flex items-center justify-between mb-3">
+                                  <div className="flex gap-0.5">
+                                    {[...Array(5)].map((_, i) => (
+                                      <FaStar
+                                        key={i}
+                                        className={`text-sm ${i < review.rating ? "text-yellow-500" : "text-slate-300"}`}
+                                      />
+                                    ))}
+                                  </div>
+                                </div>
+                                
+                                <p className="text-slate-700 text-sm md:text-base leading-relaxed italic mb-3">
+                                  "{review.comment}"
+                                </p>
+                                
+                                <p className="font-semibold text-violet-800 text-sm">
+                                  — {review.patientName}
+                                </p>
+                              </div>
+                            ) : (
+                              <div className="bg-violet-50 rounded-xl p-4 text-center">
+                                <p className="text-slate-600 text-sm">Be the first to review {driver.name.split(' ')[0]}!</p>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {drivers.length > 1 && (
+                  <>
+                    <button
+                      onClick={prevDriver}
+                      className="absolute left-0 top-1/2 -translate-y-1/2 bg-white text-violet-600 p-2 md:p-3 rounded-full shadow-lg hover:bg-violet-50 transition-all hover:scale-110 z-10"
+                    >
+                      <FaChevronLeft className="text-lg md:text-xl" />
+                    </button>
+                    <button
+                      onClick={nextDriver}
+                      className="absolute right-0 top-1/2 -translate-y-1/2 bg-white text-violet-600 p-2 md:p-3 rounded-full shadow-lg hover:bg-violet-50 transition-all hover:scale-110 z-10"
+                    >
+                      <FaChevronRight className="text-lg md:text-xl" />
+                    </button>
+                  </>
+                )}
+              </div>
+
+              {drivers.length > 1 && (
+                <div className="flex justify-center gap-2 mt-8">
+                  {drivers.map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setCurrentDriverIndex(index)}
+                      className={`h-2 rounded-full transition-all ${
+                        index === currentDriverIndex
+                          ? "w-8 bg-gradient-to-r from-violet-600 to-indigo-600"
+                          : "w-2 bg-slate-300 hover:bg-slate-400"
+                      }`}
+                    />
+                  ))}
+                </div>
+              )}
+
+              <div className="mt-12 bg-gradient-to-r from-violet-700 to-indigo-700 rounded-2xl p-6 md:p-8 shadow-xl">
+                <div className="grid grid-cols-3 gap-4 text-center text-white">
+                  <div>
+                    <div className="text-2xl md:text-4xl font-bold mb-1">{drivers.length}+</div>
+                    <p className="text-xs md:text-base text-violet-100">Certified Drivers</p>
+                  </div>
+                  <div>
+                    <div className="text-2xl md:text-4xl font-bold mb-1">
+                      {drivers.reduce((sum, d) => sum + (d.totalReviews || 0), 0)}+
+                    </div>
+                    <p className="text-xs md:text-base text-violet-100">Happy Patients</p>
+                  </div>
+                  <div>
+                    <div className="text-2xl md:text-4xl font-bold mb-1">
+                      {drivers.length > 0
+                        ? (drivers.reduce((sum, d) => sum + (parseFloat(d.averageRating) || 0), 0) / drivers.length).toFixed(1)
+                        : 0}⭐
+                    </div>
+                    <p className="text-xs md:text-base text-violet-100">Avg Rating</p>
+                  </div>
+                </div>
+              </div>
+            </>
+          ) : null}
         </div>
       </section>
 

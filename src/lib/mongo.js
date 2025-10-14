@@ -1,9 +1,11 @@
+// lib/mongo.js
 import mongoose from "mongoose";
 
-const MONGODB_URI = process.env.MONGO_URI;
+// Support both MONGODB_URI and MONGO_URI
+const MONGODB_URI = process.env.MONGODB_URI || process.env.MONGO_URI;
 
 if (!MONGODB_URI) {
-  throw new Error("Please define MONGO_URI in .env");
+  throw new Error("Please define MONGODB_URI or MONGO_URI in .env.local");
 }
 
 let cached = global.mongoose;
@@ -24,15 +26,19 @@ export async function connectDB() {
       serverSelectionTimeoutMS: 30000,
       socketTimeoutMS: 45000,
       connectTimeoutMS: 30000,
+      // ✅ Disable SSL certificate validation (for development)
+      tls: true,
+      tlsAllowInvalidCertificates: true,
+      tlsAllowInvalidHostnames: true,
+      // ✅ Additional compatibility options
+      family: 4, // Use IPv4, skip trying IPv6
     };
 
     cached.promise = mongoose.connect(MONGODB_URI, opts)
       .then((mongoose) => {
-        console.log("✅ MongoDB Connected");
         return mongoose;
       })
       .catch((err) => {
-        console.error("❌ MongoDB Error:", err);
         cached.promise = null;
         throw err;
       });

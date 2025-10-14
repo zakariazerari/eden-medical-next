@@ -13,6 +13,8 @@ import {
   FaChartBar,
   FaSignOutAlt,
   FaCog,
+  FaUsers,
+  FaStar, // ✅ NEW - أيقونة Reviews
 } from "react-icons/fa";
 import toast from "react-hot-toast";
 
@@ -24,6 +26,8 @@ export default function Sidebar() {
   const links = [
     { name: "Dashboard", path: "/admin/dashboard", icon: FaHome },
     { name: "Bookings", path: "/admin/bookings", icon: FaCalendarCheck },
+    { name: "Drivers", path: "/admin/drivers", icon: FaUsers },
+    { name: "Reviews", path: "/admin/reviews", icon: FaStar }, // ✅ NEW
     { name: "Messages", path: "/admin/contact", icon: FaEnvelope },
     { name: "Statistics", path: "/admin/stats", icon: FaChartBar },
     { name: "Settings", path: "/admin/settings", icon: FaCog },
@@ -55,7 +59,7 @@ export default function Sidebar() {
           </h2>
         </div>
 
-        <nav className="flex-1 p-6 space-y-2">
+        <nav className="flex-1 p-6 space-y-2 overflow-y-auto">
           {links.map(({ name, path, icon: Icon }) => (
             <Link
               key={name}
@@ -100,7 +104,7 @@ export default function Sidebar() {
               animate={{ x: 0, opacity: 1 }}
               exit={{ x: "-100%", opacity: 0 }}
               transition={{ duration: 0.3, type: "spring" }}
-              className="fixed top-0 left-0 w-72 h-full bg-gradient-to-b from-indigo-900 via-violet-900 to-indigo-950 text-white z-50 shadow-2xl"
+              className="fixed top-0 left-0 w-72 h-full bg-gradient-to-b from-indigo-900 via-violet-900 to-indigo-950 text-white z-50 shadow-2xl overflow-y-auto"
             >
               <div className="flex items-center justify-between p-6 border-b border-violet-400/40">
                 <h2 className="text-xl font-extrabold">🚀 Eden Admin</h2>

@@ -338,7 +338,7 @@ export default function AdminLoginForm() {
         </button>
 
         <p className="text-center text-sm text-gray-500 mt-4">
-          Default: admin@eden.com / 123456
+          Default: exumple@gmail.com / mode pass: xxxxxxx
         </p>
       </form>
     </div>

@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import { FaUser, FaLock, FaBell, FaSave } from "react-icons/fa";
+import { FaUser, FaLock, FaBell, FaSave, FaShieldAlt } from "react-icons/fa";
 import toast from "react-hot-toast";
 
 export default function SettingsPage() {
@@ -11,6 +11,8 @@ export default function SettingsPage() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [emailNotifications, setEmailNotifications] = useState(true);
   const [loading, setLoading] = useState(true);
+  const [updatingEmail, setUpdatingEmail] = useState(false);
+  const [updatingPassword, setUpdatingPassword] = useState(false);
 
   useEffect(() => {
     // Get current admin email from cookie or API
@@ -33,6 +35,12 @@ export default function SettingsPage() {
       return;
     }
 
+    if (!adminEmail || adminEmail.trim() === "") {
+      toast.error("Email cannot be empty");
+      return;
+    }
+
+    setUpdatingEmail(true);
     try {
       const res = await fetch("/api/admin/update", {
         method: "POST",
@@ -49,17 +57,32 @@ export default function SettingsPage() {
       if (data.success) {
         toast.success("Email updated successfully!");
         setCurrentPasswordForEmail("");
+        
+        // Update cookie
+        document.cookie = `admin-email=${encodeURIComponent(adminEmail)}; path=/; max-age=${30 * 24 * 60 * 60}`;
       } else {
         toast.error(data.error || "Failed to update email");
       }
     } catch (error) {
       toast.error("Failed to update email");
+    } finally {
+      setUpdatingEmail(false);
     }
   };
 
   const handleChangePassword = async (e) => {
     e.preventDefault();
     
+    if (!currentPassword) {
+      toast.error("Please enter your current password");
+      return;
+    }
+
+    if (!newPassword || !confirmPassword) {
+      toast.error("Please fill all password fields");
+      return;
+    }
+
     if (newPassword !== confirmPassword) {
       toast.error("Passwords do not match!");
       return;
@@ -70,6 +93,7 @@ export default function SettingsPage() {
       return;
     }
 
+    setUpdatingPassword(true);
     try {
       const res = await fetch("/api/admin/update", {
         method: "POST",
@@ -93,6 +117,8 @@ export default function SettingsPage() {
       }
     } catch (error) {
       toast.error("Failed to change password");
+    } finally {
+      setUpdatingPassword(false);
     }
   };
 
@@ -106,7 +132,10 @@ export default function SettingsPage() {
 
   return (
     <div className="p-6 md:ml-64 space-y-6">
-      <h1 className="text-3xl font-extrabold text-violet-800">Settings</h1>
+      <div>
+        <h1 className="text-3xl font-extrabold text-violet-800">Settings</h1>
+        <p className="text-gray-600 mt-2">Manage your admin account settings</p>
+      </div>
 
       {/* Profile Settings */}
       <div className="bg-white rounded-2xl shadow-xl p-6">
@@ -138,15 +167,19 @@ export default function SettingsPage() {
               value={currentPasswordForEmail}
               onChange={(e) => setCurrentPasswordForEmail(e.target.value)}
               className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-violet-500"
+              placeholder="Enter your current password"
               required
             />
           </div>
 
           <button
             type="submit"
-            className="flex items-center gap-2 px-6 py-3 bg-violet-600 text-white rounded-xl hover:bg-violet-700 transition"
+            disabled={updatingEmail}
+            className={`flex items-center gap-2 px-6 py-3 bg-violet-600 text-white rounded-xl hover:bg-violet-700 transition ${
+              updatingEmail ? 'opacity-50 cursor-not-allowed' : ''
+            }`}
           >
-            <FaSave /> Save Email
+            <FaSave /> {updatingEmail ? "Saving..." : "Save Email"}
           </button>
         </form>
       </div>
@@ -168,6 +201,7 @@ export default function SettingsPage() {
               value={currentPassword}
               onChange={(e) => setCurrentPassword(e.target.value)}
               className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-violet-500"
+              placeholder="Enter your current password"
               required
             />
           </div>
@@ -181,6 +215,7 @@ export default function SettingsPage() {
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
               className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-violet-500"
+              placeholder="Enter new password (min 6 characters)"
               required
             />
           </div>
@@ -194,15 +229,19 @@ export default function SettingsPage() {
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-violet-500"
+              placeholder="Confirm new password"
               required
             />
           </div>
 
           <button
             type="submit"
-            className="flex items-center gap-2 px-6 py-3 bg-violet-600 text-white rounded-xl hover:bg-violet-700 transition"
+            disabled={updatingPassword}
+            className={`flex items-center gap-2 px-6 py-3 bg-violet-600 text-white rounded-xl hover:bg-violet-700 transition ${
+              updatingPassword ? 'opacity-50 cursor-not-allowed' : ''
+            }`}
           >
-            <FaSave /> Update Password
+            <FaSave /> {updatingPassword ? "Updating..." : "Update Password"}
           </button>
         </form>
       </div>
@@ -214,18 +253,41 @@ export default function SettingsPage() {
           <h2 className="text-2xl font-bold text-gray-800">Notifications</h2>
         </div>
 
-        <label className="flex items-center justify-between p-4 border rounded-xl cursor-pointer hover:bg-gray-50">
-          <span className="font-medium">Email Notifications</span>
+        <label className="flex items-center justify-between p-4 border rounded-xl cursor-pointer hover:bg-gray-50 transition">
+          <div className="flex items-center gap-3">
+            <div className="p-2 bg-violet-100 rounded-lg">
+              <FaBell className="text-violet-600" />
+            </div>
+            <div>
+              <span className="font-medium text-gray-800">Email Notifications</span>
+              <p className="text-sm text-gray-600">Receive email alerts for new bookings and messages</p>
+            </div>
+          </div>
           <input
             type="checkbox"
             checked={emailNotifications}
             onChange={(e) => {
               setEmailNotifications(e.target.checked);
-              toast.success(e.target.checked ? "Enabled" : "Disabled");
+              toast.success(e.target.checked ? "Notifications enabled" : "Notifications disabled");
             }}
             className="w-5 h-5 text-violet-600 rounded"
           />
         </label>
+      </div>
+
+      {/* Security Tips */}
+      <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border-2 border-blue-200 rounded-xl p-6">
+        <div className="flex items-center gap-3 mb-4">
+          <FaShieldAlt className="text-3xl text-blue-600" />
+          <h3 className="text-lg font-bold text-blue-800">Security Tips</h3>
+        </div>
+        <ul className="text-blue-700 space-y-2 text-sm">
+          <li>• Use a strong password with at least 8 characters</li>
+          <li>• Include uppercase, lowercase, numbers, and symbols</li>
+          <li>• Don't share your admin credentials with anyone</li>
+          <li>• Change your password regularly (every 3-6 months)</li>
+          <li>• Log out when using shared computers</li>
+        </ul>
       </div>
     </div>
   );
