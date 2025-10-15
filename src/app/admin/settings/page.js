@@ -153,7 +153,8 @@ export default function SettingsPage() {
               type="email"
               value={adminEmail}
               onChange={(e) => setAdminEmail(e.target.value)}
-              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-violet-500"
+              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-violet-500 text-gray-900"
+              style={{ WebkitTextFillColor: '#111827' }}
               required
             />
           </div>
@@ -166,7 +167,8 @@ export default function SettingsPage() {
               type="password"
               value={currentPasswordForEmail}
               onChange={(e) => setCurrentPasswordForEmail(e.target.value)}
-              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-violet-500"
+              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-violet-500 text-gray-900"
+              style={{ WebkitTextFillColor: '#111827' }}
               placeholder="Enter your current password"
               required
             />
@@ -200,7 +202,8 @@ export default function SettingsPage() {
               type="password"
               value={currentPassword}
               onChange={(e) => setCurrentPassword(e.target.value)}
-              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-violet-500"
+              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-violet-500 text-gray-900"
+              style={{ WebkitTextFillColor: '#111827' }}
               placeholder="Enter your current password"
               required
             />
@@ -214,7 +217,8 @@ export default function SettingsPage() {
               type="password"
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
-              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-violet-500"
+              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-violet-500 text-gray-900"
+              style={{ WebkitTextFillColor: '#111827' }}
               placeholder="Enter new password (min 6 characters)"
               required
             />
@@ -228,7 +232,8 @@ export default function SettingsPage() {
               type="password"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
-              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-violet-500"
+              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-violet-500 text-gray-900"
+              style={{ WebkitTextFillColor: '#111827' }}
               placeholder="Confirm new password"
               required
             />

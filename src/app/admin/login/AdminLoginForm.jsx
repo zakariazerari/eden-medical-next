@@ -182,8 +182,9 @@ export default function AdminLoginForm() {
               placeholder="admin@eden.com"
               value={resetEmail}
               onChange={(e) => setResetEmail(e.target.value)}
-              className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-violet-500 focus:outline-none"
+              className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-violet-500 focus:outline-none text-gray-900"
               disabled={resetLoading}
+              style={{ WebkitTextFillColor: '#111827' }}
             />
           </div>
 
@@ -291,8 +292,10 @@ export default function AdminLoginForm() {
             placeholder="admin@eden.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-violet-500 focus:outline-none"
+            autoComplete="username"
+            className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-violet-500 focus:outline-none text-gray-900"
             disabled={loading || isBlocked}
+            style={{ WebkitTextFillColor: '#111827' }}
           />
         </div>
 
@@ -303,8 +306,10 @@ export default function AdminLoginForm() {
             placeholder="Your password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full pl-10 pr-12 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-violet-500 focus:outline-none"
+            autoComplete="current-password"
+            className="w-full pl-10 pr-12 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-violet-500 focus:outline-none text-gray-900"
             disabled={loading || isBlocked}
+            style={{ WebkitTextFillColor: '#111827' }}
           />
           <button
             type="button"

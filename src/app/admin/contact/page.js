@@ -160,7 +160,8 @@ export default function ContactPage() {
               placeholder="Search by name, email, phone, or message..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-violet-500"
+              className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-violet-500 text-gray-900"
+              style={{ WebkitTextFillColor: '#111827' }}
             />
           </div>
           <div className="relative">
@@ -168,7 +169,8 @@ export default function ContactPage() {
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-violet-500"
+              className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-violet-500 text-gray-900"
+              style={{ WebkitTextFillColor: '#111827' }}
             >
               <option value="all">All Status</option>
               <option value="pending">Pending</option>

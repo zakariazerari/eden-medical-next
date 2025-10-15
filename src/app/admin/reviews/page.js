@@ -136,7 +136,8 @@ export default function AdminReviewsPage() {
             <select 
               value={filter} 
               onChange={(e) => setFilter(e.target.value)}
-              className="w-full pl-10 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-violet-500"
+              className="w-full pl-10 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-violet-500 text-gray-900"
+              style={{ WebkitTextFillColor: '#111827' }}
             >
               <option value="all">All Reviews</option>
               <option value="pending">Pending Only</option>
@@ -148,7 +149,8 @@ export default function AdminReviewsPage() {
             <select 
               value={selectedDriver} 
               onChange={(e) => setSelectedDriver(e.target.value)}
-              className="w-full pl-10 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-violet-500"
+              className="w-full pl-10 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-violet-500 text-gray-900"
+              style={{ WebkitTextFillColor: '#111827' }}
             >
               <option value="all">All Drivers</option>
               {drivers.map(d => (

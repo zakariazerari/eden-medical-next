@@ -231,7 +231,8 @@ export default function DriversPage() {
                   value={formData.name}
                   onChange={handleInputChange}
                   required
-                  className="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-violet-500"
+                  className="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-violet-500 text-gray-900"
+                  style={{ WebkitTextFillColor: '#111827' }}
                   placeholder="e.g., Ahmed Hassan"
                 />
               </div>
@@ -246,7 +247,8 @@ export default function DriversPage() {
                   required
                   min="18"
                   max="70"
-                  className="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-violet-500"
+                  className="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-violet-500 text-gray-900"
+                  style={{ WebkitTextFillColor: '#111827' }}
                 />
               </div>
             </div>
