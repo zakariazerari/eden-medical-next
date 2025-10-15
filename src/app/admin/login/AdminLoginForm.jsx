@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { FaUser, FaLock, FaShieldAlt } from "react-icons/fa";
+import { FaUser, FaLock, FaShieldAlt, FaEye, FaEyeSlash } from "react-icons/fa";
 import { toast } from "react-hot-toast";
 
 export default function AdminLoginForm() {
@@ -12,6 +12,7 @@ export default function AdminLoginForm() {
   const [showForgotPassword, setShowForgotPassword] = useState(false);
   const [resetEmail, setResetEmail] = useState("");
   const [resetLoading, setResetLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   
   // Security features
   const [loginAttempts, setLoginAttempts] = useState(0);
@@ -298,13 +299,25 @@ export default function AdminLoginForm() {
         <div className="mb-4 relative">
           <FaLock className="absolute top-3.5 left-3 text-violet-500" />
           <input
-            type="password"
+            type={showPassword ? "text" : "password"}
             placeholder="Your password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-violet-500 focus:outline-none"
+            className="w-full pl-10 pr-12 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-violet-500 focus:outline-none"
             disabled={loading || isBlocked}
           />
+          <button
+            type="button"
+            onClick={() => setShowPassword(!showPassword)}
+            className="absolute top-3.5 right-3 text-violet-500 hover:text-violet-700 transition-colors focus:outline-none"
+            disabled={loading || isBlocked}
+          >
+            {showPassword ? (
+              <FaEyeSlash className="text-xl" />
+            ) : (
+              <FaEye className="text-xl" />
+            )}
+          </button>
         </div>
 
         <div className="flex items-center justify-between mb-6">
