@@ -4,7 +4,7 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { FaLock, FaShieldAlt } from "react-icons/fa";
 import { toast } from "react-hot-toast";
 
-// ✅ Create separate component for the form
+// Separate component for form with useSearchParams
 function ResetPasswordForm() {
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -122,12 +122,12 @@ function ResetPasswordForm() {
   );
 }
 
-// ✅ Wrap in Suspense
+// Main component wrapped in Suspense
 export default function ResetPasswordPage() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-violet-600">Loading...</div>
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-tr from-violet-100 via-white to-indigo-100">
+        <div className="text-violet-600 text-lg">Loading...</div>
       </div>
     }>
       <ResetPasswordForm />
