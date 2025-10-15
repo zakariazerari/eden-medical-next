@@ -1,14 +1,21 @@
 import { NextResponse } from "next/server";
+import { connectDB } from "@/lib/mongo";
 import { verifyAdmin } from "@/utils/auth";
 import { checkRateLimit } from "@/lib/rateLimit";
 
 export async function POST(request) {
   try {
+    // ✅ IMPORTANT: Connect to database first
+    await connectDB();
+    console.log("✅ Database connected");
+
     const { email, password, rememberMe } = await request.json();
     const ip = request.headers.get('x-forwarded-for') || 'unknown';
     
+    console.log("🔐 Login attempt:", email);
+
     // Rate limiting
-    const rateCheck = checkRateLimit(ip, 10, 300000); // 10 attempts per 5 min
+    const rateCheck = checkRateLimit(ip, 10, 300000);
     
     if (!rateCheck.allowed) {
       return NextResponse.json(
@@ -20,11 +27,14 @@ export async function POST(request) {
     const isValid = await verifyAdmin(email, password);
 
     if (!isValid) {
+      console.log("❌ Invalid credentials");
       return NextResponse.json(
         { success: false, error: "Invalid credentials" },
         { status: 401 }
       );
     }
+
+    console.log("✅ Login successful:", email);
 
     const response = NextResponse.json({ success: true });
     
@@ -46,14 +56,11 @@ export async function POST(request) {
       sameSite: "strict",
     });
 
-    // Log successful login
-    console.log(`✅ Admin login: ${email} from ${ip}`);
-
     return response;
   } catch (error) {
-    console.error("Login error:", error);
+    console.error("❌ Login error:", error);
     return NextResponse.json(
-      { success: false, error: "Server error" },
+      { success: false, error: "Server error: " + error.message },
       { status: 500 }
     );
   }
