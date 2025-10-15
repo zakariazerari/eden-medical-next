@@ -205,3 +205,68 @@ input:focus-visible {
 .dark .floating-background div {
   opacity: 0.2;
 }
+
+/* ===== FIX INPUT TEXT COLORS FOR iOS/iPhone ===== */
+
+/* Text li kat-ktبيه يكون dark/black visible */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="tel"],
+input[type="url"],
+input[type="search"],
+input[type="date"],
+input[type="time"],
+textarea,
+select {
+  color: #111827 !important;
+  -webkit-text-fill-color: #111827 !important;
+}
+
+/* Placeholder يبقا gray fati7 */
+input::placeholder,
+textarea::placeholder {
+  color: #9ca3af !important;
+  -webkit-text-fill-color: #9ca3af !important;
+  opacity: 1 !important;
+}
+
+/* Fix autofill styling on iOS */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-text-fill-color: #111827 !important;
+  -webkit-box-shadow: 0 0 0px 1000px white inset !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+/* Dark mode input text */
+.dark input[type="text"],
+.dark input[type="email"],
+.dark input[type="password"],
+.dark input[type="number"],
+.dark input[type="tel"],
+.dark input[type="url"],
+.dark input[type="search"],
+.dark input[type="date"],
+.dark input[type="time"],
+.dark textarea,
+.dark select {
+  color: #f3f4f6 !important;
+  -webkit-text-fill-color: #f3f4f6 !important;
+}
+
+.dark input::placeholder,
+.dark textarea::placeholder {
+  color: #6b7280 !important;
+  -webkit-text-fill-color: #6b7280 !important;
+}
+
+.dark input:-webkit-autofill,
+.dark input:-webkit-autofill:hover,
+.dark input:-webkit-autofill:focus {
+  -webkit-text-fill-color: #f3f4f6 !important;
+  -webkit-box-shadow: 0 0 0px 1000px #374151 inset !important;
+}
