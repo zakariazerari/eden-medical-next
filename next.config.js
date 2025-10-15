@@ -1,17 +1,23 @@
 /** @type {import('next').NextConfig} */
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
+})
+
 const nextConfig = {
   eslint: {
-    // Disable ESLint during production builds
     ignoreDuringBuilds: true,
   },
   typescript: {
-    // Disable TypeScript errors during builds (if any)
     ignoreBuildErrors: true,
   },
   images: {
     domains: ['localhost'],
-    unoptimized: true,
+    formats: ['image/avif', 'image/webp'],
   },
+  swcMinify: true,
+  reactStrictMode: true,
+  poweredByHeader: false,
+  compress: true,
 }
 
-module.exports = nextConfig
+module.exports = withBundleAnalyzer(nextConfig)
