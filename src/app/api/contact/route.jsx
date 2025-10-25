@@ -1,17 +1,18 @@
-// app/api/contact/route.js
 import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/mongo";
 import ContactMessage from "@/models/ContactMessage";
 import { sendContactMail } from "@/lib/mailer";
 
-// GET: Fetch all messages
+// GET: Fetch all messages - OPTIMIZED
 export async function GET() {
   try {
     await connectDB();
 
+    // ✅ Add .lean() for faster queries
     const messages = await ContactMessage.find()
       .sort({ createdAt: -1 })
-      .limit(500);
+      .limit(500)
+      .lean();
 
     return NextResponse.json(messages, { status: 200 });
   } catch (error) {
@@ -51,23 +52,9 @@ export async function POST(req) {
       );
     }
 
-    // Get IP address for spam protection
+    // Get IP
     const forwarded = req.headers.get("x-forwarded-for");
     const ip = forwarded ? forwarded.split(",")[0] : req.ip || "unknown";
-
-    // ⚠️ Spam check temporarily disabled for testing
-    // const fiveMinutesAgo = new Date(Date.now() - 5 * 60 * 1000);
-    // const recentMessage = await ContactMessage.findOne({
-    //   ipAddress: ip,
-    //   createdAt: { $gte: fiveMinutesAgo }
-    // }).select('+ipAddress');
-
-    // if (recentMessage) {
-    //   return NextResponse.json(
-    //     { message: "Please wait before sending another message" },
-    //     { status: 429 }
-    //   );
-    // }
 
     // Create message
     const message = await ContactMessage.create({
@@ -79,17 +66,12 @@ export async function POST(req) {
       status: 'pending'
     });
 
-    // Send email notification (async, don't block response)
-    try {
-      await sendContactMail({
-        fullName: message.fullName,
-        email: message.email,
-        message: message.message
-      });
-      console.log("✅ Contact email sent successfully");
-    } catch (emailError) {
-      console.error("⚠️ Email failed but message saved:", emailError);
-    }
+    // Send email (async, non-blocking)
+    sendContactMail({
+      fullName: message.fullName,
+      email: message.email,
+      message: message.message
+    }).catch(err => console.error("Email error:", err));
 
     return NextResponse.json(
       { 

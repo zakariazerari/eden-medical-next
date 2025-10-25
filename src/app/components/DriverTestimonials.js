@@ -6,7 +6,6 @@ import toast from "react-hot-toast";
 
 export default function DriverTestimonials() {
   const [drivers, setDrivers] = useState([]);
-  const [reviews, setReviews] = useState({});
   const [loading, setLoading] = useState(true);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [currentReviewIndex, setCurrentReviewIndex] = useState({});
@@ -25,91 +24,47 @@ export default function DriverTestimonials() {
 
   const fetchData = async () => {
     try {
-      // جلب السائقين
-      const driversRes = await fetch("/api/drivers");
-      const driversData = await driversRes.json();
+      // ✅ OPTIMIZED: Single API call with all data
+      const res = await fetch("/api/drivers?includeReviews=true");
+      const data = await res.json();
 
-      if (driversData.success) {
-        setDrivers(driversData.drivers);
+      if (data.success) {
+        // Filter only active drivers with images
+        const activeDrivers = data.drivers.filter(d => d.isActive && d.image);
+        setDrivers(activeDrivers);
 
-        // جلب Reviews المعتمدة لكل سائق
-        const reviewsData = {};
-        for (const driver of driversData.drivers) {
-          const reviewsRes = await fetch(`/api/reviews?driverId=${driver._id}`);
-          const data = await reviewsRes.json();
-          if (data.success) {
-            reviewsData[driver._id] = data.reviews;
-          }
-        }
-        setReviews(reviewsData);
-
-        // تهيئة مؤشرات المراجعات
+        // Initialize review indexes
         const initialIndexes = {};
-        driversData.drivers.forEach(driver => {
+        activeDrivers.forEach(driver => {
           initialIndexes[driver._id] = 0;
         });
         setCurrentReviewIndex(initialIndexes);
       }
     } catch (error) {
       console.error("Error fetching data:", error);
+      toast.error("Failed to load drivers");
     } finally {
       setLoading(false);
     }
   };
 
-  // Auto-play carousel للسائقين
+  // Auto-play carousel for drivers
   useEffect(() => {
-    if (!isAutoPlaying || activeDrivers.length === 0) return;
+    if (!isAutoPlaying || drivers.length === 0) return;
     const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % activeDrivers.length);
+      setCurrentSlide((prev) => (prev + 1) % drivers.length);
     }, 7000);
     return () => clearInterval(interval);
-  }, [isAutoPlaying, drivers]);
-
-  // Auto-play للمراجعات
-  useEffect(() => {
-    const intervals = {};
-    activeDrivers.forEach(driver => {
-      const driverReviews = reviews[driver._id] || [];
-      if (driverReviews.length > 1) {
-        intervals[driver._id] = setInterval(() => {
-          setCurrentReviewIndex(prev => ({
-            ...prev,
-            [driver._id]: (prev[driver._id] + 1) % driverReviews.length
-          }));
-        }, 5000);
-      }
-    });
-
-    return () => {
-      Object.values(intervals).forEach(interval => clearInterval(interval));
-    };
-  }, [drivers, reviews]);
-
-  const activeDrivers = drivers.filter(d => d.isActive);
+  }, [isAutoPlaying, drivers.length]);
 
   const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % activeDrivers.length);
+    setCurrentSlide((prev) => (prev + 1) % drivers.length);
     setIsAutoPlaying(false);
   };
 
   const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + activeDrivers.length) % activeDrivers.length);
+    setCurrentSlide((prev) => (prev - 1 + drivers.length) % drivers.length);
     setIsAutoPlaying(false);
-  };
-
-  const nextReview = (driverId, totalReviews) => {
-    setCurrentReviewIndex(prev => ({
-      ...prev,
-      [driverId]: (prev[driverId] + 1) % totalReviews
-    }));
-  };
-
-  const prevReview = (driverId, totalReviews) => {
-    setCurrentReviewIndex(prev => ({
-      ...prev,
-      [driverId]: (prev[driverId] - 1 + totalReviews) % totalReviews
-    }));
   };
 
   const handleReviewSubmit = async (e, driverId) => {
@@ -133,9 +88,11 @@ export default function DriverTestimonials() {
 
       const data = await res.json();
       if (data.success) {
-        toast.success("✅ Thank you! Your review is pending approval.");
+        toast.success("✅ Thank you! Your review has been posted.");
         setReviewForm({ patientName: "", rating: 5, comment: "" });
         setShowReviewForm(null);
+        // Refresh drivers data
+        fetchData();
       } else {
         toast.error(data.message || "Error submitting review");
       }
@@ -157,7 +114,7 @@ export default function DriverTestimonials() {
     );
   }
 
-  if (activeDrivers.length === 0) {
+  if (drivers.length === 0) {
     return null;
   }
 
@@ -176,169 +133,73 @@ export default function DriverTestimonials() {
         <div className="relative max-w-5xl mx-auto">
           <div className="overflow-hidden py-8 md:py-12">
             <div className="relative h-[800px] md:h-[700px]" style={{ perspective: '1000px' }}>
-              {activeDrivers.map((driver, index) => {
-                const position = (index - currentSlide + activeDrivers.length) % activeDrivers.length;
+              {drivers.map((driver, index) => {
+                const position = (index - currentSlide + drivers.length) % drivers.length;
                 const isCenter = position === 0;
-                const isLeft = position === activeDrivers.length - 1;
+                const isLeft = position === drivers.length - 1;
                 const isRight = position === 1;
                 
-                let transformStyle = "translateX(-50%) translateZ(-300px) scale(0.7)";
-                let opacityStyle = 0.3;
-                let zIndex = 0;
-
-                if (isCenter) {
-                  transformStyle = "translateX(-50%) translateZ(0) scale(1)";
-                  opacityStyle = 1;
-                  zIndex = 10;
-                } else if (isLeft) {
-                  transformStyle = "translateX(-150%) translateZ(-200px) scale(0.8) rotateY(35deg)";
-                  opacityStyle = 0.5;
-                  zIndex = 5;
-                } else if (isRight) {
-                  transformStyle = "translateX(50%) translateZ(-200px) scale(0.8) rotateY(-35deg)";
-                  opacityStyle = 0.5;
-                  zIndex = 5;
-                }
-
-                const driverReviews = reviews[driver._id] || [];
-                const currentReview = driverReviews[currentReviewIndex[driver._id] || 0];
-
                 return (
                   <div
                     key={driver._id}
-                    className="absolute top-0 left-1/2 w-full max-w-2xl transition-all duration-700 ease-out px-4"
+                    className={`absolute top-0 left-1/2 w-full max-w-md transition-all duration-700 ${
+                      isCenter
+                        ? 'transform -translate-x-1/2 z-30 scale-100 opacity-100'
+                        : isLeft
+                        ? 'transform -translate-x-[150%] z-10 scale-75 opacity-40'
+                        : isRight
+                        ? 'transform translate-x-[50%] z-10 scale-75 opacity-40'
+                        : 'transform -translate-x-1/2 z-0 scale-50 opacity-0'
+                    }`}
                     style={{
-                      transform: transformStyle,
-                      opacity: opacityStyle,
-                      zIndex: zIndex,
+                      transformStyle: 'preserve-3d'
                     }}
                   >
-                    <div className="bg-white rounded-3xl shadow-2xl p-6 md:p-10">
-                      {/* Driver Info */}
-                      <div className="flex flex-col md:flex-row items-center md:items-start gap-4 md:gap-6 mb-6">
-                        <div className="relative flex-shrink-0">
-                          <div className="relative w-24 h-24 md:w-28 md:h-28 rounded-full overflow-hidden border-4 border-violet-500 shadow-lg">
-                            {driver.image ? (
-                              <Image src={driver.image} alt={driver.name} fill className="object-cover" />
-                            ) : (
-                              <div className="w-full h-full bg-gradient-to-br from-violet-400 to-indigo-500 flex items-center justify-center">
-                                <FaUserCircle className="text-7xl text-white" />
-                              </div>
-                            )}
-                          </div>
-                          <div className="absolute -bottom-2 -right-2 bg-green-500 w-8 h-8 rounded-full border-4 border-white flex items-center justify-center">
-                            <span className="text-white text-xs font-bold">✓</span>
-                          </div>
-                        </div>
-                        
-                        <div className="flex-1 text-center md:text-left">
-                          <h3 className="text-2xl md:text-3xl font-bold text-slate-800 mb-1">
-                            {driver.name}
-                          </h3>
-                          <p className="text-slate-600 text-base md:text-lg mb-3">
-                            {driver.age} years old • Professional Driver
-                          </p>
-                          
-                          <div className="flex flex-col md:flex-row items-center md:items-start gap-2 mb-2">
-                            <div className="flex items-center gap-2">
-                              <div className="flex gap-1">
-                                {[...Array(5)].map((_, i) => (
-                                  <FaStar
-                                    key={i}
-                                    className={`text-lg md:text-xl ${
-                                      i < Math.round(driver.averageRating) ? "text-yellow-500" : "text-slate-300"
-                                    }`}
-                                  />
-                                ))}
-                              </div>
-                              <span className="text-slate-800 font-bold text-lg">
-                                {driver.averageRating || 0}
-                              </span>
+                    <div className="bg-white rounded-3xl shadow-2xl p-6 md:p-8 border-4 border-violet-200">
+                      {/* Driver Image */}
+                      <div className="flex justify-center mb-6">
+                        <div className="relative w-32 h-32 rounded-full overflow-hidden border-4 border-violet-600 shadow-xl">
+                          {driver.image ? (
+                            <Image
+                              src={driver.image}
+                              alt={driver.name}
+                              fill
+                              className="object-cover"
+                              sizes="128px"
+                              priority={isCenter}
+                            />
+                          ) : (
+                            <div className="w-full h-full bg-gradient-to-br from-violet-500 to-indigo-500 flex items-center justify-center">
+                              <FaUserCircle className="text-7xl text-white" />
                             </div>
-                            <span className="text-slate-600 font-semibold text-sm md:text-base">
-                              ({driver.totalReviews || 0} review{driver.totalReviews !== 1 ? 's' : ''})
-                            </span>
-                          </div>
-
-                          {driver.averageRating >= 4.5 && (
-                            <span className="inline-block bg-gradient-to-r from-green-500 to-emerald-600 text-white px-3 py-1 rounded-full text-xs font-bold">
-                              ⭐ EXCELLENT DRIVER
-                            </span>
                           )}
                         </div>
                       </div>
 
-                      {/* Current Review or No Reviews */}
-                      {currentReview ? (
-                        <div className="relative">
-                          <div className="bg-gradient-to-br from-violet-50 to-indigo-50 rounded-2xl p-6 md:p-8 mb-4">
-                            <div className="flex items-start justify-between mb-4">
-                              <FaQuoteLeft className="text-3xl md:text-4xl text-violet-400" />
-                              <div className="flex gap-1">
-                                {[...Array(5)].map((_, i) => (
-                                  <FaStar
-                                    key={i}
-                                    className={`text-base ${
-                                      i < currentReview.rating ? "text-yellow-500" : "text-slate-300"
-                                    }`}
-                                  />
-                                ))}
-                              </div>
-                            </div>
-                            
-                            <p className="text-slate-700 text-base md:text-lg leading-relaxed italic mb-4">
-                              {currentReview.comment}
-                            </p>
-                            
-                            <div className="flex items-center justify-between">
-                              <p className="font-bold text-violet-800">
-                                — {currentReview.patientName}
-                              </p>
-                              <p className="text-xs text-slate-500">
-                                {new Date(currentReview.date).toLocaleDateString()}
-                              </p>
-                            </div>
+                      {/* Driver Info */}
+                      <div className="text-center mb-6">
+                        <h3 className="text-3xl font-bold text-violet-800 mb-2">{driver.name}</h3>
+                        <p className="text-slate-600 mb-3">Age: {driver.age} years</p>
+                        
+                        <div className="flex items-center justify-center gap-3 mb-2">
+                          <div className="flex gap-1">
+                            {[...Array(5)].map((_, i) => (
+                              <FaStar 
+                                key={i} 
+                                className={i < Math.round(driver.averageRating || 0) ? "text-yellow-500" : "text-slate-300"} 
+                              />
+                            ))}
                           </div>
-
-                          {driverReviews.length > 1 && isCenter && (
-                            <div className="flex justify-center items-center gap-4 mb-4">
-                              <button
-                                onClick={() => prevReview(driver._id, driverReviews.length)}
-                                className="p-2 bg-violet-600 text-white rounded-full hover:bg-violet-700"
-                              >
-                                <FaChevronLeft />
-                              </button>
-                              
-                              <div className="flex gap-2">
-                                {driverReviews.map((_, idx) => (
-                                  <button
-                                    key={idx}
-                                    onClick={() => setCurrentReviewIndex(prev => ({ ...prev, [driver._id]: idx }))}
-                                    className={`h-2 rounded-full transition-all ${
-                                      idx === (currentReviewIndex[driver._id] || 0)
-                                        ? "w-8 bg-violet-600"
-                                        : "w-2 bg-slate-300"
-                                    }`}
-                                  />
-                                ))}
-                              </div>
-
-                              <button
-                                onClick={() => nextReview(driver._id, driverReviews.length)}
-                                className="p-2 bg-violet-600 text-white rounded-full hover:bg-violet-700"
-                              >
-                                <FaChevronRight />
-                              </button>
-                            </div>
-                          )}
+                          <span className="font-bold text-xl text-violet-800">
+                            {driver.averageRating || 0}
+                          </span>
                         </div>
-                      ) : (
-                        <div className="bg-violet-50 rounded-2xl p-6 mb-4 text-center">
-                          <p className="text-slate-600">No reviews yet. Be the first to review!</p>
-                        </div>
-                      )}
+                        <p className="text-sm text-slate-600">
+                          {driver.totalReviews || 0} {driver.totalReviews === 1 ? 'review' : 'reviews'}
+                        </p>
+                      </div>
 
-                      {/* Add Review Button/Form */}
+                      {/* Review Form/Button */}
                       {isCenter && (
                         <>
                           {showReviewForm === driver._id ? (
@@ -426,7 +287,7 @@ export default function DriverTestimonials() {
             </div>
           </div>
 
-          {/* Driver Navigation */}
+          {/* Navigation */}
           <button
             onClick={prevSlide}
             className="absolute left-2 md:left-0 top-1/2 -translate-y-1/2 bg-white text-violet-600 p-3 md:p-4 rounded-full shadow-xl hover:bg-violet-50 transition-all hover:scale-110 z-20"
@@ -440,9 +301,9 @@ export default function DriverTestimonials() {
             <FaChevronRight className="text-xl md:text-2xl" />
           </button>
 
-          {/* Driver Indicators */}
+          {/* Indicators */}
           <div className="flex justify-center gap-2 md:gap-3 mt-8">
-            {activeDrivers.map((_, index) => (
+            {drivers.map((_, index) => (
               <button
                 key={index}
                 onClick={() => {
@@ -463,19 +324,19 @@ export default function DriverTestimonials() {
         <div className="mt-16 bg-gradient-to-r from-violet-700 to-indigo-700 rounded-3xl p-8 md:p-12 shadow-2xl">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 text-center text-white">
             <div className="transform hover:scale-105 transition-transform">
-              <div className="text-4xl md:text-5xl font-bold mb-2">{activeDrivers.length}+</div>
+              <div className="text-4xl md:text-5xl font-bold mb-2">{drivers.length}+</div>
               <p className="text-lg md:text-xl text-violet-100">Certified Drivers</p>
             </div>
             <div className="transform hover:scale-105 transition-transform">
               <div className="text-4xl md:text-5xl font-bold mb-2">
-                {activeDrivers.reduce((sum, d) => sum + (d.totalReviews || 0), 0)}+
+                {drivers.reduce((sum, d) => sum + (d.totalReviews || 0), 0)}+
               </div>
               <p className="text-lg md:text-xl text-violet-100">Happy Patients</p>
             </div>
             <div className="transform hover:scale-105 transition-transform">
               <div className="text-4xl md:text-5xl font-bold mb-2">
-                {activeDrivers.length > 0
-                  ? (activeDrivers.reduce((sum, d) => sum + (parseFloat(d.averageRating) || 0), 0) / activeDrivers.length).toFixed(1)
+                {drivers.length > 0
+                  ? (drivers.reduce((sum, d) => sum + (parseFloat(d.averageRating) || 0), 0) / drivers.length).toFixed(1)
                   : 0}⭐
               </div>
               <p className="text-lg md:text-xl text-violet-100">Average Rating</p>

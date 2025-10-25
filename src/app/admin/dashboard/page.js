@@ -34,11 +34,9 @@ export default function DashboardPage() {
       const bookings = await bookingsRes.json();
       const statsData = await statsRes.json();
 
-      // Handle bookings
       const bookingsArray = Array.isArray(bookings) ? bookings : [];
       setRecentBookings(bookingsArray.slice(0, 5));
 
-      // Handle stats
       setStats({
         totalBookings: statsData?.bookings?.totalBookings || 0,
         confirmedBookings: statsData?.bookings?.confirmedBookings || 0,
@@ -59,16 +57,16 @@ export default function DashboardPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen md:ml-64">
-        <div className="w-16 h-16 border-4 border-violet-200 rounded-full border-t-violet-600 animate-spin"></div>
+        <div className="w-16 h-16 border-4 border-gray-200 rounded-full border-t-gray-600 animate-spin"></div>
       </div>
     );
   }
 
   return (
-    <div className="p-6 md:ml-64 space-y-8">
+    <div className="p-6 md:ml-64 space-y-8 bg-gray-50 min-h-screen">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-4xl font-extrabold text-violet-800">
+          <h1 className="text-4xl font-extrabold text-gray-800">
             Welcome Back, Admin 👋
           </h1>
           <p className="text-gray-600 mt-2">Here's what's happening with your business today</p>
@@ -88,44 +86,44 @@ export default function DashboardPage() {
           title="Confirmed"
           value={stats.confirmedBookings}
           icon={FaCheckCircle}
-          color="from-green-500 to-green-600"
+          color="from-green-400 to-green-500"
           link="/admin/bookings"
         />
         <StatCard
           title="Pending"
           value={stats.pendingBookings}
           icon={FaClock}
-          color="from-yellow-500 to-yellow-600"
+          color="from-yellow-400 to-yellow-500"
           link="/admin/bookings"
         />
         <StatCard
           title="Messages"
           value={stats.totalMessages}
           icon={FaEnvelope}
-          color="from-purple-500 to-purple-600"
+          color="from-red-500 to-red-600"
           link="/admin/contact"
         />
         <StatCard
           title="Drivers"
           value={stats.totalDrivers}
           icon={FaUsers}
-          color="from-indigo-500 to-indigo-600"
+          color="from-gray-600 to-gray-700"
           link="/admin/drivers"
         />
         <StatCard
           title="Reviews"
           value={stats.totalReviews}
           icon={FaStar}
-          color="from-pink-500 to-pink-600"
+          color="from-red-600 to-red-700"
           link="/admin/reviews"
         />
       </div>
 
       {/* Recent Bookings */}
-      <div className="bg-white rounded-2xl shadow-xl p-6">
+      <div className="bg-white rounded-2xl shadow-xl p-6 border border-gray-200">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold text-violet-800">Recent Bookings</h2>
-          <Link href="/admin/bookings" className="text-violet-600 hover:text-violet-700 font-semibold">
+          <h2 className="text-2xl font-bold text-gray-800">Recent Bookings</h2>
+          <Link href="/admin/bookings" className="text-blue-600 hover:text-blue-700 font-semibold transition">
             View All →
           </Link>
         </div>
@@ -135,7 +133,7 @@ export default function DashboardPage() {
             {recentBookings.map((booking) => (
               <div
                 key={booking._id}
-                className="flex items-center justify-between p-4 border border-violet-100 rounded-xl hover:shadow-md transition-shadow"
+                className="flex items-center justify-between p-4 border border-gray-200 rounded-xl hover:shadow-md hover:border-gray-300 transition-all bg-white"
               >
                 <div className="flex-1">
                   <h3 className="font-semibold text-gray-800">{booking.patientName}</h3>
@@ -149,10 +147,10 @@ export default function DashboardPage() {
                 <span
                   className={`px-3 py-1 rounded-full text-xs font-bold ${
                     booking.status === "confirmed"
-                      ? "bg-green-100 text-green-700"
+                      ? "bg-blue-100 text-blue-700"
                       : booking.status === "canceled"
                       ? "bg-red-100 text-red-700"
-                      : "bg-yellow-100 text-yellow-700"
+                      : "bg-gray-100 text-gray-700"
                   }`}
                 >
                   {booking.status || "pending"}
@@ -169,18 +167,18 @@ export default function DashboardPage() {
       </div>
 
       {/* Quick Actions */}
-      <div className="bg-gradient-to-r from-violet-600 to-indigo-600 rounded-2xl shadow-xl p-8 text-white">
+      <div className="bg-gradient-to-r from-gray-700 to-gray-800 rounded-2xl shadow-xl p-8 text-white">
         <h2 className="text-2xl font-bold mb-6">Quick Actions</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <Link href="/admin/bookings" className="bg-white/20 hover:bg-white/30 p-4 rounded-xl transition-all text-center">
+          <Link href="/admin/bookings" className="bg-white/15 hover:bg-white/25 p-4 rounded-xl transition-all text-center backdrop-blur-sm border border-white/10">
             <FaCalendarCheck className="text-3xl mx-auto mb-2" />
             <p className="font-semibold">View Bookings</p>
           </Link>
-          <Link href="/admin/drivers" className="bg-white/20 hover:bg-white/30 p-4 rounded-xl transition-all text-center">
+          <Link href="/admin/drivers" className="bg-white/15 hover:bg-white/25 p-4 rounded-xl transition-all text-center backdrop-blur-sm border border-white/10">
             <FaUsers className="text-3xl mx-auto mb-2" />
             <p className="font-semibold">Manage Drivers</p>
           </Link>
-          <Link href="/admin/reviews" className="bg-white/20 hover:bg-white/30 p-4 rounded-xl transition-all text-center">
+          <Link href="/admin/reviews" className="bg-white/15 hover:bg-white/25 p-4 rounded-xl transition-all text-center backdrop-blur-sm border border-white/10">
             <FaStar className="text-3xl mx-auto mb-2" />
             <p className="font-semibold">Review Management</p>
           </Link>

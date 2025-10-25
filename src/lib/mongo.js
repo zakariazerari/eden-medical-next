@@ -1,7 +1,5 @@
-// lib/mongo.js
 import mongoose from "mongoose";
 
-// Support both MONGODB_URI and MONGO_URI
 const MONGODB_URI = process.env.MONGODB_URI || process.env.MONGO_URI;
 
 if (!MONGODB_URI) {
@@ -23,22 +21,18 @@ export async function connectDB() {
     const opts = {
       bufferCommands: false,
       maxPoolSize: 10,
-      serverSelectionTimeoutMS: 30000,
+      serverSelectionTimeoutMS: 10000, // 10s timeout
       socketTimeoutMS: 45000,
-      connectTimeoutMS: 30000,
-      tls: true,
-      tlsAllowInvalidCertificates: true,
-      tlsAllowInvalidHostnames: true,
-      family: 4,
+      connectTimeoutMS: 10000,
     };
 
     cached.promise = mongoose.connect(MONGODB_URI, opts)
       .then((mongoose) => {
-        console.log("✅ MongoDB connected successfully");
+        console.log("✅ MongoDB connected");
         return mongoose;
       })
       .catch((err) => {
-        console.error("❌ MongoDB connection error:", err);
+        console.error("❌ MongoDB error:", err);
         cached.promise = null;
         throw err;
       });

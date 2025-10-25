@@ -14,7 +14,8 @@ import {
   FaSignOutAlt,
   FaCog,
   FaUsers,
-  FaStar, // ✅ NEW - أيقونة Reviews
+  FaStar,
+  FaImages, // ✅ NEW - أيقونة Reviews
 } from "react-icons/fa";
 import toast from "react-hot-toast";
 
@@ -27,6 +28,7 @@ export default function Sidebar() {
     { name: "Dashboard", path: "/admin/dashboard", icon: FaHome },
     { name: "Bookings", path: "/admin/bookings", icon: FaCalendarCheck },
     { name: "Drivers", path: "/admin/drivers", icon: FaUsers },
+    { name: "Gallery", path: "/admin/gallery", icon: FaImages },
     { name: "Reviews", path: "/admin/reviews", icon: FaStar }, // ✅ NEW
     { name: "Messages", path: "/admin/contact", icon: FaEnvelope },
     { name: "Statistics", path: "/admin/stats", icon: FaChartBar },
@@ -45,16 +47,16 @@ export default function Sidebar() {
       <div className="md:hidden fixed top-4 left-4 z-50">
         <button
           onClick={() => setOpen(true)}
-          className="p-3 rounded-full bg-gradient-to-r from-violet-700 to-indigo-800 text-white shadow-2xl hover:scale-110 transition-transform"
+          className="p-3 rounded-full bg-gradient-to-r from-red-700 to-blue-700 text-white shadow-2xl hover:scale-110 transition-transform"
         >
           <FaBars className="text-2xl" />
         </button>
       </div>
 
       {/* Desktop Sidebar */}
-      <div className="hidden md:flex flex-col w-64 h-screen bg-gradient-to-b from-indigo-900 via-violet-900 to-indigo-950 text-white shadow-2xl fixed">
-        <div className="p-6 text-center border-b border-violet-600/40">
-          <h2 className="text-2xl font-extrabold bg-gradient-to-r from-violet-300 to-indigo-300 bg-clip-text text-transparent">
+      <div className="hidden md:flex flex-col w-64 h-screen bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 text-white shadow-2xl fixed">
+        <div className="p-6 text-center border-b border-gray-700/40">
+          <h2 className="text-2xl font-extrabold bg-gradient-to-r from-red-400 to-blue-400 bg-clip-text text-transparent">
             🚀 Eden Admin
           </h2>
         </div>
@@ -66,8 +68,8 @@ export default function Sidebar() {
               href={path}
               className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 ${
                 pathname === path
-                  ? "bg-violet-600 shadow-lg scale-105"
-                  : "hover:bg-violet-700/50 hover:translate-x-1"
+                  ? "bg-gradient-to-r from-red-600 to-red-700 shadow-lg scale-105"
+                  : "hover:bg-gray-700/50 hover:translate-x-1"
               }`}
             >
               <Icon className="text-xl" />
@@ -76,7 +78,7 @@ export default function Sidebar() {
           ))}
         </nav>
 
-        <div className="p-6 border-t border-violet-600/40">
+        <div className="p-6 border-t border-gray-700/40">
           <button
             onClick={handleLogout}
             className="flex items-center gap-3 w-full px-4 py-3 bg-red-600/80 hover:bg-red-700 rounded-xl transition-all duration-300"
@@ -104,10 +106,10 @@ export default function Sidebar() {
               animate={{ x: 0, opacity: 1 }}
               exit={{ x: "-100%", opacity: 0 }}
               transition={{ duration: 0.3, type: "spring" }}
-              className="fixed top-0 left-0 w-72 h-full bg-gradient-to-b from-indigo-900 via-violet-900 to-indigo-950 text-white z-50 shadow-2xl overflow-y-auto"
+              className="fixed top-0 left-0 w-72 h-full bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 text-white z-50 shadow-2xl overflow-y-auto"
             >
-              <div className="flex items-center justify-between p-6 border-b border-violet-400/40">
-                <h2 className="text-xl font-extrabold">🚀 Eden Admin</h2>
+              <div className="flex items-center justify-between p-6 border-b border-gray-700/40">
+                <h2 className="text-xl font-extrabold bg-gradient-to-r from-red-400 to-blue-400 bg-clip-text text-transparent">🚀 Eden Admin</h2>
                 <button onClick={() => setOpen(false)} className="text-2xl">
                   <FaTimes />
                 </button>
@@ -121,8 +123,8 @@ export default function Sidebar() {
                     onClick={() => setOpen(false)}
                     className={`flex items-center gap-4 px-4 py-3 rounded-xl transition-all ${
                       pathname === path
-                        ? "bg-violet-600 shadow-lg"
-                        : "hover:bg-violet-700/50"
+                        ? "bg-gradient-to-r from-red-600 to-red-700 shadow-lg"
+                        : "hover:bg-gray-700/50"
                     }`}
                   >
                     <Icon className="text-lg" />

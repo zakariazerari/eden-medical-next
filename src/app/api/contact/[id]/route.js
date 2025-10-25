@@ -1,4 +1,3 @@
-// app/api/contact/[id]/route.js
 import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/mongo";
 import ContactMessage from "@/models/ContactMessage";
@@ -10,7 +9,6 @@ export async function PATCH(req, { params }) {
     const { id } = params;
     const { status } = await req.json();
 
-    // Validation
     if (!status || !['pending', 'confirmed', 'canceled'].includes(status)) {
       return NextResponse.json(
         { message: "Invalid status" },
@@ -21,7 +19,7 @@ export async function PATCH(req, { params }) {
     const message = await ContactMessage.findByIdAndUpdate(
       id,
       { status },
-      { new: true, runValidators: true }
+      { new: true, runValidators: true, lean: true } // ✅ Add lean
     );
 
     if (!message) {

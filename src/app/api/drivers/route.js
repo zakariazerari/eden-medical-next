@@ -1,37 +1,85 @@
-// app/api/drivers/route.js
+// app/api/drivers/route.js - OPTIMIZED VERSION
 import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/mongo";
 import Driver from "@/models/Driver";
 import Review from "@/models/Review";
 
-// GET: Fetch all drivers with stats
-export async function GET() {
+// ✅ OPTIMIZED: Batch load reviews with drivers
+export async function GET(request) {
   try {
     await connectDB();
-    const drivers = await Driver.find({}).sort({ createdAt: -1 });
     
-    // Calculate stats for each driver
-    const driversWithStats = await Promise.all(
-      drivers.map(async (driver) => {
-        const reviews = await Review.find({ 
-          driverId: driver._id, 
-          isApproved: true 
-        });
-
-        const totalReviews = reviews.length;
-        const averageRating = totalReviews > 0
-          ? (reviews.reduce((sum, r) => sum + r.rating, 0) / totalReviews).toFixed(1)
-          : 0;
-
-        return {
-          ...driver.toObject(),
-          totalReviews,
-          averageRating: parseFloat(averageRating),
+    const { searchParams } = new URL(request.url);
+    const includeImages = searchParams.get('includeImages') === 'true';
+    const includeReviews = searchParams.get('includeReviews') === 'true';
+    
+    // Fetch all drivers
+    const drivers = await Driver.find().sort({ createdAt: -1 }).lean();
+    
+    if (includeReviews && drivers.length > 0) {
+      // ✅ OPTIMIZATION: Get ALL reviews in ONE query instead of N queries
+      const driverIds = drivers.map(d => d._id);
+      
+      const [reviews, stats] = await Promise.all([
+        // Get all approved reviews
+        Review.find({
+          driverId: { $in: driverIds },
+          isApproved: true
+        })
+        .select('driverId rating')
+        .lean(),
+        
+        // Get stats (count + average) in one aggregation
+        Review.aggregate([
+          {
+            $match: {
+              driverId: { $in: driverIds },
+              isApproved: true
+            }
+          },
+          {
+            $group: {
+              _id: '$driverId',
+              totalReviews: { $sum: 1 },
+              averageRating: { $avg: '$rating' }
+            }
+          }
+        ])
+      ]);
+      
+      // Create stats map for fast lookup
+      const statsMap = {};
+      stats.forEach(stat => {
+        statsMap[stat._id.toString()] = {
+          totalReviews: stat.totalReviews,
+          averageRating: parseFloat(stat.averageRating.toFixed(1))
         };
-      })
-    );
+      });
+      
+      // Attach stats to drivers
+      drivers.forEach(driver => {
+        const driverId = driver._id.toString();
+        const driverStats = statsMap[driverId] || { totalReviews: 0, averageRating: 0 };
+        driver.totalReviews = driverStats.totalReviews;
+        driver.averageRating = driverStats.averageRating;
+      });
+    }
     
-    return NextResponse.json({ success: true, drivers: driversWithStats });
+    // Remove images if not requested (for public API)
+    if (!includeImages) {
+      drivers.forEach(driver => {
+        delete driver.image;
+      });
+    }
+    
+    return NextResponse.json(
+      { success: true, drivers },
+      {
+        headers: {
+          'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600'
+        }
+      }
+    );
   } catch (error) {
     console.error("❌ GET drivers error:", error);
     return NextResponse.json(
@@ -47,17 +95,9 @@ export async function POST(request) {
     await connectDB();
     const body = await request.json();
 
-    // Validation
-    if (!body.name || body.name.trim() === "") {
+    if (!body.name || !body.age) {
       return NextResponse.json(
-        { success: false, message: "Name is required" },
-        { status: 400 }
-      );
-    }
-
-    if (!body.age || body.age < 18 || body.age > 70) {
-      return NextResponse.json(
-        { success: false, message: "Age must be between 18 and 70" },
+        { success: false, message: "Name and age are required" },
         { status: 400 }
       );
     }
@@ -66,21 +106,17 @@ export async function POST(request) {
       name: body.name.trim(),
       age: parseInt(body.age),
       image: body.image || null,
-      isActive: body.isActive !== undefined ? body.isActive : true,
+      isActive: body.isActive !== undefined ? body.isActive : true
     });
 
-    return NextResponse.json({ 
-      success: true, 
-      driver: {
-        ...driver.toObject(),
-        totalReviews: 0,
-        averageRating: 0
-      }
-    }, { status: 201 });
+    return NextResponse.json(
+      { success: true, driver },
+      { status: 201 }
+    );
   } catch (error) {
     console.error("❌ POST driver error:", error);
     return NextResponse.json(
-      { success: false, message: "Error creating driver", error: error.message },
+      { success: false, message: "Error creating driver" },
       { status: 500 }
     );
   }
@@ -92,31 +128,22 @@ export async function PUT(request) {
     await connectDB();
     const body = await request.json();
 
-    if (!body._id && !body.id) {
+    if (!body._id) {
       return NextResponse.json(
         { success: false, message: "Driver ID is required" },
         { status: 400 }
       );
     }
 
-    const driverId = body._id || body.id;
-
-    // Validation
-    if (body.age && (body.age < 18 || body.age > 70)) {
-      return NextResponse.json(
-        { success: false, message: "Age must be between 18 and 70" },
-        { status: 400 }
-      );
-    }
+    const updateData = {};
+    if (body.name) updateData.name = body.name.trim();
+    if (body.age) updateData.age = parseInt(body.age);
+    if (body.image !== undefined) updateData.image = body.image;
+    if (body.isActive !== undefined) updateData.isActive = body.isActive;
 
     const driver = await Driver.findByIdAndUpdate(
-      driverId,
-      {
-        name: body.name,
-        age: parseInt(body.age),
-        image: body.image,
-        isActive: body.isActive,
-      },
+      body._id,
+      updateData,
       { new: true, runValidators: true }
     );
 
@@ -127,28 +154,11 @@ export async function PUT(request) {
       );
     }
 
-    // Calculate stats
-    const reviews = await Review.find({ 
-      driverId: driver._id, 
-      isApproved: true 
-    });
-    const totalReviews = reviews.length;
-    const averageRating = totalReviews > 0
-      ? parseFloat((reviews.reduce((sum, r) => sum + r.rating, 0) / totalReviews).toFixed(1))
-      : 0;
-
-    return NextResponse.json({ 
-      success: true, 
-      driver: {
-        ...driver.toObject(),
-        totalReviews,
-        averageRating
-      }
-    });
+    return NextResponse.json({ success: true, driver });
   } catch (error) {
     console.error("❌ PUT driver error:", error);
     return NextResponse.json(
-      { success: false, message: "Error updating driver", error: error.message },
+      { success: false, message: "Error updating driver" },
       { status: 500 }
     );
   }
@@ -160,35 +170,27 @@ export async function DELETE(request) {
     await connectDB();
     const body = await request.json();
 
-    if (!body._id && !body.id) {
+    if (!body._id) {
       return NextResponse.json(
         { success: false, message: "Driver ID is required" },
         { status: 400 }
       );
     }
 
-    const driverId = body._id || body.id;
-    
-    const driver = await Driver.findByIdAndDelete(driverId);
+    // Delete driver and all their reviews
+    await Promise.all([
+      Driver.findByIdAndDelete(body._id),
+      Review.deleteMany({ driverId: body._id })
+    ]);
 
-    if (!driver) {
-      return NextResponse.json(
-        { success: false, message: "Driver not found" },
-        { status: 404 }
-      );
-    }
-
-    // Delete all reviews for this driver
-    await Review.deleteMany({ driverId });
-
-    return NextResponse.json({ 
-      success: true, 
-      message: "Driver and all reviews deleted successfully" 
+    return NextResponse.json({
+      success: true,
+      message: "Driver and reviews deleted successfully"
     });
   } catch (error) {
     console.error("❌ DELETE driver error:", error);
     return NextResponse.json(
-      { success: false, message: "Error deleting driver", error: error.message },
+      { success: false, message: "Error deleting driver" },
       { status: 500 }
     );
   }

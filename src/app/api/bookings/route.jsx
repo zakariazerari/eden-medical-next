@@ -1,20 +1,22 @@
-// app/api/bookings/route.js
 import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/mongo";
 import Booking from "@/models/Booking";
 import { sendMail } from "@/lib/mailer";
 
-// GET: Fetch ALL bookings
+// GET: Fetch ALL bookings - OPTIMIZED
 export async function GET() {
   try {
     await connectDB();
 
+    // ✅ Add .lean() for faster queries
     const bookings = await Booking.find()
       .sort({ createdAt: -1 })
-      .limit(500);
+      .limit(500)
+      .lean();
 
     return NextResponse.json(bookings, { status: 200 });
   } catch (error) {
+    console.error("❌ GET bookings error:", error);
     return NextResponse.json(
       { message: "Error fetching bookings" },
       { status: 500 }
@@ -50,7 +52,7 @@ export async function POST(req) {
       );
     }
 
-    // Get IP address for spam protection
+    // Get IP address
     const forwarded = req.headers.get("x-forwarded-for");
     const ip = forwarded ? forwarded.split(",")[0] : req.ip || "unknown";
 
@@ -61,13 +63,8 @@ export async function POST(req) {
       status: 'pending'
     });
 
-    // Send email notification (async, don't block response)
-    try {
-      await sendMail(body);
-      console.log("✅ Booking email sent successfully");
-    } catch (emailError) {
-      console.error("⚠️ Email failed but booking saved:", emailError);
-    }
+    // Send email (async, non-blocking)
+    sendMail(body).catch(err => console.error("Email error:", err));
 
     return NextResponse.json(booking, { status: 201 });
   } catch (error) {

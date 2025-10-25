@@ -1,4 +1,3 @@
-// app/api/bookings/[id]/route.js
 import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/mongo";
 import Booking from "@/models/Booking";
@@ -10,7 +9,6 @@ export async function PATCH(req, { params }) {
     const { id } = params;
     const { status } = await req.json();
 
-    // Validation
     if (!status || !['pending', 'confirmed', 'canceled'].includes(status)) {
       return NextResponse.json(
         { message: "Invalid status" },
@@ -21,7 +19,7 @@ export async function PATCH(req, { params }) {
     const booking = await Booking.findByIdAndUpdate(
       id,
       { status },
-      { new: true, runValidators: true }
+      { new: true, runValidators: true, lean: true } // ✅ Add lean
     );
 
     if (!booking) {
@@ -67,4 +65,4 @@ export async function DELETE(req, { params }) {
       { status: 500 }
     );
   }
-}             
+}

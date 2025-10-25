@@ -8,6 +8,7 @@ export default function BookingsPage() {
   const [filteredBookings, setFilteredBookings] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
+  const [dateFilter, setDateFilter] = useState("all");
   const [loading, setLoading] = useState(true);
   const [selectedBooking, setSelectedBooking] = useState(null);
 
@@ -19,7 +20,7 @@ export default function BookingsPage() {
     if (bookings.length > 0) {
       filterBookings();
     }
-  }, [searchTerm, statusFilter, bookings]);
+  }, [searchTerm, statusFilter, dateFilter, bookings]);
 
   const fetchBookings = async () => {
     try {
@@ -46,6 +47,32 @@ export default function BookingsPage() {
     }
 
     let filtered = [...bookings];
+
+    // Date filter
+    if (dateFilter !== "all") {
+      const now = new Date();
+      const daysAgo = new Date();
+      
+      switch(dateFilter) {
+        case "7days":
+          daysAgo.setDate(now.getDate() - 7);
+          break;
+        case "15days":
+          daysAgo.setDate(now.getDate() - 15);
+          break;
+        case "30days":
+          daysAgo.setDate(now.getDate() - 30);
+          break;
+        case "month":
+          daysAgo.setMonth(now.getMonth() - 1);
+          break;
+      }
+      
+      filtered = filtered.filter((b) => {
+        const bookingDate = new Date(b.createdAt || b.date);
+        return bookingDate >= daysAgo;
+      });
+    }
 
     if (searchTerm) {
       filtered = filtered.filter(
@@ -127,7 +154,7 @@ export default function BookingsPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen md:ml-64">
-        <div className="w-16 h-16 border-4 border-violet-200 rounded-full border-t-violet-600 animate-spin"></div>
+        <div className="w-16 h-16 border-4 border-slate-200 rounded-full border-t-slate-500 animate-spin"></div>
       </div>
     );
   }
@@ -135,35 +162,35 @@ export default function BookingsPage() {
   return (
     <div className="p-6 md:ml-64 space-y-6">
       <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-extrabold text-violet-800">Bookings Management</h1>
+        <h1 className="text-3xl font-extrabold text-slate-700">Bookings Management</h1>
         <button
           onClick={exportToCSV}
-          className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-xl hover:bg-green-700 transition"
+          className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition"
         >
           <FaDownload /> Export CSV
         </button>
       </div>
 
       {/* Filters */}
-      <div className="bg-white p-6 rounded-2xl shadow-lg">
-        <div className="grid md:grid-cols-2 gap-4">
+      <div className="bg-white p-6 rounded-2xl shadow-lg border border-slate-100">
+        <div className="grid md:grid-cols-3 gap-4">
           <div className="relative">
-            <FaSearch className="absolute left-3 top-3.5 text-gray-400" />
+            <FaSearch className="absolute left-3 top-3.5 text-slate-400" />
             <input
               type="text"
               placeholder="Search by name, email, or phone..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-violet-500 text-gray-900"
+              className="w-full pl-10 pr-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-slate-400 focus:border-slate-400 text-gray-900"
               style={{ WebkitTextFillColor: '#111827' }}
             />
           </div>
           <div className="relative">
-            <FaFilter className="absolute left-3 top-3.5 text-gray-400" />
+            <FaFilter className="absolute left-3 top-3.5 text-slate-400" />
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-violet-500 text-gray-900"
+              className="w-full pl-10 pr-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-slate-400 focus:border-slate-400 text-gray-900"
               style={{ WebkitTextFillColor: '#111827' }}
             >
               <option value="all">All Status</option>
@@ -172,18 +199,33 @@ export default function BookingsPage() {
               <option value="canceled">Canceled</option>
             </select>
           </div>
+          <div className="relative">
+            <FaFilter className="absolute left-3 top-3.5 text-slate-400" />
+            <select
+              value={dateFilter}
+              onChange={(e) => setDateFilter(e.target.value)}
+              className="w-full pl-10 pr-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-slate-400 focus:border-slate-400 text-gray-900"
+              style={{ WebkitTextFillColor: '#111827' }}
+            >
+              <option value="all">All Time</option>
+              <option value="7days">Last 7 Days</option>
+              <option value="15days">Last 15 Days</option>
+              <option value="30days">Last 30 Days</option>
+              <option value="month">Last Month</option>
+            </select>
+          </div>
         </div>
       </div>
 
-      <div className="text-gray-600">
+      <div className="text-slate-600">
         Showing {filteredBookings.length} of {bookings.length} bookings
       </div>
 
       {/* Desktop Table */}
-      <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
+      <div className="bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-100">
         <div className="hidden md:block overflow-x-auto">
           <table className="w-full">
-            <thead className="bg-violet-600 text-white">
+            <thead className="bg-gradient-to-r from-slate-600 to-slate-700 text-white">
               <tr>
                 <th className="px-6 py-4 text-left">Patient</th>
                 <th className="px-6 py-4 text-left">Service</th>
@@ -197,29 +239,29 @@ export default function BookingsPage() {
             <tbody>
               {filteredBookings.length > 0 ? (
                 filteredBookings.map((booking) => (
-                  <tr key={booking._id} className="border-b hover:bg-violet-50 transition">
-                    <td className="px-6 py-4 font-semibold">{booking.patientName}</td>
+                  <tr key={booking._id} className="border-b border-slate-100 hover:bg-slate-50 transition">
+                    <td className="px-6 py-4 font-semibold text-slate-800">{booking.patientName}</td>
                     <td className="px-6 py-4">
                       <div className="text-sm">
-                        <div className={`font-semibold ${booking.serviceType === "Emergency" ? "text-red-600" : "text-blue-600"}`}>
+                        <div className={`font-semibold ${booking.serviceType === "Emergency" ? "text-rose-600" : "text-sky-600"}`}>
                           {booking.serviceType}
                         </div>
-                        <div className="text-gray-500">{booking.mobility}</div>
+                        <div className="text-slate-500">{booking.mobility}</div>
                       </div>
                     </td>
-                    <td className="px-6 py-4">
+                    <td className="px-6 py-4 text-slate-700">
                       <div>{new Date(booking.date).toLocaleDateString()}</div>
-                      <div className="text-sm text-gray-500">{booking.time}</div>
+                      <div className="text-sm text-slate-500">{booking.time}</div>
                     </td>
                     <td className="px-6 py-4">
-                      <div className="text-sm">
+                      <div className="text-sm text-slate-600">
                         <div>📍 {booking.pickup}</div>
                         <div>🎯 {booking.destination}</div>
                       </div>
                     </td>
-                    <td className="px-6 py-4">
+                    <td className="px-6 py-4 text-slate-700">
                       <div>{booking.phone}</div>
-                      <div className="text-sm text-gray-500">{booking.email}</div>
+                      <div className="text-sm text-slate-500">{booking.email}</div>
                     </td>
                     <td className="px-6 py-4">
                       <span
@@ -234,32 +276,32 @@ export default function BookingsPage() {
                         {booking.status || "pending"}
                       </span>
                     </td>
-                    <td className="px-6 py-4">
+                    <td className="px-4 py-4 whitespace-nowrap">
                       <div className="flex gap-2">
                         <button
                           onClick={() => setSelectedBooking(booking)}
-                          className="p-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+                          className="p-2 bg-sky-500 text-white rounded-lg hover:bg-sky-600 transition"
                           title="View"
                         >
                           <FaEye />
                         </button>
                         <button
                           onClick={() => updateStatus(booking._id, "confirmed")}
-                          className="p-2 bg-green-500 text-white rounded-lg hover:bg-green-600"
+                          className="p-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition"
                           title="Confirm"
                         >
                           <FaCheckCircle />
                         </button>
                         <button
                           onClick={() => updateStatus(booking._id, "canceled")}
-                          className="p-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
+                          className="p-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
                           title="Cancel"
                         >
                           <FaTimesCircle />
                         </button>
                         <button
                           onClick={() => deleteBooking(booking._id)}
-                          className="p-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600"
+                          className="p-2 bg-slate-500 text-white rounded-lg hover:bg-slate-600 transition"
                           title="Delete"
                         >
                           <FaTrash />
@@ -270,7 +312,7 @@ export default function BookingsPage() {
                 ))
               ) : (
                 <tr>
-                  <td colSpan="7" className="px-6 py-8 text-center text-gray-500">
+                  <td colSpan="7" className="px-6 py-8 text-center text-slate-500">
                     No bookings found
                   </td>
                 </tr>
@@ -283,16 +325,16 @@ export default function BookingsPage() {
         <div className="md:hidden space-y-4 p-4">
           {filteredBookings.length > 0 ? (
             filteredBookings.map((booking) => (
-              <div key={booking._id} className="border rounded-xl p-4 shadow-md space-y-3">
+              <div key={booking._id} className="border border-slate-200 rounded-xl p-4 shadow-md space-y-3 bg-white">
                 <div className="flex justify-between items-start">
                   <div>
-                    <h3 className="font-bold text-violet-700">{booking.patientName}</h3>
+                    <h3 className="font-bold text-slate-700">{booking.patientName}</h3>
                     <div className="text-sm mt-1">
-                      <span className={`font-semibold ${booking.serviceType === "Emergency" ? "text-red-600" : "text-blue-600"}`}>
+                      <span className={`font-semibold ${booking.serviceType === "Emergency" ? "text-rose-600" : "text-sky-600"}`}>
                         {booking.serviceType}
                       </span>
-                      <span className="text-gray-500 mx-1">•</span>
-                      <span className="text-gray-500">{booking.mobility}</span>
+                      <span className="text-slate-400 mx-1">•</span>
+                      <span className="text-slate-500">{booking.mobility}</span>
                     </div>
                   </div>
                   <span
@@ -307,7 +349,7 @@ export default function BookingsPage() {
                     {booking.status || "pending"}
                   </span>
                 </div>
-                <div className="text-sm space-y-1">
+                <div className="text-sm space-y-1 text-slate-600">
                   <p>📅 {new Date(booking.date).toLocaleDateString()} ⏰ {booking.time}</p>
                   <p>📍 From: {booking.pickup}</p>
                   <p>🎯 To: {booking.destination}</p>
@@ -316,25 +358,25 @@ export default function BookingsPage() {
                 <div className="grid grid-cols-2 gap-2">
                   <button
                     onClick={() => setSelectedBooking(booking)}
-                    className="py-2 bg-blue-500 text-white rounded-lg text-sm"
+                    className="py-2 bg-sky-500 text-white rounded-lg text-sm hover:bg-sky-600 transition"
                   >
                     View
                   </button>
                   <button
                     onClick={() => updateStatus(booking._id, "confirmed")}
-                    className="py-2 bg-green-500 text-white rounded-lg text-sm"
+                    className="py-2 bg-green-500 text-white rounded-lg text-sm hover:bg-green-600 transition"
                   >
                     Confirm
                   </button>
                   <button
                     onClick={() => updateStatus(booking._id, "canceled")}
-                    className="py-2 bg-red-500 text-white rounded-lg text-sm"
+                    className="py-2 bg-red-500 text-white rounded-lg text-sm hover:bg-red-600 transition"
                   >
                     Cancel
                   </button>
                   <button
                     onClick={() => deleteBooking(booking._id)}
-                    className="py-2 bg-gray-500 text-white rounded-lg text-sm"
+                    className="py-2 bg-slate-500 text-white rounded-lg text-sm hover:bg-slate-600 transition"
                   >
                     Delete
                   </button>
@@ -342,7 +384,7 @@ export default function BookingsPage() {
               </div>
             ))
           ) : (
-            <div className="text-center py-8 text-gray-500">No bookings found</div>
+            <div className="text-center py-8 text-slate-500">No bookings found</div>
           )}
         </div>
       </div>
@@ -357,16 +399,16 @@ export default function BookingsPage() {
 
 function BookingModal({ booking, onClose }) {
   return (
-    <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6">
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+      <div className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 border border-slate-200">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold text-violet-800">Booking Details</h2>
-          <button onClick={onClose} className="text-3xl text-gray-400 hover:text-gray-600">×</button>
+          <h2 className="text-2xl font-bold text-slate-700">Booking Details</h2>
+          <button onClick={onClose} className="text-3xl text-slate-400 hover:text-slate-600">×</button>
         </div>
         <div className="space-y-4">
           <DetailRow label="Patient Name" value={booking.patientName} />
           <DetailRow label="Service Type" value={
-            <span className={`font-semibold ${booking.serviceType === "Emergency" ? "text-red-600" : "text-blue-600"}`}>
+            <span className={`font-semibold ${booking.serviceType === "Emergency" ? "text-rose-600" : "text-sky-600"}`}>
               {booking.serviceType}
             </span>
           } />
@@ -398,9 +440,9 @@ function BookingModal({ booking, onClose }) {
 
 function DetailRow({ label, value }) {
   return (
-    <div className="grid grid-cols-3 gap-4 py-3 border-b">
-      <div className="font-semibold text-gray-700">{label}</div>
-      <div className="col-span-2 text-gray-900">{value}</div>
+    <div className="grid grid-cols-3 gap-4 py-3 border-b border-slate-100">
+      <div className="font-semibold text-slate-600">{label}</div>
+      <div className="col-span-2 text-slate-800">{value}</div>
     </div>
   );
 }

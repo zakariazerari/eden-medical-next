@@ -18,7 +18,9 @@ export default function ParticlesMaskBG() {
           background: { color: { value: "transparent" } },
           particles: {
             number: { value: 40, density: { enable: true, area: 800 } },
-            color: { value: "#8b5cf6" },
+            color: { 
+              value: ["#DC2626", "#2563EB", "#EF4444", "#3B82F6"], 
+            },
             size: { value: 8, random: { enable: true, minimumValue: 4 } },
             opacity: { value: 0.5, random: { enable: true, minimumValue: 0.2 } },
             move: {
@@ -29,7 +31,7 @@ export default function ParticlesMaskBG() {
             },
             links: { enable: false },
             shape: {
-              type: ["polygon" , "circle" , "star" , "edge"],  // تغيير الشكل إلى polygon mask
+              type: ["polygon", "circle", "star", "edge"],
               options: {
                 polygon: {
                   type: "inline", 
@@ -47,9 +49,12 @@ export default function ParticlesMaskBG() {
             modes: {
               bubble: {
                 distance: 100,
-                size: 6,
+                size: 10,
                 duration: 2,
-                opacity: 1,
+                opacity: 0.8,
+                color: {
+                  value: "#DC2626"
+                }
               },
             },
           },

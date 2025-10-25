@@ -18,7 +18,9 @@ export default function ContactSnowTwinkleBG() {
           background: { color: { value: "transparent" } },
           particles: {
             number: { value: 60, density: { enable: true, area: 800 } },
-            color: { value: "#8b5cf6" }, // بنفسجي
+            color: { 
+              value: ["#DC2626", "#2563EB", "#EF4444", "#3B82F6"], // Mix of red and blue shades
+            },
             size: { value: 4, random: { enable: true, minimumValue: 1 } },
             opacity: { value: 0.6, random: true },
             move: {

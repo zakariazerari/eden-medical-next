@@ -29,8 +29,7 @@ const ContactMessageSchema = new mongoose.Schema({
   status: { 
     type: String,
     enum: ['pending', 'confirmed', 'canceled'],
-    default: 'pending',
-    // Removed index: true to avoid duplicate
+    default: 'pending'
   },
   ipAddress: {
     type: String,
@@ -47,8 +46,9 @@ const ContactMessageSchema = new mongoose.Schema({
   }
 });
 
-// Indexes for better performance
+// ✅ Optimized indexes for faster queries
 ContactMessageSchema.index({ createdAt: -1 });
 ContactMessageSchema.index({ status: 1 });
+ContactMessageSchema.index({ status: 1, createdAt: -1 });
 
 export default mongoose.models.ContactMessage || mongoose.model("ContactMessage", ContactMessageSchema);

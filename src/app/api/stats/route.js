@@ -1,4 +1,3 @@
-// app/api/stats/route.js
 import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/mongo";
 import Booking from "@/models/Booking";
@@ -6,81 +5,115 @@ import ContactMessage from "@/models/ContactMessage";
 import Driver from "@/models/Driver";
 import Review from "@/models/Review";
 
-// GET: Fetch all statistics
+// GET: Fetch all statistics - OPTIMIZED
 export async function GET() {
   try {
+    console.time("⏱️ Stats API");
     await connectDB();
 
-    // Bookings stats
-    const totalBookings = await Booking.countDocuments();
-    const confirmedBookings = await Booking.countDocuments({ status: 'confirmed' });
-    const pendingBookings = await Booking.countDocuments({ status: 'pending' });
-    const canceledBookings = await Booking.countDocuments({ status: 'canceled' });
-
-    // Messages stats
-    const totalMessages = await ContactMessage.countDocuments();
-    const pendingMessages = await ContactMessage.countDocuments({ status: 'pending' });
-    const confirmedMessages = await ContactMessage.countDocuments({ status: 'confirmed' });
-    const canceledMessages = await ContactMessage.countDocuments({ status: 'canceled' });
-
-    // Drivers stats
-    const totalDrivers = await Driver.countDocuments();
-    const activeDrivers = await Driver.countDocuments({ isActive: true });
-
-    // Reviews stats
-    const totalReviews = await Review.countDocuments();
-    const approvedReviews = await Review.countDocuments({ isApproved: true });
-    const pendingReviews = await Review.countDocuments({ isApproved: false });
-
-    // Calculate average rating
-    const approvedReviewsList = await Review.find({ isApproved: true });
-    const avgRating = approvedReviewsList.length > 0
-      ? (approvedReviewsList.reduce((sum, r) => sum + r.rating, 0) / approvedReviewsList.length).toFixed(1)
-      : 0;
-
-    // Recent activity (last 7 days)
     const sevenDaysAgo = new Date();
     sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
 
-    const recentBookings = await Booking.countDocuments({
-      createdAt: { $gte: sevenDaysAgo }
-    });
+    // ✅ Run ALL queries in parallel using Promise.all
+    const [
+      bookingStats,
+      messageStats,
+      driverStats,
+      reviewStats
+    ] = await Promise.all([
+      // Bookings - aggregate all counts in ONE query
+      Booking.aggregate([
+        {
+          $facet: {
+            total: [{ $count: "count" }],
+            confirmed: [{ $match: { status: 'confirmed' } }, { $count: "count" }],
+            pending: [{ $match: { status: 'pending' } }, { $count: "count" }],
+            canceled: [{ $match: { status: 'canceled' } }, { $count: "count" }],
+            recent: [{ $match: { createdAt: { $gte: sevenDaysAgo } } }, { $count: "count" }]
+          }
+        }
+      ]),
 
-    const recentMessages = await ContactMessage.countDocuments({
-      createdAt: { $gte: sevenDaysAgo }
-    });
+      // Messages - aggregate all counts in ONE query
+      ContactMessage.aggregate([
+        {
+          $facet: {
+            total: [{ $count: "count" }],
+            pending: [{ $match: { status: 'pending' } }, { $count: "count" }],
+            confirmed: [{ $match: { status: 'confirmed' } }, { $count: "count" }],
+            canceled: [{ $match: { status: 'canceled' } }, { $count: "count" }],
+            recent: [{ $match: { createdAt: { $gte: sevenDaysAgo } } }, { $count: "count" }]
+          }
+        }
+      ]),
 
-    const recentReviews = await Review.countDocuments({
-      createdAt: { $gte: sevenDaysAgo }
-    });
+      // Drivers - aggregate all counts in ONE query
+      Driver.aggregate([
+        {
+          $facet: {
+            total: [{ $count: "count" }],
+            active: [{ $match: { isActive: true } }, { $count: "count" }]
+          }
+        }
+      ]),
+
+      // Reviews - aggregate all counts AND average in ONE query
+      Review.aggregate([
+        {
+          $facet: {
+            total: [{ $count: "count" }],
+            approved: [{ $match: { isApproved: true } }, { $count: "count" }],
+            pending: [{ $match: { isApproved: false } }, { $count: "count" }],
+            recent: [{ $match: { createdAt: { $gte: sevenDaysAgo } } }, { $count: "count" }],
+            avgRating: [
+              { $match: { isApproved: true } },
+              { $group: { _id: null, avg: { $avg: "$rating" } } }
+            ]
+          }
+        }
+      ])
+    ]);
+
+    // Extract results with safe defaults
+    const bookings = {
+      totalBookings: bookingStats[0]?.total[0]?.count || 0,
+      confirmedBookings: bookingStats[0]?.confirmed[0]?.count || 0,
+      pendingBookings: bookingStats[0]?.pending[0]?.count || 0,
+      canceledBookings: bookingStats[0]?.canceled[0]?.count || 0,
+      recentBookings: bookingStats[0]?.recent[0]?.count || 0
+    };
+
+    const messages = {
+      totalMessages: messageStats[0]?.total[0]?.count || 0,
+      pendingMessages: messageStats[0]?.pending[0]?.count || 0,
+      confirmedMessages: messageStats[0]?.confirmed[0]?.count || 0,
+      canceledMessages: messageStats[0]?.canceled[0]?.count || 0,
+      recentMessages: messageStats[0]?.recent[0]?.count || 0
+    };
+
+    const drivers = {
+      totalDrivers: driverStats[0]?.total[0]?.count || 0,
+      activeDrivers: driverStats[0]?.active[0]?.count || 0,
+      inactiveDrivers: (driverStats[0]?.total[0]?.count || 0) - (driverStats[0]?.active[0]?.count || 0)
+    };
+
+    const reviews = {
+      totalReviews: reviewStats[0]?.total[0]?.count || 0,
+      approvedReviews: reviewStats[0]?.approved[0]?.count || 0,
+      pendingReviews: reviewStats[0]?.pending[0]?.count || 0,
+      recentReviews: reviewStats[0]?.recent[0]?.count || 0,
+      averageRating: reviewStats[0]?.avgRating[0]?.avg 
+        ? parseFloat(reviewStats[0].avgRating[0].avg.toFixed(1)) 
+        : 0
+    };
+
+    console.timeEnd("⏱️ Stats API");
 
     return NextResponse.json({
-      bookings: {
-        totalBookings,
-        confirmedBookings,
-        pendingBookings,
-        canceledBookings,
-        recentBookings,
-      },
-      messages: {
-        totalMessages,
-        pendingMessages,
-        confirmedMessages,
-        canceledMessages,
-        recentMessages,
-      },
-      drivers: {
-        totalDrivers,
-        activeDrivers,
-        inactiveDrivers: totalDrivers - activeDrivers,
-      },
-      reviews: {
-        totalReviews,
-        approvedReviews,
-        pendingReviews,
-        averageRating: parseFloat(avgRating),
-        recentReviews,
-      },
+      bookings,
+      messages,
+      drivers,
+      reviews
     }, { status: 200 });
 
   } catch (error) {

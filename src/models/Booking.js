@@ -62,8 +62,7 @@ const bookingSchema = new mongoose.Schema({
   status: { 
     type: String, 
     enum: ['pending', 'confirmed', 'canceled'],
-    default: 'pending',
-    // Removed index: true to avoid duplicate
+    default: 'pending'
   },
   ipAddress: {
     type: String,
@@ -80,8 +79,9 @@ const bookingSchema = new mongoose.Schema({
   }
 });
 
-// Index for faster queries
+// ✅ Optimized indexes for faster queries
 bookingSchema.index({ createdAt: -1 });
 bookingSchema.index({ status: 1, date: 1 });
+bookingSchema.index({ status: 1, createdAt: -1 });
 
 export default mongoose.models.Booking || mongoose.model("Booking", bookingSchema);

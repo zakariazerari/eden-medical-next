@@ -8,6 +8,7 @@ import {
   FaCheckCircle,
   FaTimesCircle,
   FaTrash,
+  FaCalendar,
 } from "react-icons/fa";
 import toast from "react-hot-toast";
 
@@ -16,6 +17,7 @@ export default function ContactPage() {
   const [filteredMessages, setFilteredMessages] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
+  const [dateFilter, setDateFilter] = useState("all");
   const [loading, setLoading] = useState(true);
   const [selectedMessage, setSelectedMessage] = useState(null);
 
@@ -25,7 +27,7 @@ export default function ContactPage() {
 
   useEffect(() => {
     filterMessages();
-  }, [searchTerm, statusFilter, messages]);
+  }, [searchTerm, statusFilter, dateFilter, messages]);
 
   const fetchMessages = async () => {
     try {
@@ -54,6 +56,7 @@ export default function ContactPage() {
 
     let filtered = [...messages];
 
+    // Search filter
     if (searchTerm) {
       filtered = filtered.filter(
         (m) =>
@@ -64,8 +67,35 @@ export default function ContactPage() {
       );
     }
 
+    // Status filter
     if (statusFilter !== "all") {
       filtered = filtered.filter((m) => m.status === statusFilter);
+    }
+
+    // Date filter
+    if (dateFilter !== "all") {
+      const now = new Date();
+      const filterDate = new Date();
+
+      switch (dateFilter) {
+        case "7days":
+          filterDate.setDate(now.getDate() - 7);
+          break;
+        case "15days":
+          filterDate.setDate(now.getDate() - 15);
+          break;
+        case "30days":
+          filterDate.setDate(now.getDate() - 30);
+          break;
+        case "1month":
+          filterDate.setMonth(now.getMonth() - 1);
+          break;
+      }
+
+      filtered = filtered.filter((m) => {
+        const messageDate = new Date(m.createdAt);
+        return messageDate >= filterDate;
+      });
     }
 
     setFilteredMessages(filtered);
@@ -131,7 +161,7 @@ export default function ContactPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen md:ml-64">
-        <div className="w-16 h-16 border-4 border-violet-200 rounded-full border-t-violet-600 animate-spin"></div>
+        <div className="w-16 h-16 border-4 border-gray-200 rounded-full border-t-gray-600 animate-spin"></div>
       </div>
     );
   }
@@ -139,28 +169,28 @@ export default function ContactPage() {
   return (
     <div className="p-6 md:ml-64 space-y-6">
       <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-extrabold text-violet-800">
+        <h1 className="text-3xl font-extrabold text-gray-800">
           Contact Messages
         </h1>
         <button
           onClick={exportToCSV}
-          className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-xl hover:bg-green-700 transition"
+          className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition"
         >
           <FaDownload /> Export CSV
         </button>
       </div>
 
       {/* Filters */}
-      <div className="bg-white p-6 rounded-2xl shadow-lg">
-        <div className="grid md:grid-cols-2 gap-4">
+      <div className="bg-white p-6 rounded-2xl shadow-lg border border-gray-200">
+        <div className="grid md:grid-cols-3 gap-4">
           <div className="relative">
             <FaSearch className="absolute left-3 top-3.5 text-gray-400" />
             <input
               type="text"
-              placeholder="Search by name, email, phone, or message..."
+              placeholder="Search by name, email, phone..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-violet-500 text-gray-900"
+              className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 text-gray-900"
               style={{ WebkitTextFillColor: '#111827' }}
             />
           </div>
@@ -169,13 +199,28 @@ export default function ContactPage() {
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-violet-500 text-gray-900"
+              className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 text-gray-900"
               style={{ WebkitTextFillColor: '#111827' }}
             >
               <option value="all">All Status</option>
               <option value="pending">Pending</option>
               <option value="confirmed">Confirmed</option>
               <option value="canceled">Canceled</option>
+            </select>
+          </div>
+          <div className="relative">
+            <FaCalendar className="absolute left-3 top-3.5 text-gray-400" />
+            <select
+              value={dateFilter}
+              onChange={(e) => setDateFilter(e.target.value)}
+              className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 text-gray-900"
+              style={{ WebkitTextFillColor: '#111827' }}
+            >
+              <option value="all">All Time</option>
+              <option value="7days">Last 7 Days</option>
+              <option value="15days">Last 15 Days</option>
+              <option value="30days">Last 30 Days</option>
+              <option value="1month">Last Month</option>
             </select>
           </div>
         </div>
@@ -186,102 +231,100 @@ export default function ContactPage() {
       </div>
 
       {/* Desktop Table */}
-      <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
-        <div className="hidden md:block overflow-x-auto">
-          <table className="w-full">
-            <thead className="bg-violet-600 text-white">
-              <tr>
-                <th className="px-6 py-4 text-left">Name</th>
-                <th className="px-6 py-4 text-left">Email</th>
-                <th className="px-6 py-4 text-left">Phone</th>
-                <th className="px-6 py-4 text-left">Message</th>
-                <th className="px-6 py-4 text-left">Date</th>
-                <th className="px-6 py-4 text-left">Status</th>
-                <th className="px-6 py-4 text-left">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredMessages.length > 0 ? (
-                filteredMessages.map((message) => (
-                  <tr
-                    key={message._id}
-                    className="border-b hover:bg-violet-50 transition"
-                  >
-                    <td className="px-6 py-4 font-semibold">
-                      {message.fullName}
-                    </td>
-                    <td className="px-6 py-4">{message.email}</td>
-                    <td className="px-6 py-4">{message.phone || 'N/A'}</td>
-                    <td className="px-6 py-4">
-                      <div className="max-w-xs truncate">{message.message}</div>
-                    </td>
-                    <td className="px-6 py-4">
-                      {message.createdAt
-                        ? new Date(message.createdAt).toLocaleDateString()
-                        : ""}
-                    </td>
-                    <td className="px-6 py-4">
-                      <span
-                        className={`px-3 py-1 rounded-full text-xs font-bold ${
-                          message.status === "confirmed"
-                            ? "bg-green-100 text-green-700"
-                            : message.status === "canceled"
-                            ? "bg-red-100 text-red-700"
-                            : "bg-yellow-100 text-yellow-700"
-                        }`}
+      <div className="bg-white rounded-2xl shadow-xl overflow-x-auto border border-gray-200">
+        <table className="w-full hidden md:table">
+          <thead className="bg-gradient-to-r from-gray-700 to-gray-800 text-white">
+            <tr>
+              <th className="px-6 py-4 text-left whitespace-nowrap">Name</th>
+              <th className="px-6 py-4 text-left whitespace-nowrap">Email</th>
+              <th className="px-6 py-4 text-left whitespace-nowrap">Phone</th>
+              <th className="px-6 py-4 text-left whitespace-nowrap">Message</th>
+              <th className="px-6 py-4 text-left whitespace-nowrap">Date</th>
+              <th className="px-6 py-4 text-left whitespace-nowrap">Status</th>
+              <th className="px-6 py-4 text-left whitespace-nowrap">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filteredMessages.length > 0 ? (
+              filteredMessages.map((message) => (
+                <tr
+                  key={message._id}
+                  className="border-b border-gray-200 hover:bg-gray-50 transition"
+                >
+                  <td className="px-6 py-4 font-semibold text-gray-800 whitespace-nowrap">
+                    {message.fullName}
+                  </td>
+                  <td className="px-6 py-4 text-gray-700 whitespace-nowrap">{message.email}</td>
+                  <td className="px-6 py-4 text-gray-700 whitespace-nowrap">{message.phone || 'N/A'}</td>
+                  <td className="px-6 py-4">
+                    <div className="max-w-xs text-gray-700">{message.message}</div>
+                  </td>
+                  <td className="px-6 py-4 text-gray-700 whitespace-nowrap">
+                    {message.createdAt
+                      ? new Date(message.createdAt).toLocaleDateString()
+                      : ""}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <span
+                      className={`px-3 py-1 rounded-full text-xs font-bold ${
+                        message.status === "confirmed"
+                          ? "bg-green-100 text-green-700"
+                          : message.status === "canceled"
+                          ? "bg-red-100 text-red-700"
+                          : "bg-yellow-100 text-yellow-700"
+                      }`}
+                    >
+                      {message.status || "pending"}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => setSelectedMessage(message)}
+                        className="p-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
+                        title="View"
                       >
-                        {message.status || "pending"}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4">
-                      <div className="flex gap-2">
-                        <button
-                          onClick={() => setSelectedMessage(message)}
-                          className="p-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
-                          title="View"
-                        >
-                          <FaEye />
-                        </button>
-                        <button
-                          onClick={() =>
-                            updateStatus(message._id, "confirmed")
-                          }
-                          className="p-2 bg-green-500 text-white rounded-lg hover:bg-green-600"
-                          title="Confirm"
-                        >
-                          <FaCheckCircle />
-                        </button>
-                        <button
-                          onClick={() => updateStatus(message._id, "canceled")}
-                          className="p-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
-                          title="Cancel"
-                        >
-                          <FaTimesCircle />
-                        </button>
-                        <button
-                          onClick={() => deleteMessage(message._id)}
-                          className="p-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600"
-                          title="Delete"
-                        >
-                          <FaTrash />
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td
-                    colSpan="7"
-                    className="px-6 py-8 text-center text-gray-500"
-                  >
-                    No messages found
+                        <FaEye />
+                      </button>
+                      <button
+                        onClick={() =>
+                          updateStatus(message._id, "confirmed")
+                        }
+                        className="p-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition"
+                        title="Confirm"
+                      >
+                        <FaCheckCircle />
+                      </button>
+                      <button
+                        onClick={() => updateStatus(message._id, "canceled")}
+                        className="p-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
+                        title="Cancel"
+                      >
+                        <FaTimesCircle />
+                      </button>
+                      <button
+                        onClick={() => deleteMessage(message._id)}
+                        className="p-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition"
+                        title="Delete"
+                      >
+                        <FaTrash />
+                      </button>
+                    </div>
                   </td>
                 </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
+              ))
+            ) : (
+              <tr>
+                <td
+                  colSpan="7"
+                  className="px-6 py-8 text-center text-gray-500"
+                >
+                  No messages found
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
 
         {/* Mobile Cards */}
         <div className="md:hidden space-y-4 p-4">
@@ -289,11 +332,11 @@ export default function ContactPage() {
             filteredMessages.map((message) => (
               <div
                 key={message._id}
-                className="border rounded-xl p-4 shadow-md space-y-3"
+                className="border border-gray-200 rounded-xl p-4 shadow-md space-y-3 bg-white"
               >
                 <div className="flex justify-between items-start">
                   <div>
-                    <h3 className="font-bold text-violet-700">
+                    <h3 className="font-bold text-gray-800">
                       {message.fullName}
                     </h3>
                     <p className="text-sm text-gray-600">{message.email}</p>
@@ -322,25 +365,25 @@ export default function ContactPage() {
                 <div className="grid grid-cols-2 gap-2">
                   <button
                     onClick={() => setSelectedMessage(message)}
-                    className="py-2 bg-blue-500 text-white rounded-lg text-sm"
+                    className="py-2 bg-blue-500 text-white rounded-lg text-sm hover:bg-blue-600 transition"
                   >
                     View
                   </button>
                   <button
                     onClick={() => updateStatus(message._id, "confirmed")}
-                    className="py-2 bg-green-500 text-white rounded-lg text-sm"
+                    className="py-2 bg-green-500 text-white rounded-lg text-sm hover:bg-green-600 transition"
                   >
                     Confirm
                   </button>
                   <button
                     onClick={() => updateStatus(message._id, "canceled")}
-                    className="py-2 bg-red-500 text-white rounded-lg text-sm"
+                    className="py-2 bg-red-500 text-white rounded-lg text-sm hover:bg-red-600 transition"
                   >
                     Cancel
                   </button>
                   <button
                     onClick={() => deleteMessage(message._id)}
-                    className="py-2 bg-gray-500 text-white rounded-lg text-sm"
+                    className="py-2 bg-gray-500 text-white rounded-lg text-sm hover:bg-gray-600 transition"
                   >
                     Delete
                   </button>
@@ -363,10 +406,10 @@ export default function ContactPage() {
 
 function MessageModal({ message, onClose }) {
   return (
-    <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6">
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+      <div className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 border border-gray-200">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold text-violet-800">Message Details</h2>
+          <h2 className="text-2xl font-bold text-gray-800">Message Details</h2>
           <button onClick={onClose} className="text-3xl text-gray-400 hover:text-gray-600">×</button>
         </div>
         <div className="space-y-4">
@@ -394,9 +437,9 @@ function MessageModal({ message, onClose }) {
 
 function DetailRow({ label, value }) {
   return (
-    <div className="grid grid-cols-3 gap-4 py-3 border-b">
+    <div className="grid grid-cols-3 gap-4 py-3 border-b border-gray-200">
       <div className="font-semibold text-gray-700">{label}</div>
-      <div className="col-span-2 text-gray-900">{value}</div>
+      <div className="col-span-2 text-gray-800">{value}</div>
     </div>
   );
 }

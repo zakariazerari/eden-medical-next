@@ -1,15 +1,16 @@
-// app/api/reviews/route.js
+// app/api/reviews/route.js - FIXED VERSION WITH AUTO-APPROVAL
 import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/mongo";
 import Review from "@/models/Review";
 
-// GET: Fetch reviews
+// GET: Fetch reviews with limit support
 export async function GET(request) {
   try {
     await connectDB();
     const { searchParams } = new URL(request.url);
     const driverId = searchParams.get('driverId');
     const includeUnapproved = searchParams.get('includeUnapproved') === 'true';
+    const limit = parseInt(searchParams.get('limit')) || 200;
 
     let query = {};
     
@@ -24,7 +25,8 @@ export async function GET(request) {
 
     const reviews = await Review.find(query)
       .sort({ createdAt: -1 })
-      .limit(200);
+      .limit(limit)
+      .lean();
 
     return NextResponse.json({ success: true, reviews });
   } catch (error) {
@@ -36,7 +38,7 @@ export async function GET(request) {
   }
 }
 
-// POST: Create new review (Public - from visitors)
+// POST: Create new review (Public - AUTO-APPROVED ✅)
 export async function POST(request) {
   try {
     await connectDB();
@@ -81,7 +83,7 @@ export async function POST(request) {
       driverId: body.driverId,
       ipAddress: ip,
       createdAt: { $gte: oneDayAgo }
-    }).select('+ipAddress');
+    }).select('+ipAddress').lean();
 
     if (existingReview) {
       return NextResponse.json(
@@ -90,14 +92,14 @@ export async function POST(request) {
       );
     }
 
-    // Create review
+    // ✅ Create review - AUTO-APPROVED
     const review = await Review.create({
       driverId: body.driverId,
       patientName: body.patientName.trim(),
       rating: parseInt(body.rating),
       comment: body.comment.trim(),
       ipAddress: ip,
-      isApproved: false, // Needs admin approval
+      isApproved: true, // ✅✅✅ AUTO-APPROVE - DIRECT POSTING
     });
 
     return NextResponse.json({ 
@@ -110,7 +112,7 @@ export async function POST(request) {
         createdAt: review.createdAt,
         isApproved: review.isApproved
       },
-      message: "Thank you! Your review is pending approval."
+      message: "Thank you! Your review has been posted successfully." // ✅ NEW MESSAGE
     }, { status: 201 });
   } catch (error) {
     console.error("❌ POST review error:", error);

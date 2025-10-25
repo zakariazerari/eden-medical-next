@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { connectDB } from "@/lib/mongo";
-import { verifyAdmin } from "@/utils/auth";
+import { connectDB } from "@/lib/mongo";           // ✅ CORRECT
+import { verifyAdmin } from "@/utils/auth";        // ✅ CORRECT
 import { checkRateLimit } from "@/lib/rateLimit";
 
 export async function POST(request) {

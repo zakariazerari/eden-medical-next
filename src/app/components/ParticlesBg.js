@@ -22,7 +22,7 @@ export default function ParticlesBg() {
           },
           particles: {
             number: { value: 45, density: { enable: true, area: 800 } },
-            color: { value: "#8b5cf6" }, // violet
+            color: { value: ["#DC2626", "#2563EB"] }, // red and blue
             shape: { type: "circle" },
             opacity: {
               value: 0.6,
@@ -41,8 +41,8 @@ export default function ParticlesBg() {
             links: {
               enable: true,
               distance: 150,
-              color: "#8b5cf6",
-              opacity: 0.6,
+              color: "#DC2626", // red links
+              opacity: 0.4,
               width: 2, // عرض الخط أكبر
             },
           },
@@ -53,7 +53,13 @@ export default function ParticlesBg() {
               resize: true,
             },
             modes: {
-              grab: { distance: 140, links: { opacity: 0.8 } },
+              grab: { 
+                distance: 140, 
+                links: { 
+                  opacity: 0.8,
+                  color: "#2563EB" // blue on hover
+                } 
+              },
               push: { quantity: 4 },
             },
           },

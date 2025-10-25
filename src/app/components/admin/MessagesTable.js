@@ -54,7 +54,7 @@ export default function ContactPage() {
 
   return (
     <div className="p-6 md:ml-64">
-      <h1 className="text-3xl font-extrabold text-violet-800 drop-shadow-lg mb-6">
+      <h1 className="text-3xl font-extrabold text-gray-900 drop-shadow-lg mb-6">
         📩 Client Contact Messages
       </h1>
 
@@ -66,7 +66,7 @@ export default function ContactPage() {
         <div className="bg-white shadow-xl rounded-xl p-4">
           <div className="hidden md:block overflow-x-auto">
             <table className="w-full text-sm text-left border-collapse">
-              <thead className="bg-violet-700 text-white">
+              <thead className="bg-gradient-to-r from-red-600 to-red-700 text-white">
                 <tr>
                   <th className="p-3">Name</th>
                   <th className="p-3">Email</th>
@@ -77,7 +77,7 @@ export default function ContactPage() {
               </thead>
               <tbody>
                 {messages.map((m) => (
-                  <tr key={m._id} className="border-b hover:bg-violet-50">
+                  <tr key={m._id} className="border-b hover:bg-red-50">
                     <td className="p-3 font-semibold">{m.fullName}</td>
                     <td className="p-3">{m.email}</td>
                     <td className="p-3">{m.message}</td>
@@ -127,7 +127,7 @@ export default function ContactPage() {
                 key={m._id}
                 className="border rounded-xl p-4 shadow-md bg-white space-y-3"
               >
-                <h3 className="font-bold text-violet-700">{m.fullName}</h3>
+                <h3 className="font-bold text-red-700">{m.fullName}</h3>
                 <p>📧 {m.email}</p>
                 <p>{m.message}</p>
                 <span
