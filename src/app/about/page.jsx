@@ -1,4 +1,4 @@
-  // app/about/page.js
+// app/about/page.js
 
 "use client";
 import Image from "next/image";
@@ -14,31 +14,31 @@ export default function About() {
         </div>
         
         <div className="container mx-auto px-6 lg:px-24 relative z-10">
-          <h1 className="text-5xl md:text-6xl font-extrabold text-center text-gray-900 mb-6">About Eden Medical Transport</h1>
+          <h1 className="text-5xl md:text-6xl font-extrabold text-center text-gray-900 mb-6">About Eden Transport Services</h1>
           <p className="text-xl text-center text-gray-600 mb-16 max-w-3xl mx-auto">
-            More than a ride - a promise of care, dignity, and professional medical transportation across California
+            More than a ride - a promise of comfort, reliability, and professional transportation services across California
           </p>
 
           <div className="grid md:grid-cols-2 gap-16 items-center mb-24">
             <div className="space-y-6 text-gray-700 text-lg leading-relaxed">
               <p>
-                <strong className="text-red-700 text-xl">Eden Medical Transport</strong> was founded with a simple mission: provide safe, reliable, and compassionate non-emergency medical transportation for those who need it most.
+                <strong className="text-red-700 text-xl">Eden Transport Services</strong> was founded with a simple mission: provide safe, reliable, and comfortable transportation for everyone who needs it.
               </p>
               <p>
-                Since 2014, we've served thousands of patients across California, helping them reach critical medical appointments, dialysis treatments, therapy sessions, and hospital visits with dignity and comfort.
+                Since 2014, we've served thousands of customers across California, helping them reach important appointments, school, work, shopping, and any destination with comfort and peace of mind.
               </p>
               <p>
-                Our fleet of modern, wheelchair-accessible vehicles is maintained to the highest standards. Every driver is a certified EMR with extensive training in patient care, ensuring your safety and comfort throughout your journey.
+                Our fleet of modern, comfortable vehicles is maintained to the highest standards. Every driver is professionally trained and certified, ensuring your safety and comfort throughout your journey.
               </p>
               <p className="text-blue-700 font-semibold text-xl">
-                Your health matters. So does how you get there.
+                Your destination matters. So does how you get there.
               </p>
             </div>
 
             <div className="rounded-3xl overflow-hidden shadow-2xl border-4 border-red-200 transform hover:scale-105 transition-transform duration-500">
               <Image
                 src="/image3.jpg"
-                alt="Eden Medical Transport Vehicle"
+                alt="Eden Transport Vehicle"
                 width={600}
                 height={400}
                 className="w-full h-full object-cover"
@@ -53,21 +53,21 @@ export default function About() {
               <FaHeart className="text-5xl text-red-600 mx-auto mb-4" />
               <h3 className="text-2xl font-bold text-gray-900 mb-4">Our Mission</h3>
               <p className="text-gray-600">
-                Provide compassionate, reliable medical transportation that puts patient dignity and safety first.
+                Provide reliable, comfortable transportation that puts customer satisfaction and safety first.
               </p>
             </div>
             <div className="bg-white p-8 rounded-2xl shadow-xl text-center transform hover:-translate-y-2 transition-all">
               <FaShieldAlt className="text-5xl text-blue-600 mx-auto mb-4" />
               <h3 className="text-2xl font-bold text-gray-900 mb-4">Our Vision</h3>
               <p className="text-gray-600">
-                Be California's most trusted medical transport provider, setting the standard for excellence.
+                Be California's most trusted transportation provider, setting the standard for excellence.
               </p>
             </div>
             <div className="bg-white p-8 rounded-2xl shadow-xl text-center transform hover:-translate-y-2 transition-all">
               <FaUsers className="text-5xl text-gray-700 mx-auto mb-4" />
               <h3 className="text-2xl font-bold text-gray-900 mb-4">Our Values</h3>
               <p className="text-gray-600">
-                Compassion, reliability, safety, dignity, and professionalism in every ride.
+                Reliability, safety, comfort, professionalism, and customer care in every ride.
               </p>
             </div>
           </div>
@@ -77,10 +77,10 @@ export default function About() {
             <h2 className="text-4xl font-extrabold text-center text-gray-900 mb-12">Our Journey</h2>
             <div className="space-y-8 max-w-4xl mx-auto">
               {[
-                { year: "2014", title: "Founded", desc: "Eden Medical Transport established with 2 vehicles and a vision" },
+                { year: "2014", title: "Founded", desc: "Eden Transport Services established with 2 vehicles and a vision" },
                 { year: "2016", title: "Expansion", desc: "Expanded to serve all major California counties" },
-                { year: "2019", title: "Recognition", desc: "Awarded 'Best Medical Transport Service' by CA Healthcare Association" },
-                { year: "2022", title: "Milestone", desc: "Completed 5,000+ safe rides with 98% on-time rate" },
+                { year: "2019", title: "Recognition", desc: "Awarded 'Best Transport Service' by CA Business Association" },
+                { year: "2022", title: "Milestone", desc: "Completed 50,000+ safe rides with 98% on-time rate" },
                 { year: "2024", title: "Innovation", desc: "Launched online booking system and mobile app" }
               ].map((item, i) => (
                 <div key={i} className="flex gap-6 items-start">
@@ -106,7 +106,7 @@ export default function About() {
               </div>
               <div>
                 <FaAward className="text-5xl text-yellow-500 mx-auto mb-3" />
-                <p className="font-bold text-gray-800">Certified EMR Staff</p>
+                <p className="font-bold text-gray-800">Professional Drivers</p>
               </div>
               <div>
                 <FaAward className="text-5xl text-yellow-500 mx-auto mb-3" />
@@ -114,7 +114,7 @@ export default function About() {
               </div>
               <div>
                 <FaAward className="text-5xl text-yellow-500 mx-auto mb-3" />
-                <p className="font-bold text-gray-800">ADA Compliant</p>
+                <p className="font-bold text-gray-800">24/7 Available</p>
               </div>
             </div>
           </div>

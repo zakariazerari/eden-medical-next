@@ -2,21 +2,30 @@ import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/mongo";
 import Booking from "@/models/Booking";
 import { sendMail } from "@/lib/mailer";
+import { logError, logSuccess } from "@/lib/logger";
 
 // GET: Fetch ALL bookings - OPTIMIZED
-export async function GET() {
+export async function GET(request) {
   try {
     await connectDB();
 
-    // ✅ Add .lean() for faster queries
+    const { searchParams } = new URL(request.url);
+    const limit = parseInt(searchParams.get('limit')) || 100; // ✅ Reduced from 500
+
     const bookings = await Booking.find()
       .sort({ createdAt: -1 })
-      .limit(500)
+      .limit(limit)
+      .select('serviceType mobility date time pickup destination patientName phone email status createdAt') // ✅ Only needed fields
       .lean();
 
-    return NextResponse.json(bookings, { status: 200 });
+    return NextResponse.json(bookings, { 
+      status: 200,
+      headers: {
+        'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=120' // ✅ Cache 1 min
+      }
+    });
   } catch (error) {
-    console.error("❌ GET bookings error:", error);
+    logError(error, { route: '/api/bookings', method: 'GET' });
     return NextResponse.json(
       { message: "Error fetching bookings" },
       { status: 500 }
@@ -24,7 +33,7 @@ export async function GET() {
   }
 }
 
-// POST: Create new booking
+// POST: Create new booking (keep as is)
 export async function POST(req) {
   try {
     await connectDB();
@@ -63,12 +72,14 @@ export async function POST(req) {
       status: 'pending'
     });
 
+    logSuccess("✅ Booking created", { bookingId: booking._id });
+
     // Send email (async, non-blocking)
-    sendMail(body).catch(err => console.error("Email error:", err));
+    sendMail(body).catch(err => logError(err, { context: 'sendMail after booking' }));
 
     return NextResponse.json(booking, { status: 201 });
   } catch (error) {
-    console.error("❌ POST booking error:", error);
+    logError(error, { route: '/api/bookings', method: 'POST' });
     return NextResponse.json(
       { message: error.message || "Error creating booking" },
       { status: 500 }

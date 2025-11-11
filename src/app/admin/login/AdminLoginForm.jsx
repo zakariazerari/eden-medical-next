@@ -49,7 +49,7 @@ export default function AdminLoginForm() {
           </button>
         </div>
       </div>
-    ), { duration: 3000 });
+    ), { duration: 2000 }); // ✅ FIXED: 2 seconds
   };
 
   const errorToast = (message) => {
@@ -183,11 +183,14 @@ export default function AdminLoginForm() {
         localStorage.removeItem("loginBlockedUntil");
         setLoginAttempts(0);
         
+        // ✅ FIXED: Show toast for 2 seconds, then redirect
         successToast("Welcome back, Admin! Redirecting...");
+        
         setTimeout(() => {
           router.push("/admin/dashboard");
           router.refresh();
-        }, 1500);
+        }, 2000); // ✅ 2 seconds delay
+        
       } else {
         // Increment failed attempts
         const newAttempts = loginAttempts + 1;
@@ -204,12 +207,13 @@ export default function AdminLoginForm() {
         } else {
           errorToast(`${data.error || "Invalid credentials"} (Attempt ${newAttempts}/5)`);
         }
+        
+        setLoading(false); // ✅ Reset loading on error
       }
     } catch (err) {
       console.error("Login error:", err);
       errorToast("Network error, please try again later");
-    } finally {
-      setLoading(false);
+      setLoading(false); // ✅ Reset loading on error
     }
   };
 
@@ -476,7 +480,7 @@ export default function AdminLoginForm() {
         </button>
 
         <p className="text-center text-sm text-gray-500 mt-4">
-          Default: example@gmail.com / password: xxxxxxx
+          Default: admin@eden.com / Password: 123456
         </p>
       </form>
     </div>

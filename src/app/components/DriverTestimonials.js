@@ -25,7 +25,7 @@ export default function DriverTestimonials() {
   const fetchData = async () => {
     try {
       // ✅ OPTIMIZED: Single API call with all data
-      const res = await fetch("/api/drivers?includeReviews=true");
+     const res = await fetch("/api/drivers?includeReviews=true&limit=20");
       const data = await res.json();
 
       if (data.success) {
@@ -39,7 +39,7 @@ export default function DriverTestimonials() {
           initialIndexes[driver._id] = 0;
         });
         setCurrentReviewIndex(initialIndexes);
-      }
+      }                                       
     } catch (error) {
       console.error("Error fetching data:", error);
       toast.error("Failed to load drivers");
@@ -317,7 +317,7 @@ export default function DriverTestimonials() {
                 }`}
               />
             ))}
-          </div>
+          </div>                                
         </div>
 
         {/* Stats */}

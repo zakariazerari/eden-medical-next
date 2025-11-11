@@ -8,7 +8,6 @@ export async function GET() {
   try {
     await connectDB();
 
-    // ✅ Add .lean() for faster queries
     const messages = await ContactMessage.find()
       .sort({ createdAt: -1 })
       .limit(500)
@@ -29,6 +28,8 @@ export async function POST(req) {
   try {
     await connectDB();
     const body = await req.json();
+
+    console.log("📝 Contact form data received:", body); // ✅ Debug
 
     // Validation
     if (!body.fullName || body.fullName.trim() === "") {
@@ -66,12 +67,21 @@ export async function POST(req) {
       status: 'pending'
     });
 
-    // Send email (async, non-blocking)
-    sendContactMail({
+    console.log("✅ Message saved to database:", message._id);
+
+    // ✅ FIXED: Send email WITH PHONE NUMBER
+    const emailData = {
       fullName: message.fullName,
       email: message.email,
+      phone: message.phone || "Not provided",
       message: message.message
-    }).catch(err => console.error("Email error:", err));
+    };
+
+    console.log("📧 Sending email with data:", emailData); // ✅ Debug
+
+    sendContactMail(emailData).catch(err => {
+      console.error("❌ Email error:", err);
+    });
 
     return NextResponse.json(
       { 
@@ -81,6 +91,7 @@ export async function POST(req) {
           _id: message._id,
           fullName: message.fullName,
           email: message.email,
+          phone: message.phone,
           createdAt: message.createdAt
         }
       },
@@ -89,7 +100,7 @@ export async function POST(req) {
   } catch (error) {
     console.error("❌ POST message error:", error);
     return NextResponse.json(
-      { message: error.message || "Error sending message" },
+      { success: false, message: error.message || "Error sending message" },
       { status: 500 }
     );
   }

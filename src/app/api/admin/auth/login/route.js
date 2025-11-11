@@ -1,18 +1,17 @@
 import { NextResponse } from "next/server";
-import { connectDB } from "@/lib/mongo";           // ✅ CORRECT
-import { verifyAdmin } from "@/utils/auth";        // ✅ CORRECT
+import { connectDB } from "@/lib/mongo";
+import { verifyAdmin } from "@/utils/auth";
 import { checkRateLimit } from "@/lib/rateLimit";
 
 export async function POST(request) {
   try {
-    // ✅ IMPORTANT: Connect to database first
     await connectDB();
     console.log("✅ Database connected");
 
     const { email, password, rememberMe } = await request.json();
     const ip = request.headers.get('x-forwarded-for') || 'unknown';
     
-    console.log("🔐 Login attempt:", email);
+    console.log("🔍 Login attempt:", email);
 
     // Rate limiting
     const rateCheck = checkRateLimit(ip, 10, 300000);
@@ -40,9 +39,10 @@ export async function POST(request) {
     
     const maxAge = rememberMe ? 60 * 60 * 24 * 7 : 60 * 60 * 24;
     
+    // ✅ FIXED: Always secure cookies
     response.cookies.set("admin-auth", "true", {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+      secure: true, // ✅ Always secure
       path: "/",
       maxAge: maxAge,
       sameSite: "strict",
@@ -50,7 +50,7 @@ export async function POST(request) {
 
     response.cookies.set("admin-email", email, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+      secure: true, // ✅ Always secure
       path: "/",
       maxAge: maxAge,
       sameSite: "strict",

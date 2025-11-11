@@ -19,8 +19,12 @@ const GallerySchema = new mongoose.Schema(
     },
   },
   {
-    timestamps: true, // Adds createdAt and updatedAt
+    timestamps: true,
   }
 );
+
+// ✅ ADD INDEXES for better performance
+GallerySchema.index({ category: 1, createdAt: -1 });
+GallerySchema.index({ createdAt: -1 });
 
 export default mongoose.models.Gallery || mongoose.model("Gallery", GallerySchema);

@@ -5,7 +5,7 @@ import ContactMessage from "@/models/ContactMessage";
 import Driver from "@/models/Driver";
 import Review from "@/models/Review";
 
-// GET: Fetch all statistics - OPTIMIZED
+// GET: Fetch all statistics - HIGHLY OPTIMIZED
 export async function GET() {
   try {
     console.time("⏱️ Stats API");
@@ -114,7 +114,12 @@ export async function GET() {
       messages,
       drivers,
       reviews
-    }, { status: 200 });
+    }, { 
+      status: 200,
+      headers: {
+        'Cache-Control': 'public, s-maxage=120, stale-while-revalidate=240' // ✅ Cache 2 min
+      }
+    });
 
   } catch (error) {
     console.error("❌ GET stats error:", error);

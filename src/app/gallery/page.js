@@ -15,25 +15,52 @@ export default function Gallery() {
 
   const fetchImages = async () => {
     try {
-      const res = await fetch("/api/gallery");
+      // ✅ Load 50 images
+      const res = await fetch("/api/gallery?limit=50");
       const data = await res.json();
-      setImages(data);
+      
+      // Handle both array and object responses
+      if (Array.isArray(data)) {
+        setImages(data);
+      } else if (data.images && Array.isArray(data.images)) {
+        setImages(data.images);
+      } else {
+        setImages([]);
+      }
     } catch (error) {
       console.error("Error fetching images:", error);
+      setImages([]);
     } finally {
       setLoading(false);
     }
   };
 
+  // Get unique categories
   const categories = ["all", ...new Set(images.map(img => img.category))];
-  const filtered = filter === "all" ? images : images.filter(img => img.category === filter);
+  
+  // Filter images
+  const filtered = filter === "all" 
+    ? images 
+    : images.filter(img => img.category === filter);
 
   const openLightbox = (index) => setLightbox({ open: true, index });
   const closeLightbox = () => setLightbox({ open: false, index: 0 });
-  const nextImage = () => setLightbox(prev => ({ ...prev, index: (prev.index + 1) % filtered.length }));
-  const prevImage = () => setLightbox(prev => ({ ...prev, index: (prev.index - 1 + filtered.length) % filtered.length }));
+  
+  const nextImage = () => {
+    setLightbox(prev => ({ 
+      ...prev, 
+      index: (prev.index + 1) % filtered.length 
+    }));
+  };
+  
+  const prevImage = () => {
+    setLightbox(prev => ({ 
+      ...prev, 
+      index: (prev.index - 1 + filtered.length) % filtered.length 
+    }));
+  };
 
-  // ✅ Keyboard navigation for accessibility
+  // Keyboard navigation for accessibility
   useEffect(() => {
     if (!lightbox.open) return;
     
@@ -61,59 +88,74 @@ export default function Gallery() {
   return (
     <section className="relative bg-gradient-to-br from-gray-50 via-white to-gray-100 py-24 pt-32">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h1 className="text-5xl font-extrabold text-center text-gray-900 mb-6">Our Gallery</h1>
-        <p className="text-xl text-center text-gray-600 mb-12 max-w-3xl mx-auto">
-          Take a look at our modern fleet and professional service
-        </p>
+        {/* Hero Section */}
+        <div className="text-center mb-12">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 mb-4">
+            Our Gallery
+          </h1>
+          <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
+            Take a look at our modern fleet and professional service
+          </p>
+        </div>
 
         {/* Filter Buttons */}
         {categories.length > 1 && (
-          <div className="flex justify-center gap-4 mb-12 flex-wrap">
-            {categories.map((cat, idx) => (
-              <button
-                key={cat}
-                onClick={() => setFilter(cat)}
-                className={`px-6 py-3 rounded-xl font-semibold capitalize transition-all ${
-                  filter === cat
-                    ? idx % 2 === 0 
-                      ? "bg-gradient-to-r from-red-600 to-red-700 text-white shadow-lg scale-105"
-                      : "bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-lg scale-105"
-                    : "bg-white text-gray-700 hover:bg-gray-50 border border-gray-300"
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
+          <div className="flex justify-center gap-3 md:gap-4 mb-12 flex-wrap">
+            {categories.map((cat) => {
+              const isActive = filter === cat;
+              const isRed = categories.indexOf(cat) % 2 === 0;
+              
+              return (
+                <button
+                  key={cat}
+                  onClick={() => setFilter(cat)}
+                  className={`px-4 md:px-6 py-2 md:py-3 rounded-xl font-semibold capitalize transition-all text-sm md:text-base ${
+                    isActive
+                      ? isRed
+                        ? "bg-red-600 text-white shadow-lg scale-105"
+                        : "bg-blue-600 text-white shadow-lg scale-105"
+                      : "bg-white text-gray-700 hover:bg-gray-100 hover:text-gray-600 border border-gray-300"
+                  }`}
+                >
+                  {cat}
+                </button>
+              );
+            })}
           </div>
         )}
 
         {/* Gallery Grid */}
         {filtered.length === 0 ? (
           <div className="text-center py-20">
-            <p className="text-gray-500 text-xl">No images available yet</p>
+            <div className="text-6xl mb-4">📸</div>
+            <p className="text-gray-500 text-xl mb-2">No images available yet</p>
+            <p className="text-gray-400">Check back soon for updates!</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
             {filtered.map((img, idx) => (
               <div
                 key={img.id}
                 onClick={() => openLightbox(idx)}
-                className="group relative overflow-hidden rounded-2xl shadow-lg cursor-pointer transform hover:scale-105 transition-all duration-300 aspect-square"
+                className="group relative overflow-hidden rounded-2xl shadow-lg cursor-pointer transform hover:scale-105 transition-all duration-300 aspect-square bg-gray-200"
               >
-                {/* ✅ OPTIMIZED: Using Next.js Image */}
+                {/* Next.js Image with lazy loading */}
                 <Image
-                  src={img.image_url}
-                  alt={img.title}
+                  src={img.image_url || '/placeholder.jpg'}
+                  alt={img.title || 'Gallery image'}
                   fill
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                  sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
                   className="object-cover"
                   loading="lazy"
                   quality={75}
                 />
                 
                 {/* Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
-                  <p className="text-white font-bold text-lg">{img.title}</p>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+                  <div>
+                    <p className="text-white font-bold text-base md:text-lg">{img.title}</p>
+                    <p className="text-white/80 text-xs md:text-sm capitalize">{img.category}</p>
+                  </div>
                 </div>
               </div>
             ))}
@@ -132,7 +174,7 @@ export default function Gallery() {
             {/* Close Button */}
             <button 
               onClick={closeLightbox} 
-              className="absolute top-6 right-6 text-white text-4xl hover:text-red-400 transition z-10"
+              className="absolute top-4 right-4 md:top-6 md:right-6 text-white text-3xl md:text-4xl hover:text-red-400 transition z-10 w-12 h-12 flex items-center justify-center"
               aria-label="Close lightbox"
             >
               <FaTimes />
@@ -143,14 +185,14 @@ export default function Gallery() {
               <>
                 <button 
                   onClick={(e) => { e.stopPropagation(); prevImage(); }} 
-                  className="absolute left-6 text-white text-5xl hover:text-red-400 transition"
+                  className="absolute left-2 md:left-6 text-white text-4xl md:text-5xl hover:text-red-400 transition w-12 h-12 flex items-center justify-center"
                   aria-label="Previous image"
                 >
                   ‹
                 </button>
                 <button 
                   onClick={(e) => { e.stopPropagation(); nextImage(); }} 
-                  className="absolute right-6 text-white text-5xl hover:text-red-400 transition"
+                  className="absolute right-2 md:right-6 text-white text-4xl md:text-5xl hover:text-red-400 transition w-12 h-12 flex items-center justify-center"
                   aria-label="Next image"
                 >
                   ›
@@ -161,10 +203,9 @@ export default function Gallery() {
             {/* Image Container */}
             <div className="max-w-5xl w-full relative" onClick={(e) => e.stopPropagation()}>
               <div className="relative w-full" style={{ aspectRatio: '16/9' }}>
-                {/* ✅ OPTIMIZED: Using Next.js Image in lightbox */}
                 <Image
-                  src={filtered[lightbox.index].image_url}
-                  alt={filtered[lightbox.index].title}
+                  src={filtered[lightbox.index]?.image_url || '/placeholder.jpg'}
+                  alt={filtered[lightbox.index]?.title || 'Gallery image'}
                   fill
                   sizes="(max-width: 1280px) 100vw, 1280px"
                   className="object-contain rounded-xl"
@@ -172,12 +213,16 @@ export default function Gallery() {
                   quality={90}
                 />
               </div>
-              <p className="text-white text-center mt-4 text-xl font-bold">
-                {filtered[lightbox.index].title}
-              </p>
-              <p className="text-gray-400 text-center text-sm mt-2">
-                {lightbox.index + 1} / {filtered.length}
-              </p>
+              
+              {/* Image Info */}
+              <div className="text-center mt-4">
+                <p className="text-white text-lg md:text-xl font-bold">
+                  {filtered[lightbox.index]?.title}
+                </p>
+                <p className="text-gray-400 text-sm mt-2">
+                  {lightbox.index + 1} / {filtered.length}
+                </p>
+              </div>
             </div>
           </div>
         )}

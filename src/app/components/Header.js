@@ -26,25 +26,25 @@ export default function Header() {
   }, []);
 
   const navLinks = [
-    { name: "Home", path: "/" },
-    { name: "About", path: "/about" },
-    { name: "Gallery", path: "/gallery" },
-    { name: "Contact", path: "/contact" },
+    { name: "Home", path: "/", color: "red" },
+    { name: "About", path: "/about", color: "blue" },
+    { name: "Gallery", path: "/gallery", color: "red" },
+    { name: "Contact", path: "/contact", color: "blue" }
   ];
 
   return (
     <header
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
         scrolled
           ? "bg-white/98 backdrop-blur-xl shadow-2xl py-2"
-          : "bg-gradient-to-r from-white/95 via-gray-50/90 to-white/95 backdrop-blur-lg shadow-xl py-3"
+          : "bg-white/95 backdrop-blur-lg shadow-xl py-3"
       }`}
     >
-      <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
+      <div className="max-w-7xl mx-auto px-4 md:px-6 flex justify-between items-center">
         
-        {/* Logo - Enhanced */}
-        <Link href="/" className="group flex-shrink-0 -my-6 relative">
-          <div className="relative w-36 h-36 transform group-hover:scale-110 transition-all duration-500 ease-out">
+        {/* Logo - Responsive Size */}
+        <Link href="/" className="group flex-shrink-0 -my-4 md:-my-6 relative">
+          <div className="relative w-28 h-28 md:w-36 md:h-36 transform transition-all duration-300 group-hover:scale-105">
             <Image
               src="/logo.png"
               alt="Eden Medical Transportation"
@@ -52,123 +52,124 @@ export default function Header() {
               className="object-contain drop-shadow-2xl"
               priority
             />
-            {/* Glow Effect on Hover */}
-            <div className="absolute inset-0 bg-gradient-to-r from-red-400/0 via-blue-400/0 to-red-400/0 group-hover:from-red-400/20 group-hover:via-blue-400/20 group-hover:to-red-400/20 blur-xl transition-all duration-500 -z-10"></div>
+            {/* Simple Gray Glow on Hover */}
+            <div className="absolute inset-0 bg-gray-400/0 group-hover:bg-gray-400/10 blur-xl transition-all duration-300 -z-10 rounded-full"></div>
           </div>
         </Link>
 
-        {/* Center Navigation - Enhanced */}
-        <nav className="hidden lg:flex items-center gap-2">
-          {navLinks.map((link) => (
-            <Link
-              key={link.name}
-              href={link.path}
-              className={`relative px-6 py-2.5 rounded-xl font-semibold transition-all duration-300 overflow-hidden group ${
-                pathname === link.path
-                  ? "text-white bg-gradient-to-r from-red-600 via-red-700 to-blue-700 shadow-lg shadow-red-500/30"
-                  : "text-gray-700 hover:text-blue-700"
-              }`}
-            >
-              {/* Background Animation */}
-              {pathname !== link.path && (
-                <span className="absolute inset-0 bg-gradient-to-r from-blue-50 to-red-50 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left rounded-xl -z-10"></span>
-              )}
-              
-              <span className="relative z-10">{link.name}</span>
-              
-              {/* Active Indicator */}
-              {pathname === link.path && (
-                <span className="absolute bottom-1 left-1/2 transform -translate-x-1/2 w-12 h-1 bg-white rounded-full shadow-lg animate-pulse"></span>
-              )}
-            </Link>
-          ))}
+        {/* ✅ Center Navigation - Show on Tablet (md) & Desktop */}
+        <nav className="hidden md:flex items-center gap-1 lg:gap-2">
+          {navLinks.map((link) => {
+            const isActive = pathname === link.path;
+            const isRed = link.color === "red";
+            
+            return (
+              <Link
+                key={link.name}
+                href={link.path}
+                className={`relative px-3 md:px-4 lg:px-6 py-2 md:py-2.5 rounded-xl font-semibold transition-all duration-300 text-sm md:text-base ${
+                  isActive
+                    ? isRed
+                      ? "text-white bg-red-600 shadow-lg" 
+                      : "text-white bg-blue-600 shadow-lg"
+                    : "text-gray-700 hover:text-gray-600 hover:bg-gray-100"
+                }`}
+              >
+                <span className="relative z-10">{link.name}</span>
+                
+                {/* Active Indicator */}
+                {isActive && (
+                  <span className="absolute bottom-1 left-1/2 transform -translate-x-1/2 w-8 md:w-12 h-1 bg-white rounded-full shadow-lg"></span>
+                )}
+              </Link>
+            );
+          })}
         </nav>
 
-        {/* Right Section - Enhanced */}
-        <div className="hidden md:flex items-center gap-4">
-          {/* Phone - Enhanced */}
+        {/* Right Section - Responsive */}
+        <div className="hidden md:flex items-center gap-2 lg:gap-4">
+          {/* Phone Button - Responsive */}
           <a
             href="tel:+15109578383"
-            className="group flex items-center gap-3 px-5 py-3 bg-gradient-to-r from-blue-50 to-blue-100 hover:from-blue-100 hover:to-blue-200 rounded-xl transition-all duration-300 shadow-md hover:shadow-xl"
+            className="group flex items-center gap-2 lg:gap-3 px-3 lg:px-5 py-2 lg:py-3 bg-blue-50 hover:bg-blue-100 rounded-xl transition-all duration-300 shadow-md hover:shadow-xl"
           >
-            <div className="w-10 h-10 flex items-center justify-center bg-gradient-to-br from-blue-600 to-blue-700 rounded-lg group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 shadow-lg">
-              <FaPhone className="text-white text-sm" />
+            <div className="w-8 h-8 lg:w-10 lg:h-10 flex items-center justify-center bg-blue-600 rounded-lg group-hover:scale-110 transition-all duration-300 shadow-lg">
+              <FaPhone className="text-white text-xs lg:text-sm" />
             </div>
-            <div className="text-sm">
+            <div className="text-xs lg:text-sm hidden lg:block">
               <p className="font-bold text-gray-800">(510) 957-8383</p>
               <p className="text-xs text-gray-600 font-medium">24/7 Available</p>
             </div>
           </a>
 
-          {/* Admin Button - Enhanced */}
+          {/* Admin Button - Responsive */}
           <Link
             href={isAdmin ? "/admin/dashboard" : "/admin/login"}
-            className="group relative flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-red-600 via-red-700 to-red-800 text-white font-bold rounded-xl shadow-xl hover:shadow-2xl hover:shadow-red-500/50 transform hover:scale-105 transition-all duration-300 overflow-hidden"
+            className="group relative flex items-center gap-2 px-4 lg:px-6 py-2 lg:py-3 bg-red-600 hover:bg-red-700 text-white font-bold rounded-xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 text-sm lg:text-base"
           >
-            {/* Shine Effect */}
-            <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -translate-x-full group-hover:translate-x-full transition-transform duration-700"></span>
-            
-            <FaUser className="relative z-10" />
-            <span className="relative z-10">{isAdmin ? "Dashboard" : "Login"}</span>
+            <FaUser className="text-sm lg:text-base" />
+            <span className="hidden lg:inline">{isAdmin ? "Dashboard" : "Login"}</span>
           </Link>
         </div>
 
-        {/* Mobile Menu Button - Enhanced */}
+        {/* ✅ Mobile Menu Button - Only on Small Screens */}
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="md:hidden w-12 h-12 flex items-center justify-center bg-gradient-to-r from-red-600 to-blue-600 text-white rounded-xl shadow-lg hover:shadow-xl hover:scale-110 transition-all duration-300"
+          className="md:hidden w-12 h-12 flex items-center justify-center bg-red-600 hover:bg-red-700 text-white rounded-xl shadow-lg hover:shadow-xl hover:scale-110 transition-all duration-300"
           aria-label="Toggle navigation menu"
           aria-expanded={isOpen}
         >
-          {isOpen ? (
-            <FaTimes className="text-xl animate-spin-slow" />
-          ) : (
-            <FaBars className="text-xl" />
-          )}
+          {isOpen ? <FaTimes className="text-xl" /> : <FaBars className="text-xl" />}
         </button>
       </div>
 
-      {/* Mobile Menu - Enhanced */}
+      {/* Mobile Menu - Only on Small Screens */}
       {isOpen && (
         <div className="md:hidden fixed inset-0 top-[88px] z-40 animate-fade-in">
           {/* Backdrop */}
           <div 
-            className="absolute inset-0 bg-gradient-to-b from-black/50 to-black/70 backdrop-blur-sm"
+            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
             onClick={() => setIsOpen(false)}
           ></div>
 
           {/* Menu Content */}
-          <div className="relative bg-gradient-to-br from-white via-gray-50 to-white shadow-2xl animate-slide-down max-h-[calc(100vh-88px)] overflow-y-auto">
+          <div className="relative bg-white shadow-2xl animate-slide-down max-h-[calc(100vh-88px)] overflow-y-auto">
             <div className="px-6 py-6 space-y-3">
               {/* Navigation Links */}
-              {navLinks.map((link, idx) => (
-                <Link
-                  key={link.name}
-                  href={link.path}
-                  className={`block px-5 py-4 rounded-xl transition-all duration-300 transform hover:scale-105 ${
-                    pathname === link.path
-                      ? "bg-gradient-to-r from-red-600 to-blue-600 text-white font-bold shadow-xl shadow-red-500/30"
-                      : "bg-gradient-to-r from-gray-50 to-gray-100 text-gray-800 hover:from-blue-50 hover:to-red-50 font-semibold shadow-md"
-                  }`}
-                  onClick={() => setIsOpen(false)}
-                  style={{ animationDelay: `${idx * 50}ms` }}
-                >
-                  <span className="flex items-center justify-between">
-                    {link.name}
-                    <span className="text-xl">→</span>
-                  </span>
-                </Link>
-              ))}
+              {navLinks.map((link) => {
+                const isActive = pathname === link.path;
+                const isRed = link.color === "red";
+                
+                return (
+                  <Link
+                    key={link.name}
+                    href={link.path}
+                    className={`block px-5 py-4 rounded-xl transition-all duration-300 transform hover:scale-105 font-semibold ${
+                      isActive
+                        ? isRed
+                          ? "bg-red-600 text-white shadow-xl"
+                          : "bg-blue-600 text-white shadow-xl"
+                        : "bg-white text-gray-700 hover:bg-gray-100 hover:text-gray-600 shadow-md border border-gray-200"
+                    }`}
+                    onClick={() => setIsOpen(false)}
+                  >
+                    <span className="flex items-center justify-between">
+                      {link.name}
+                      <span className="text-xl">→</span>
+                    </span>
+                  </Link>
+                );
+              })}
 
               {/* Divider */}
-              <div className="h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent my-4"></div>
+              <div className="h-px bg-gray-300 my-4"></div>
 
               {/* Action Buttons */}
               <div className="space-y-3">
                 {/* Phone Button */}
                 <a
                   href="tel:+15109578383"
-                  className="flex items-center gap-4 px-5 py-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-xl shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300"
+                  className="flex items-center gap-4 px-5 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-xl shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300"
                 >
                   <div className="w-12 h-12 flex items-center justify-center bg-white/20 rounded-lg backdrop-blur-sm">
                     <FaPhone className="text-xl" />
@@ -182,7 +183,7 @@ export default function Header() {
                 {/* Admin Button */}
                 <Link
                   href={isAdmin ? "/admin/dashboard" : "/admin/login"}
-                  className="flex items-center justify-center gap-3 px-5 py-4 bg-gradient-to-r from-red-600 via-red-700 to-red-800 text-white rounded-xl font-bold shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300"
+                  className="flex items-center justify-center gap-3 px-5 py-4 bg-red-600 hover:bg-red-700 text-white rounded-xl font-bold shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300"
                   onClick={() => setIsOpen(false)}
                 >
                   <FaUser className="text-lg" />

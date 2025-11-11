@@ -48,7 +48,6 @@ export default function BookingsPage() {
 
     let filtered = [...bookings];
 
-    // Date filter
     if (dateFilter !== "all") {
       const now = new Date();
       const daysAgo = new Date();
@@ -153,44 +152,51 @@ export default function BookingsPage() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen md:ml-64">
-        <div className="w-16 h-16 border-4 border-slate-200 rounded-full border-t-slate-500 animate-spin"></div>
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="w-12 h-12 sm:w-16 sm:h-16 border-4 border-slate-200 rounded-full border-t-slate-500 animate-spin"></div>
       </div>
     );
   }
 
   return (
-    <div className="p-6 md:ml-64 space-y-6">
-      <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-extrabold text-slate-700">Bookings Management</h1>
+    <div className="space-y-4 sm:space-y-5 lg:space-y-6">
+      {/* Header - Responsive */}
+      <div className="flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-center sm:gap-4">
+        <h1 className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-slate-700">
+          Bookings Management
+        </h1>
         <button
           onClick={exportToCSV}
-          className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition"
+          className="flex items-center justify-center gap-2 px-3 sm:px-4 py-2 sm:py-2.5 bg-blue-600 text-white rounded-lg sm:rounded-xl hover:bg-blue-700 transition text-xs sm:text-sm lg:text-base w-full sm:w-auto shadow-md hover:shadow-lg"
         >
-          <FaDownload /> Export CSV
+          <FaDownload className="text-sm sm:text-base" /> 
+          <span>Export CSV</span>
         </button>
       </div>
 
-      {/* Filters */}
-      <div className="bg-white p-6 rounded-2xl shadow-lg border border-slate-100">
-        <div className="grid md:grid-cols-3 gap-4">
+      {/* Filters - Responsive Grid */}
+      <div className="bg-white p-3 sm:p-4 lg:p-6 rounded-xl sm:rounded-2xl shadow-md sm:shadow-lg border border-slate-100">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-3 lg:gap-4">
+          {/* Search Input */}
           <div className="relative">
-            <FaSearch className="absolute left-3 top-3.5 text-slate-400" />
+            <FaSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs sm:text-sm" />
             <input
               type="text"
-              placeholder="Search by name, email, or phone..."
+              placeholder="Search..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-slate-400 focus:border-slate-400 text-gray-900"
+              className="w-full pl-8 sm:pl-10 pr-3 sm:pr-4 py-2 sm:py-2.5 lg:py-3 border border-slate-200 rounded-lg sm:rounded-xl focus:ring-2 focus:ring-slate-400 focus:border-slate-400 text-gray-900 text-xs sm:text-sm"
               style={{ WebkitTextFillColor: '#111827' }}
             />
           </div>
+
+          {/* Status Filter */}
           <div className="relative">
-            <FaFilter className="absolute left-3 top-3.5 text-slate-400" />
+            <FaFilter className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs sm:text-sm pointer-events-none z-10" />
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="w-full pl-10 pr-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-slate-400 focus:border-slate-400 text-gray-900"
+              className="w-full pl-8 sm:pl-10 pr-3 sm:pr-4 py-2 sm:py-2.5 lg:py-3 border border-slate-200 rounded-lg sm:rounded-xl focus:ring-2 focus:ring-slate-400 focus:border-slate-400 text-gray-900 text-xs sm:text-sm appearance-none bg-white cursor-pointer"
               style={{ WebkitTextFillColor: '#111827' }}
             >
               <option value="all">All Status</option>
@@ -199,12 +205,14 @@ export default function BookingsPage() {
               <option value="canceled">Canceled</option>
             </select>
           </div>
-          <div className="relative">
-            <FaFilter className="absolute left-3 top-3.5 text-slate-400" />
+
+          {/* Date Filter */}
+          <div className="relative sm:col-span-2 lg:col-span-1">
+            <FaFilter className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs sm:text-sm pointer-events-none z-10" />
             <select
               value={dateFilter}
               onChange={(e) => setDateFilter(e.target.value)}
-              className="w-full pl-10 pr-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-slate-400 focus:border-slate-400 text-gray-900"
+              className="w-full pl-8 sm:pl-10 pr-3 sm:pr-4 py-2 sm:py-2.5 lg:py-3 border border-slate-200 rounded-lg sm:rounded-xl focus:ring-2 focus:ring-slate-400 focus:border-slate-400 text-gray-900 text-xs sm:text-sm appearance-none bg-white cursor-pointer"
               style={{ WebkitTextFillColor: '#111827' }}
             >
               <option value="all">All Time</option>
@@ -217,55 +225,56 @@ export default function BookingsPage() {
         </div>
       </div>
 
-      <div className="text-slate-600">
-        Showing {filteredBookings.length} of {bookings.length} bookings
+      {/* Results Count */}
+      <div className="text-slate-600 text-xs sm:text-sm lg:text-base">
+        Showing <span className="font-semibold">{filteredBookings.length}</span> of <span className="font-semibold">{bookings.length}</span> bookings
       </div>
 
-      {/* Desktop Table */}
-      <div className="bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-100">
-        <div className="hidden md:block overflow-x-auto">
+      {/* Desktop/Tablet Table - Hidden on Mobile */}
+      <div className="hidden sm:block bg-white rounded-xl lg:rounded-2xl shadow-lg lg:shadow-xl border border-slate-100 overflow-hidden">
+        <div className="overflow-x-auto">
           <table className="w-full">
             <thead className="bg-gradient-to-r from-slate-600 to-slate-700 text-white">
               <tr>
-                <th className="px-6 py-4 text-left">Patient</th>
-                <th className="px-6 py-4 text-left">Service</th>
-                <th className="px-6 py-4 text-left">Date & Time</th>
-                <th className="px-6 py-4 text-left">Route</th>
-                <th className="px-6 py-4 text-left">Contact</th>
-                <th className="px-6 py-4 text-left">Status</th>
-                <th className="px-6 py-4 text-left">Actions</th>
+                <th className="px-4 lg:px-6 py-3 lg:py-4 text-left text-xs lg:text-sm font-semibold whitespace-nowrap">Patient</th>
+                <th className="px-4 lg:px-6 py-3 lg:py-4 text-left text-xs lg:text-sm font-semibold whitespace-nowrap">Service</th>
+                <th className="px-4 lg:px-6 py-3 lg:py-4 text-left text-xs lg:text-sm font-semibold whitespace-nowrap">Date & Time</th>
+                <th className="px-4 lg:px-6 py-3 lg:py-4 text-left text-xs lg:text-sm font-semibold whitespace-nowrap">Route</th>
+                <th className="px-4 lg:px-6 py-3 lg:py-4 text-left text-xs lg:text-sm font-semibold whitespace-nowrap">Contact</th>
+                <th className="px-4 lg:px-6 py-3 lg:py-4 text-left text-xs lg:text-sm font-semibold whitespace-nowrap">Status</th>
+                <th className="px-4 lg:px-6 py-3 lg:py-4 text-left text-xs lg:text-sm font-semibold whitespace-nowrap">Actions</th>
               </tr>
             </thead>
             <tbody>
               {filteredBookings.length > 0 ? (
                 filteredBookings.map((booking) => (
                   <tr key={booking._id} className="border-b border-slate-100 hover:bg-slate-50 transition">
-                    <td className="px-6 py-4 font-semibold text-slate-800">{booking.patientName}</td>
-                    <td className="px-6 py-4">
-                      <div className="text-sm">
+                    <td className="px-4 lg:px-6 py-3 lg:py-4 font-semibold text-slate-800 text-xs lg:text-sm whitespace-nowrap">{booking.patientName}</td>
+                    <td className="px-4 lg:px-6 py-3 lg:py-4 whitespace-nowrap">
+                      <div className="text-xs lg:text-sm">
                         <div className={`font-semibold ${booking.serviceType === "Emergency" ? "text-rose-600" : "text-sky-600"}`}>
                           {booking.serviceType}
                         </div>
-                        <div className="text-slate-500">{booking.mobility}</div>
+                        <div className="text-slate-500 text-[10px] lg:text-xs">{booking.mobility}</div>
                       </div>
                     </td>
-                    <td className="px-6 py-4 text-slate-700">
+                    <td className="px-4 lg:px-6 py-3 lg:py-4 text-slate-700 text-xs lg:text-sm whitespace-nowrap">
                       <div>{new Date(booking.date).toLocaleDateString()}</div>
-                      <div className="text-sm text-slate-500">{booking.time}</div>
+                      <div className="text-slate-500 text-[10px] lg:text-xs">{booking.time}</div>
                     </td>
-                    <td className="px-6 py-4">
-                      <div className="text-sm text-slate-600">
-                        <div>📍 {booking.pickup}</div>
-                        <div>🎯 {booking.destination}</div>
+                    <td className="px-4 lg:px-6 py-3 lg:py-4 whitespace-nowrap">
+                      <div className="text-slate-600 text-[10px] lg:text-xs max-w-[150px] lg:max-w-[200px]">
+                        <div className="truncate">📍 {booking.pickup}</div>
+                        <div className="truncate">🎯 {booking.destination}</div>
                       </div>
                     </td>
-                    <td className="px-6 py-4 text-slate-700">
+                    <td className="px-4 lg:px-6 py-3 lg:py-4 text-slate-700 text-xs lg:text-sm whitespace-nowrap">
                       <div>{booking.phone}</div>
-                      <div className="text-sm text-slate-500">{booking.email}</div>
+                      <div className="text-slate-500 text-[10px] lg:text-xs max-w-[120px] lg:max-w-[150px] truncate">{booking.email}</div>
                     </td>
-                    <td className="px-6 py-4">
+                    <td className="px-4 lg:px-6 py-3 lg:py-4 whitespace-nowrap">
                       <span
-                        className={`px-3 py-1 rounded-full text-xs font-bold ${
+                        className={`px-2 lg:px-3 py-1 rounded-full text-[10px] lg:text-xs font-bold ${
                           booking.status === "confirmed"
                             ? "bg-green-100 text-green-700"
                             : booking.status === "canceled"
@@ -276,35 +285,35 @@ export default function BookingsPage() {
                         {booking.status || "pending"}
                       </span>
                     </td>
-                    <td className="px-4 py-4 whitespace-nowrap">
-                      <div className="flex gap-2">
+                    <td className="px-3 lg:px-4 py-3 lg:py-4 whitespace-nowrap">
+                      <div className="flex gap-1 lg:gap-2">
                         <button
                           onClick={() => setSelectedBooking(booking)}
-                          className="p-2 bg-sky-500 text-white rounded-lg hover:bg-sky-600 transition"
+                          className="p-1.5 lg:p-2 bg-sky-500 text-white rounded-md lg:rounded-lg hover:bg-sky-600 transition"
                           title="View"
                         >
-                          <FaEye />
+                          <FaEye className="text-xs lg:text-sm" />
                         </button>
                         <button
                           onClick={() => updateStatus(booking._id, "confirmed")}
-                          className="p-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition"
+                          className="p-1.5 lg:p-2 bg-green-500 text-white rounded-md lg:rounded-lg hover:bg-green-600 transition"
                           title="Confirm"
                         >
-                          <FaCheckCircle />
+                          <FaCheckCircle className="text-xs lg:text-sm" />
                         </button>
                         <button
                           onClick={() => updateStatus(booking._id, "canceled")}
-                          className="p-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
+                          className="p-1.5 lg:p-2 bg-red-500 text-white rounded-md lg:rounded-lg hover:bg-red-600 transition"
                           title="Cancel"
                         >
-                          <FaTimesCircle />
+                          <FaTimesCircle className="text-xs lg:text-sm" />
                         </button>
                         <button
                           onClick={() => deleteBooking(booking._id)}
-                          className="p-2 bg-slate-500 text-white rounded-lg hover:bg-slate-600 transition"
+                          className="p-1.5 lg:p-2 bg-slate-500 text-white rounded-md lg:rounded-lg hover:bg-slate-600 transition"
                           title="Delete"
                         >
-                          <FaTrash />
+                          <FaTrash className="text-xs lg:text-sm" />
                         </button>
                       </div>
                     </td>
@@ -312,7 +321,7 @@ export default function BookingsPage() {
                 ))
               ) : (
                 <tr>
-                  <td colSpan="7" className="px-6 py-8 text-center text-slate-500">
+                  <td colSpan="7" className="px-6 py-8 text-center text-slate-500 text-sm">
                     No bookings found
                   </td>
                 </tr>
@@ -320,73 +329,75 @@ export default function BookingsPage() {
             </tbody>
           </table>
         </div>
+      </div>
 
-        {/* Mobile Cards */}
-        <div className="md:hidden space-y-4 p-4">
-          {filteredBookings.length > 0 ? (
-            filteredBookings.map((booking) => (
-              <div key={booking._id} className="border border-slate-200 rounded-xl p-4 shadow-md space-y-3 bg-white">
-                <div className="flex justify-between items-start">
-                  <div>
-                    <h3 className="font-bold text-slate-700">{booking.patientName}</h3>
-                    <div className="text-sm mt-1">
-                      <span className={`font-semibold ${booking.serviceType === "Emergency" ? "text-rose-600" : "text-sky-600"}`}>
-                        {booking.serviceType}
-                      </span>
-                      <span className="text-slate-400 mx-1">•</span>
-                      <span className="text-slate-500">{booking.mobility}</span>
-                    </div>
+      {/* Mobile Cards - Visible only on Mobile */}
+      <div className="sm:hidden space-y-3">
+        {filteredBookings.length > 0 ? (
+          filteredBookings.map((booking) => (
+            <div key={booking._id} className="bg-white border border-slate-200 rounded-lg shadow-md space-y-3 p-3">
+              <div className="flex justify-between items-start gap-2">
+                <div className="flex-1 min-w-0">
+                  <h3 className="font-bold text-slate-700 text-sm truncate">{booking.patientName}</h3>
+                  <div className="text-[11px] mt-1">
+                    <span className={`font-semibold ${booking.serviceType === "Emergency" ? "text-rose-600" : "text-sky-600"}`}>
+                      {booking.serviceType}
+                    </span>
+                    <span className="text-slate-400 mx-1">•</span>
+                    <span className="text-slate-500">{booking.mobility}</span>
                   </div>
-                  <span
-                    className={`px-2 py-1 rounded-full text-xs font-bold ${
-                      booking.status === "confirmed"
-                        ? "bg-green-100 text-green-700"
-                        : booking.status === "canceled"
-                        ? "bg-red-100 text-red-700"
-                        : "bg-yellow-100 text-yellow-700"
-                    }`}
-                  >
-                    {booking.status || "pending"}
-                  </span>
                 </div>
-                <div className="text-sm space-y-1 text-slate-600">
-                  <p>📅 {new Date(booking.date).toLocaleDateString()} ⏰ {booking.time}</p>
-                  <p>📍 From: {booking.pickup}</p>
-                  <p>🎯 To: {booking.destination}</p>
-                  <p>📞 {booking.phone}</p>
-                </div>
-                <div className="grid grid-cols-2 gap-2">
-                  <button
-                    onClick={() => setSelectedBooking(booking)}
-                    className="py-2 bg-sky-500 text-white rounded-lg text-sm hover:bg-sky-600 transition"
-                  >
-                    View
-                  </button>
-                  <button
-                    onClick={() => updateStatus(booking._id, "confirmed")}
-                    className="py-2 bg-green-500 text-white rounded-lg text-sm hover:bg-green-600 transition"
-                  >
-                    Confirm
-                  </button>
-                  <button
-                    onClick={() => updateStatus(booking._id, "canceled")}
-                    className="py-2 bg-red-500 text-white rounded-lg text-sm hover:bg-red-600 transition"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    onClick={() => deleteBooking(booking._id)}
-                    className="py-2 bg-slate-500 text-white rounded-lg text-sm hover:bg-slate-600 transition"
-                  >
-                    Delete
-                  </button>
-                </div>
+                <span
+                  className={`px-2 py-0.5 rounded-full text-[10px] font-bold flex-shrink-0 ${
+                    booking.status === "confirmed"
+                      ? "bg-green-100 text-green-700"
+                      : booking.status === "canceled"
+                      ? "bg-red-100 text-red-700"
+                      : "bg-yellow-100 text-yellow-700"
+                  }`}
+                >
+                  {booking.status || "pending"}
+                </span>
               </div>
-            ))
-          ) : (
-            <div className="text-center py-8 text-slate-500">No bookings found</div>
-          )}
-        </div>
+              <div className="text-[11px] space-y-1 text-slate-600">
+                <p>📅 {new Date(booking.date).toLocaleDateString()} ⏰ {booking.time}</p>
+                <p className="truncate">📍 {booking.pickup}</p>
+                <p className="truncate">🎯 {booking.destination}</p>
+                <p>📞 {booking.phone}</p>
+              </div>
+              <div className="grid grid-cols-2 gap-1.5">
+                <button
+                  onClick={() => setSelectedBooking(booking)}
+                  className="py-1.5 bg-sky-500 text-white rounded-md text-[11px] hover:bg-sky-600 transition font-medium"
+                >
+                  View
+                </button>
+                <button
+                  onClick={() => updateStatus(booking._id, "confirmed")}
+                  className="py-1.5 bg-green-500 text-white rounded-md text-[11px] hover:bg-green-600 transition font-medium"
+                >
+                  Confirm
+                </button>
+                <button
+                  onClick={() => updateStatus(booking._id, "canceled")}
+                  className="py-1.5 bg-red-500 text-white rounded-md text-[11px] hover:bg-red-600 transition font-medium"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={() => deleteBooking(booking._id)}
+                  className="py-1.5 bg-slate-500 text-white rounded-md text-[11px] hover:bg-slate-600 transition font-medium"
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+          ))
+        ) : (
+          <div className="bg-white text-center py-8 rounded-lg shadow-md text-slate-500 text-sm">
+            No bookings found
+          </div>
+        )}
       </div>
 
       {/* Booking Details Modal */}
@@ -399,13 +410,18 @@ export default function BookingsPage() {
 
 function BookingModal({ booking, onClose }) {
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 border border-slate-200">
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold text-slate-700">Booking Details</h2>
-          <button onClick={onClose} className="text-3xl text-slate-400 hover:text-slate-600">×</button>
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-3 sm:p-4">
+      <div className="bg-white rounded-lg sm:rounded-xl lg:rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-4 sm:p-5 lg:p-6 border border-slate-200 shadow-2xl">
+        <div className="flex justify-between items-center mb-4 sm:mb-5 lg:mb-6">
+          <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-slate-700">Booking Details</h2>
+          <button 
+            onClick={onClose} 
+            className="text-2xl sm:text-3xl text-slate-400 hover:text-slate-600 transition p-1"
+          >
+            ×
+          </button>
         </div>
-        <div className="space-y-4">
+        <div className="space-y-3 sm:space-y-4">
           <DetailRow label="Patient Name" value={booking.patientName} />
           <DetailRow label="Service Type" value={
             <span className={`font-semibold ${booking.serviceType === "Emergency" ? "text-rose-600" : "text-sky-600"}`}>
@@ -422,7 +438,7 @@ function BookingModal({ booking, onClose }) {
           <DetailRow label="Payment Method" value={booking.paymentMethod} />
           {booking.specialNotes && <DetailRow label="Special Notes" value={booking.specialNotes} />}
           <DetailRow label="Status" value={
-            <span className={`px-3 py-1 rounded-full text-sm font-bold ${
+            <span className={`px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-bold ${
               booking.status === "confirmed"
                 ? "bg-green-100 text-green-700"
                 : booking.status === "canceled"
@@ -440,9 +456,9 @@ function BookingModal({ booking, onClose }) {
 
 function DetailRow({ label, value }) {
   return (
-    <div className="grid grid-cols-3 gap-4 py-3 border-b border-slate-100">
-      <div className="font-semibold text-slate-600">{label}</div>
-      <div className="col-span-2 text-slate-800">{value}</div>
+    <div className="grid grid-cols-1 sm:grid-cols-3 gap-1 sm:gap-2 lg:gap-4 py-2 sm:py-3 border-b border-slate-100 last:border-0">
+      <div className="font-semibold text-slate-600 text-xs sm:text-sm lg:text-base">{label}</div>
+      <div className="sm:col-span-2 text-slate-800 text-xs sm:text-sm lg:text-base break-words">{value}</div>
     </div>
   );
 }

@@ -49,11 +49,11 @@ export default function SiteFooter() {
         
         <div className="space-y-4">
           <h2 className="text-2xl sm:text-3xl font-extrabold bg-gradient-to-r from-red-700 to-blue-700 bg-clip-text text-transparent">
-            Eden Medical Transport
+            Eden Transport Services
           </h2>
           <p className="text-sm leading-relaxed text-gray-700">
-            California&apos;s trusted non-emergency medical transportation provider since 2014. 
-            Safe, comfortable, and reliable wheelchair accessible transport services.
+            California&apos;s trusted transportation provider since 2014. 
+            Safe, comfortable, and reliable rides for all your travel needs.
           </p>
           <div className="flex items-center gap-2 text-sm text-gray-600">
             <FaMapMarkerAlt className="text-red-600 flex-shrink-0" />
@@ -104,37 +104,37 @@ export default function SiteFooter() {
           <ul className="space-y-3">
             <li>
               <Link
-                href="/services/wheelchair-transport"
+                href="/services/premium-rides"
                 className="flex items-start gap-3 text-gray-700 hover:text-blue-700 transition-all duration-300 group"
               >
-                <span className="text-2xl group-hover:scale-110 transition-transform">♿</span>
+                <span className="text-2xl group-hover:scale-110 transition-transform">⭐</span>
                 <div>
-                  <div className="font-semibold group-hover:text-blue-700">Wheelchair Transportation</div>
-                  <div className="text-xs text-gray-600">ADA accessible vans</div>
+                  <div className="font-semibold group-hover:text-blue-700">Premium Rides</div>
+                  <div className="text-xs text-gray-600">Comfortable transportation</div>
                 </div>
               </Link>
             </li>
             <li>
               <Link
-                href="/services/stretcher-transport"
+                href="/services/recurring-rides"
                 className="flex items-start gap-3 text-gray-700 hover:text-purple-700 transition-all duration-300 group"
               >
-                <span className="text-2xl group-hover:scale-110 transition-transform">🏥</span>
+                <span className="text-2xl group-hover:scale-110 transition-transform">📅</span>
                 <div>
-                  <div className="font-semibold group-hover:text-purple-700">Stretcher Service</div>
-                  <div className="text-xs text-gray-600">For bed-bound patients</div>
+                  <div className="font-semibold group-hover:text-purple-700">Recurring Rides</div>
+                  <div className="text-xs text-gray-600">Daily & weekly schedules</div>
                 </div>
               </Link>
             </li>
             <li>
               <Link
-                href="/services/dialysis-transport"
+                href="/services/group-transport"
                 className="flex items-start gap-3 text-gray-700 hover:text-red-700 transition-all duration-300 group"
               >
-                <span className="text-2xl group-hover:scale-110 transition-transform">💉</span>
+                <span className="text-2xl group-hover:scale-110 transition-transform">👥</span>
                 <div>
-                  <div className="font-semibold group-hover:text-red-700">Dialysis Transport</div>
-                  <div className="text-xs text-gray-600">Recurring appointments</div>
+                  <div className="font-semibold group-hover:text-red-700">Group Transport</div>
+                  <div className="text-xs text-gray-600">Families & groups</div>
                 </div>
               </Link>
             </li>
@@ -160,7 +160,7 @@ export default function SiteFooter() {
           </a>
 
           <a
-            href="mailto:info@edenmedical.com"
+            href="mailto:info@edentransport.com"
             className="flex items-center gap-3 text-gray-700 hover:text-red-700 transition-all duration-300 group"
           >
             <div className="p-2 bg-red-100 rounded-lg group-hover:bg-red-200 transition-colors">
@@ -168,7 +168,7 @@ export default function SiteFooter() {
             </div>
             <div className="text-sm">
               <p className="font-semibold">Email Us</p>
-              <p className="text-xs text-gray-900 break-all">info@edenmedical.com</p>
+              <p className="text-xs text-gray-900 break-all">info@edentransport.com</p>
             </div>
           </a>
 
@@ -176,9 +176,9 @@ export default function SiteFooter() {
             <p className="text-sm font-semibold text-gray-700 mb-3">Follow Us</p>
             <div className="flex gap-3">
               {[
-                { Icon: FaFacebookF, link: "https://www.facebook.com/edenmedical", color: "hover:bg-blue-600", label: "Facebook" },
-                { Icon: FaInstagram, link: "https://www.instagram.com/edenmedical", color: "hover:bg-gradient-to-br hover:from-pink-600 hover:to-red-600", label: "Instagram" },
-                { Icon: FaTwitter, link: "https://twitter.com/edenmedical", color: "hover:bg-sky-500", label: "Twitter" },
+                { Icon: FaFacebookF, link: "https://www.facebook.com/edentransport", color: "hover:bg-blue-600", label: "Facebook" },
+                { Icon: FaInstagram, link: "https://www.instagram.com/edentransport", color: "hover:bg-gradient-to-br hover:from-pink-600 hover:to-red-600", label: "Instagram" },
+                { Icon: FaTwitter, link: "https://twitter.com/edentransport", color: "hover:bg-sky-500", label: "Twitter" },
               ].map(({ Icon, link, color, label }) => (
                 <a 
                   key={label}
@@ -186,7 +186,7 @@ export default function SiteFooter() {
                   target="_blank"
                   rel="noopener noreferrer"
                   className={`w-10 h-10 flex items-center justify-center bg-gray-100 text-gray-700 rounded-xl ${color} hover:text-white transform hover:scale-110 hover:rotate-6 transition-all duration-300 shadow-md hover:shadow-xl`}
-                  aria-label={`Follow Eden Medical Transport on ${label}`}
+                  aria-label={`Follow Eden Transport Services on ${label}`}
                 >
                   <Icon className="text-lg" />
                 </a>
@@ -199,7 +199,7 @@ export default function SiteFooter() {
       <div className="mt-12 md:mt-14 pt-6 md:pt-8 border-t border-gray-300/50">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-600">
           <p className="text-center md:text-left">
-            &copy; {new Date().getFullYear()} Eden Medical Transport. All rights reserved.
+            &copy; {new Date().getFullYear()} Eden Transport Services. All rights reserved.
             <span className="hidden md:inline"> | </span>
             <span className="block md:inline mt-1 md:mt-0 text-gray-700 font-semibold">
               Licensed & Insured in California
@@ -221,7 +221,7 @@ export default function SiteFooter() {
             </div>
             <div className="text-xs leading-relaxed text-gray-600">
               <strong className="text-gray-800 font-semibold">Services:</strong>{" "}
-              <span className="text-gray-700">Medical Transportation California • Wheelchair Transport • Non-Emergency Medical Transport (NEMT) • Dialysis Transportation • Stretcher Service • ADA Compliant Vans • Patient Transport • Ambulette Service • Hospital Discharge Transport • Medi-Cal Transportation • Medicare Transport</span>
+              <span className="text-gray-700">Transportation California • Premium Rides • Ride Service • Recurring Transportation • Group Transport • Airport Shuttle • Event Transportation • Daily Commute • School Transport • Work Rides • Professional Drivers • 24/7 Service</span>
             </div>
             <div className="inline-flex items-center gap-2 bg-gradient-to-r from-green-50 to-blue-50 px-3 sm:px-4 py-2 rounded-full border border-green-200">
               <span className="relative flex h-3 w-3">
