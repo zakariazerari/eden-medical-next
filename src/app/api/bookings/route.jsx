@@ -10,18 +10,18 @@ export async function GET(request) {
     await connectDB();
 
     const { searchParams } = new URL(request.url);
-    const limit = parseInt(searchParams.get('limit')) || 100; // ✅ Reduced from 500
+    const limit = parseInt(searchParams.get('limit')) || 100;
 
     const bookings = await Booking.find()
       .sort({ createdAt: -1 })
       .limit(limit)
-      .select('serviceType mobility date time pickup destination patientName phone email status createdAt') // ✅ Only needed fields
+      .select('serviceType mobility date time appointmentTime returnTime pickup destination patientName phone email status createdAt')
       .lean();
 
     return NextResponse.json(bookings, { 
       status: 200,
       headers: {
-        'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=120' // ✅ Cache 1 min
+        'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=120'
       }
     });
   } catch (error) {
@@ -33,16 +33,30 @@ export async function GET(request) {
   }
 }
 
-// POST: Create new booking (keep as is)
+// POST: Create new booking
 export async function POST(req) {
   try {
     await connectDB();
     const body = await req.json();
 
     // Validation
-    if (!body.serviceType || !body.mobility || !body.date || !body.time) {
+    if (!body.serviceType || !body.mobility || !body.date) {
       return NextResponse.json(
         { message: "Missing required fields" },
+        { status: 400 }
+      );
+    }
+
+    if (!body.time) {
+      return NextResponse.json(
+        { message: "Pick-up time is required" },
+        { status: 400 }
+      );
+    }
+
+    if (!body.appointmentTime) {
+      return NextResponse.json(
+        { message: "Appointment time is required" },
         { status: 400 }
       );
     }
@@ -61,6 +75,13 @@ export async function POST(req) {
       );
     }
 
+    if (!body.paymentMethod) {
+      return NextResponse.json(
+        { message: "Payment method is required" },
+        { status: 400 }
+      );
+    }
+
     // Get IP address
     const forwarded = req.headers.get("x-forwarded-for");
     const ip = forwarded ? forwarded.split(",")[0] : req.ip || "unknown";
@@ -68,6 +89,8 @@ export async function POST(req) {
     // Create booking
     const booking = await Booking.create({
       ...body,
+      returnTime: body.returnTime || '',
+      specialNotes: body.specialNotes || '',
       ipAddress: ip,
       status: 'pending'
     });

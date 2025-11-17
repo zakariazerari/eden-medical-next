@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { FaSearch, FaFilter, FaDownload, FaEye, FaCheckCircle, FaTimesCircle, FaTrash } from "react-icons/fa";
+import { FaSearch, FaFilter, FaDownload, FaEye, FaCheckCircle, FaTimesCircle, FaTrash, FaClock } from "react-icons/fa";
 import toast from "react-hot-toast";
 
 export default function BookingsPage() {
@@ -124,13 +124,15 @@ export default function BookingsPage() {
 
   const exportToCSV = () => {
     const csv = [
-      ["Patient", "Service", "Mobility", "Date", "Time", "Pickup", "Destination", "Phone", "Email", "Status"],
+      ["Patient", "Service", "Mobility", "Date", "Pickup Time", "Appointment Time", "Return Time", "Pickup", "Destination", "Phone", "Email", "Status"],
       ...filteredBookings.map((b) => [
         b.patientName,
         b.serviceType,
         b.mobility,
         new Date(b.date).toLocaleDateString(),
-        b.time,
+        b.time || 'N/A',
+        b.appointmentTime || 'N/A',
+        b.returnTime || 'N/A',
         b.pickup,
         b.destination,
         b.phone,
@@ -160,7 +162,6 @@ export default function BookingsPage() {
 
   return (
     <div className="space-y-4 sm:space-y-5 lg:space-y-6">
-      {/* Header - Responsive */}
       <div className="flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-center sm:gap-4">
         <h1 className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-slate-700">
           Bookings Management
@@ -174,10 +175,8 @@ export default function BookingsPage() {
         </button>
       </div>
 
-      {/* Filters - Responsive Grid */}
       <div className="bg-white p-3 sm:p-4 lg:p-6 rounded-xl sm:rounded-2xl shadow-md sm:shadow-lg border border-slate-100">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-3 lg:gap-4">
-          {/* Search Input */}
           <div className="relative">
             <FaSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs sm:text-sm" />
             <input
@@ -186,18 +185,15 @@ export default function BookingsPage() {
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="w-full pl-8 sm:pl-10 pr-3 sm:pr-4 py-2 sm:py-2.5 lg:py-3 border border-slate-200 rounded-lg sm:rounded-xl focus:ring-2 focus:ring-slate-400 focus:border-slate-400 text-gray-900 text-xs sm:text-sm"
-              style={{ WebkitTextFillColor: '#111827' }}
             />
           </div>
 
-          {/* Status Filter */}
           <div className="relative">
             <FaFilter className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs sm:text-sm pointer-events-none z-10" />
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
               className="w-full pl-8 sm:pl-10 pr-3 sm:pr-4 py-2 sm:py-2.5 lg:py-3 border border-slate-200 rounded-lg sm:rounded-xl focus:ring-2 focus:ring-slate-400 focus:border-slate-400 text-gray-900 text-xs sm:text-sm appearance-none bg-white cursor-pointer"
-              style={{ WebkitTextFillColor: '#111827' }}
             >
               <option value="all">All Status</option>
               <option value="pending">Pending</option>
@@ -206,14 +202,12 @@ export default function BookingsPage() {
             </select>
           </div>
 
-          {/* Date Filter */}
           <div className="relative sm:col-span-2 lg:col-span-1">
             <FaFilter className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs sm:text-sm pointer-events-none z-10" />
             <select
               value={dateFilter}
               onChange={(e) => setDateFilter(e.target.value)}
               className="w-full pl-8 sm:pl-10 pr-3 sm:pr-4 py-2 sm:py-2.5 lg:py-3 border border-slate-200 rounded-lg sm:rounded-xl focus:ring-2 focus:ring-slate-400 focus:border-slate-400 text-gray-900 text-xs sm:text-sm appearance-none bg-white cursor-pointer"
-              style={{ WebkitTextFillColor: '#111827' }}
             >
               <option value="all">All Time</option>
               <option value="7days">Last 7 Days</option>
@@ -225,12 +219,11 @@ export default function BookingsPage() {
         </div>
       </div>
 
-      {/* Results Count */}
       <div className="text-slate-600 text-xs sm:text-sm lg:text-base">
         Showing <span className="font-semibold">{filteredBookings.length}</span> of <span className="font-semibold">{bookings.length}</span> bookings
       </div>
 
-      {/* Desktop/Tablet Table - Hidden on Mobile */}
+      {/* Desktop Table */}
       <div className="hidden sm:block bg-white rounded-xl lg:rounded-2xl shadow-lg lg:shadow-xl border border-slate-100 overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full">
@@ -238,7 +231,7 @@ export default function BookingsPage() {
               <tr>
                 <th className="px-4 lg:px-6 py-3 lg:py-4 text-left text-xs lg:text-sm font-semibold whitespace-nowrap">Patient</th>
                 <th className="px-4 lg:px-6 py-3 lg:py-4 text-left text-xs lg:text-sm font-semibold whitespace-nowrap">Service</th>
-                <th className="px-4 lg:px-6 py-3 lg:py-4 text-left text-xs lg:text-sm font-semibold whitespace-nowrap">Date & Time</th>
+                <th className="px-4 lg:px-6 py-3 lg:py-4 text-left text-xs lg:text-sm font-semibold whitespace-nowrap">Date & Times</th>
                 <th className="px-4 lg:px-6 py-3 lg:py-4 text-left text-xs lg:text-sm font-semibold whitespace-nowrap">Route</th>
                 <th className="px-4 lg:px-6 py-3 lg:py-4 text-left text-xs lg:text-sm font-semibold whitespace-nowrap">Contact</th>
                 <th className="px-4 lg:px-6 py-3 lg:py-4 text-left text-xs lg:text-sm font-semibold whitespace-nowrap">Status</th>
@@ -258,9 +251,24 @@ export default function BookingsPage() {
                         <div className="text-slate-500 text-[10px] lg:text-xs">{booking.mobility}</div>
                       </div>
                     </td>
-                    <td className="px-4 lg:px-6 py-3 lg:py-4 text-slate-700 text-xs lg:text-sm whitespace-nowrap">
-                      <div>{new Date(booking.date).toLocaleDateString()}</div>
-                      <div className="text-slate-500 text-[10px] lg:text-xs">{booking.time}</div>
+                    <td className="px-4 lg:px-6 py-3 lg:py-4 text-slate-700 text-xs lg:text-sm">
+                      <div className="space-y-1">
+                        <div className="font-semibold">{new Date(booking.date).toLocaleDateString()}</div>
+                        <div className="flex items-center gap-1 text-[10px] lg:text-xs">
+                          <FaClock className="text-blue-500" />
+                          <span>Pickup: {booking.time || 'N/A'}</span>
+                        </div>
+                        <div className="flex items-center gap-1 text-[10px] lg:text-xs">
+                          <FaClock className="text-purple-500" />
+                          <span>Appt: {booking.appointmentTime || 'N/A'}</span>
+                        </div>
+                        {booking.returnTime && (
+                          <div className="flex items-center gap-1 text-[10px] lg:text-xs">
+                            <FaClock className="text-green-500" />
+                            <span>Return: {booking.returnTime}</span>
+                          </div>
+                        )}
+                      </div>
                     </td>
                     <td className="px-4 lg:px-6 py-3 lg:py-4 whitespace-nowrap">
                       <div className="text-slate-600 text-[10px] lg:text-xs max-w-[150px] lg:max-w-[200px]">
@@ -331,7 +339,7 @@ export default function BookingsPage() {
         </div>
       </div>
 
-      {/* Mobile Cards - Visible only on Mobile */}
+      {/* Mobile Cards */}
       <div className="sm:hidden space-y-3">
         {filteredBookings.length > 0 ? (
           filteredBookings.map((booking) => (
@@ -360,7 +368,10 @@ export default function BookingsPage() {
                 </span>
               </div>
               <div className="text-[11px] space-y-1 text-slate-600">
-                <p>📅 {new Date(booking.date).toLocaleDateString()} ⏰ {booking.time}</p>
+                <p>📅 {new Date(booking.date).toLocaleDateString()}</p>
+                <p>🕐 Pickup: {booking.time || 'N/A'}</p>
+                <p>🕑 Appointment: {booking.appointmentTime || 'N/A'}</p>
+                {booking.returnTime && <p>🕒 Return: {booking.returnTime}</p>}
                 <p className="truncate">📍 {booking.pickup}</p>
                 <p className="truncate">🎯 {booking.destination}</p>
                 <p>📞 {booking.phone}</p>
@@ -400,7 +411,6 @@ export default function BookingsPage() {
         )}
       </div>
 
-      {/* Booking Details Modal */}
       {selectedBooking && (
         <BookingModal booking={selectedBooking} onClose={() => setSelectedBooking(null)} />
       )}
@@ -430,7 +440,19 @@ function BookingModal({ booking, onClose }) {
           } />
           <DetailRow label="Mobility" value={booking.mobility} />
           <DetailRow label="Date" value={new Date(booking.date).toLocaleDateString()} />
-          <DetailRow label="Time" value={booking.time} />
+          
+          <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
+            <h3 className="font-bold text-slate-700 mb-2 flex items-center gap-2">
+              <FaClock className="text-blue-600" />
+              Schedule Times
+            </h3>
+            <div className="space-y-2 text-sm">
+              <DetailRow label="Pick-Up Time" value={booking.time || <span className="text-slate-400 italic">Not specified</span>} />
+              <DetailRow label="Appointment Time" value={booking.appointmentTime || <span className="text-slate-400 italic">Not specified</span>} />
+              <DetailRow label="Return Time" value={booking.returnTime || <span className="text-slate-400 italic">Not specified</span>} />
+            </div>
+          </div>
+          
           <DetailRow label="Pickup Address" value={booking.pickup} />
           <DetailRow label="Destination" value={booking.destination} />
           <DetailRow label="Phone" value={booking.phone} />

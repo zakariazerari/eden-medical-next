@@ -1,6 +1,5 @@
 import nodemailer from "nodemailer";
 
-// ✅ Create transporter (reusable)
 const createTransporter = () => {
   try {
     if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
@@ -24,7 +23,6 @@ const createTransporter = () => {
   }
 };
 
-// ✅ Send Booking Email
 export const sendMail = async (bookingData) => {
   try {
     const transporter = createTransporter();
@@ -46,6 +44,9 @@ export const sendMail = async (bookingData) => {
             .header { background: linear-gradient(135deg, #dc2626 0%, #2563eb 100%); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }
             .content { background: #f9fafb; padding: 30px; border-radius: 0 0 10px 10px; }
             .info-row { background: white; padding: 15px; margin: 10px 0; border-radius: 8px; border-left: 4px solid #dc2626; }
+            .time-section { background: #eff6ff; padding: 20px; margin: 20px 0; border-radius: 8px; border: 2px solid #3b82f6; }
+            .time-row { display: flex; align-items: center; padding: 10px; margin: 5px 0; background: white; border-radius: 6px; }
+            .time-icon { font-size: 20px; margin-right: 10px; }
             .label { font-weight: bold; color: #dc2626; }
             .footer { text-align: center; margin-top: 20px; color: #6b7280; font-size: 14px; }
           </style>
@@ -75,8 +76,42 @@ export const sendMail = async (bookingData) => {
                 <span class="label">Date:</span> ${new Date(bookingData.date).toLocaleDateString()}
               </div>
               
-              <div class="info-row">
-                <span class="label">Time:</span> ${bookingData.time}
+              <div class="time-section">
+                <h3 style="color: #3b82f6; margin-top: 0;">⏰ Schedule Times</h3>
+                
+                <div class="time-row">
+                  <span class="time-icon">🕐</span>
+                  <div>
+                    <strong style="color: #2563eb;">Pick-Up Time:</strong> ${bookingData.time}
+                    <br><small style="color: #6b7280;">When we pick up the patient</small>
+                  </div>
+                </div>
+                
+                <div class="time-row">
+                  <span class="time-icon">🕑</span>
+                  <div>
+                    <strong style="color: #7c3aed;">Appointment Time:</strong> ${bookingData.appointmentTime}
+                    <br><small style="color: #6b7280;">Patient's scheduled appointment</small>
+                  </div>
+                </div>
+                
+                ${bookingData.returnTime ? `
+                <div class="time-row">
+                  <span class="time-icon">🕒</span>
+                  <div>
+                    <strong style="color: #059669;">Return Time:</strong> ${bookingData.returnTime}
+                    <br><small style="color: #6b7280;">Return trip scheduled</small>
+                  </div>
+                </div>
+                ` : `
+                <div class="time-row" style="background: #fef3c7;">
+                  <span class="time-icon">ℹ️</span>
+                  <div>
+                    <strong>No return trip requested</strong>
+                    <br><small style="color: #92400e;">One-way transport only</small>
+                  </div>
+                </div>
+                `}
               </div>
               
               <div class="info-row">
@@ -125,7 +160,6 @@ export const sendMail = async (bookingData) => {
   }
 };
 
-// ✅ Send Contact Email
 export const sendContactMail = async (contactData) => {
   try {
     const transporter = createTransporter();
@@ -136,7 +170,7 @@ export const sendContactMail = async (contactData) => {
     const mailOptions = {
       from: `Eden Medical Transport <${process.env.EMAIL_USER}>`,
       to: process.env.EMAIL_TO || process.env.EMAIL_USER,
-      replyTo: contactData.email, // ✅ Admin can reply directly to customer
+      replyTo: contactData.email,
       subject: "📧 New Contact Message - Eden Medical Transport",
       html: `
         <!DOCTYPE html>
@@ -201,7 +235,6 @@ export const sendContactMail = async (contactData) => {
   }
 };
 
-// ✅ Test Email Function (for debugging)
 export const testEmail = async () => {
   try {
     const transporter = createTransporter();

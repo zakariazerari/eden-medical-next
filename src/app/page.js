@@ -17,6 +17,8 @@ export default function HomePage() {
     mobility: "Wheelchair",
     date: "",
     time: "",
+    appointmentTime: "",
+    returnTime: "",
     pickup: "",
     destination: "",
     patientName: "",
@@ -69,7 +71,8 @@ export default function HomePage() {
 
     const newErrors = {};
     if (!formData.date) newErrors.date = "Date is required.";
-    if (!formData.time) newErrors.time = "Time is required.";
+    if (!formData.time) newErrors.time = "Pick-up time is required.";
+    if (!formData.appointmentTime) newErrors.appointmentTime = "Appointment time is required.";
     if (!formData.pickup.trim()) newErrors.pickup = "Pick-up address is required.";
     if (!formData.destination.trim()) newErrors.destination = "Destination address is required.";
     if (!formData.patientName.trim()) newErrors.patientName = "Patient name is required.";
@@ -100,6 +103,8 @@ export default function HomePage() {
           mobility: "Wheelchair",
           date: "",
           time: "",
+          appointmentTime: "",
+          returnTime: "",
           pickup: "",
           destination: "",
           patientName: "",
@@ -194,16 +199,65 @@ export default function HomePage() {
               </div>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-6">
-              <div>
-                <label className="text-sm font-semibold block mb-2 text-gray-700">Transport Date</label>
-                <input type="date" name="date" value={formData.date} onChange={handleChange} className={`w-full p-3 border ${errors.date ? "border-red-500" : "border-gray-300"} rounded-xl focus:ring-2 focus:ring-red-500 focus:border-transparent`} />
-                {errors.date && <p className="text-red-600 text-sm mt-1 flex items-center gap-2"><FaExclamationTriangle />{errors.date}</p>}
-              </div>
-              <div>
-                <label className="text-sm font-semibold block mb-2 text-gray-700">Pick-Up Time</label>
-                <input type="time" name="time" value={formData.time} onChange={handleChange} className={`w-full p-3 border ${errors.time ? "border-red-500" : "border-gray-300"} rounded-xl focus:ring-2 focus:ring-red-500 focus:border-transparent`} />
-                {errors.time && <p className="text-red-600 text-sm mt-1 flex items-center gap-2"><FaExclamationTriangle />{errors.time}</p>}
+            {/* DATE & 3 TIMES */}
+            <div className="bg-gradient-to-r from-blue-50 to-purple-50 p-6 rounded-xl border-2 border-blue-200">
+              <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+                <FaClock className="text-blue-600" />
+                Schedule Details
+              </h3>
+              
+              <div className="space-y-4">
+                <div>
+                  <label className="text-sm font-semibold block mb-2 text-gray-700">Transport Date *</label>
+                  <input 
+                    type="date" 
+                    name="date" 
+                    value={formData.date} 
+                    onChange={handleChange} 
+                    className={`w-full p-3 border ${errors.date ? "border-red-500" : "border-gray-300"} rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent`} 
+                  />
+                  {errors.date && <p className="text-red-600 text-sm mt-1 flex items-center gap-2"><FaExclamationTriangle />{errors.date}</p>}
+                </div>
+
+                <div className="grid md:grid-cols-3 gap-4">
+                  <div>
+                    <label className="text-sm font-semibold block mb-2 text-gray-700">Pick-Up Time *</label>
+                    <input 
+                      type="time" 
+                      name="time" 
+                      value={formData.time} 
+                      onChange={handleChange} 
+                      className={`w-full p-3 border ${errors.time ? "border-red-500" : "border-gray-300"} rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent`} 
+                    />
+                    {errors.time && <p className="text-red-600 text-xs mt-1 flex items-center gap-1"><FaExclamationTriangle className="text-[10px]" />{errors.time}</p>}
+                    <p className="text-xs text-gray-500 mt-1">When we pick you up</p>
+                  </div>
+
+                  <div>
+                    <label className="text-sm font-semibold block mb-2 text-gray-700">Appointment Time *</label>
+                    <input 
+                      type="time" 
+                      name="appointmentTime" 
+                      value={formData.appointmentTime} 
+                      onChange={handleChange} 
+                      className={`w-full p-3 border ${errors.appointmentTime ? "border-red-500" : "border-gray-300"} rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent`} 
+                    />
+                    {errors.appointmentTime && <p className="text-red-600 text-xs mt-1 flex items-center gap-1"><FaExclamationTriangle className="text-[10px]" />{errors.appointmentTime}</p>}
+                    <p className="text-xs text-gray-500 mt-1">Your appointment</p>
+                  </div>
+
+                  <div>
+                    <label className="text-sm font-semibold block mb-2 text-gray-700">Return Time <span className="text-green-600">(Optional)</span></label>
+                    <input 
+                      type="time" 
+                      name="returnTime" 
+                      value={formData.returnTime} 
+                      onChange={handleChange} 
+                      className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent" 
+                    />
+                    <p className="text-xs text-gray-500 mt-1">Leave empty if no return</p>
+                  </div>
+                </div>
               </div>
             </div>
 

@@ -1,80 +1,102 @@
-// models/BlogPost.js
-import mongoose from "mongoose"
+// FIXED VERSION - BlogPost Model
+// Location: /models/BlogPost.js
 
-const BlogPostSchema = new mongoose.Schema({
-  title: { 
-    type: String, 
-    required: true,
-    maxlength: 200,
-    trim: true
+import mongoose from 'mongoose';
+
+const blogPostSchema = new mongoose.Schema({
+  title: {
+    type: String,
+    required: [true, 'Title is required'],
+    trim: true,
+    maxlength: [200, 'Title cannot exceed 200 characters']
   },
-  slug: { 
-    type: String, 
-    required: true, 
+  slug: {
+    type: String,
     unique: true,
     lowercase: true,
-    trim: true
+    trim: true,
+    index: true  // ✅ ONLY ONE INDEX HERE!
   },
-  excerpt: { 
-    type: String, 
-    required: true,
-    maxlength: 300
-  },
-  content: { 
-    type: String, 
-    required: true 
-  },
-  image: { 
+  excerpt: {
     type: String,
-    default: '/blog-default.jpg'
+    required: [true, 'Excerpt is required'],
+    maxlength: [300, 'Excerpt cannot exceed 300 characters']
   },
-  category: { 
-    type: String, 
-    enum: ['Health Tips', 'Transportation', 'Industry News', 'Patient Stories', 'Guides'],
-    default: 'Transportation'
+  content: {
+    type: String,
+    required: [true, 'Content is required']
   },
-  tags: [{ 
+  featuredImage: {
+    type: String,
+    default: ''
+  },
+  category: {
+    type: String,
+    required: [true, 'Category is required'],
+    enum: [
+      'Medical Transport',
+      'Healthcare Tips',
+      'Patient Guide',
+      'Industry News',
+      'Company Updates'
+    ]
+  },
+  tags: [{
     type: String,
     trim: true
   }],
-  author: { 
-    type: String, 
-    default: 'Eden Medical Team' 
-  },
-  published: { 
-    type: Boolean, 
-    default: true 
-  },
-  seoTitle: { 
+  author: {
     type: String,
-    maxlength: 70
+    default: 'Eden Medical Transport'
   },
-  seoDescription: { 
-    type: String,
-    maxlength: 160
+  published: {
+    type: Boolean,
+    default: false
   },
-  seoKeywords: [String],
   views: {
     type: Number,
     default: 0
   },
-  readTime: {
+  metaDescription: {
     type: String,
-    default: '5 min read'
+    maxlength: [160, 'Meta description cannot exceed 160 characters']
+  },
+  publishedAt: {
+    type: Date
   }
-}, { 
-  timestamps: true,
-  toJSON: {
-    transform: function(doc, ret) {
-      delete ret.__v;
-      return ret;
+}, {
+  timestamps: true
+});
+
+// ✅ AUTO-GENERATE SLUG
+blogPostSchema.pre('save', async function(next) {
+  if (this.isModified('title')) {
+    let baseSlug = this.title
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '');
+    
+    let slug = baseSlug;
+    let counter = 1;
+    
+    while (await mongoose.models.BlogPost?.findOne({ slug, _id: { $ne: this._id } })) {
+      slug = `${baseSlug}-${counter}`;
+      counter++;
     }
+    
+    this.slug = slug;
   }
-})
+  
+  if (this.published && !this.publishedAt) {
+    this.publishedAt = new Date();
+  }
+  
+  next();
+});
 
-// Index for faster searches
-BlogPostSchema.index({ slug: 1 });
-BlogPostSchema.index({ published: 1, createdAt: -1 });
-BlogPostSchema.index({ category: 1 });
+// ✅ NO DUPLICATE INDEX HERE!
+// Remove schema.index() if it exists
 
-export default mongoose.models.BlogPost || mongoose.model("BlogPost", BlogPostSchema)
+const BlogPost = mongoose.models.BlogPost || mongoose.model('BlogPost', blogPostSchema);
+
+export default BlogPost;

@@ -6,7 +6,7 @@ import Booking from "@/models/Booking";
 export async function PATCH(req, { params }) {
   try {
     await connectDB();
-    const { id } = params;
+    const { id } = await params; // ✅ FIXED: Added await
     const { status } = await req.json();
 
     if (!status || !['pending', 'confirmed', 'canceled'].includes(status)) {
@@ -19,7 +19,7 @@ export async function PATCH(req, { params }) {
     const booking = await Booking.findByIdAndUpdate(
       id,
       { status },
-      { new: true, runValidators: true, lean: true } // ✅ Add lean
+      { new: true, runValidators: true, lean: true }
     );
 
     if (!booking) {
@@ -43,7 +43,7 @@ export async function PATCH(req, { params }) {
 export async function DELETE(req, { params }) {
   try {
     await connectDB();
-    const { id } = params;
+    const { id } = await params; // ✅ FIXED: Added await
 
     const booking = await Booking.findByIdAndDelete(id);
 

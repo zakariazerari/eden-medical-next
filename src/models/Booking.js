@@ -1,4 +1,3 @@
-// models/Booking.js
 import mongoose from "mongoose";
 
 const bookingSchema = new mongoose.Schema({
@@ -21,6 +20,17 @@ const bookingSchema = new mongoose.Schema({
     type: String, 
     required: true,
     match: /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/
+  },
+  appointmentTime: {
+    type: String,
+    required: true,
+    match: /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/
+  },
+  returnTime: {
+    type: String,
+    required: false,
+    default: '',
+    match: /^$|^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/
   },
   pickup: { 
     type: String, 
@@ -79,7 +89,6 @@ const bookingSchema = new mongoose.Schema({
   }
 });
 
-// ✅ Optimized indexes for faster queries
 bookingSchema.index({ createdAt: -1 });
 bookingSchema.index({ status: 1, date: 1 });
 bookingSchema.index({ status: 1, createdAt: -1 });

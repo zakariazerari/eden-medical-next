@@ -1,10 +1,11 @@
-// app/contact/page.js
+// app/contact/page.js - ✅ UPDATED WITH CSRF PROTECTION
 
 "use client";
 import { useState } from "react";
 import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, FaClock } from "react-icons/fa";
 import ContactSnowTwinkleBG from "../components/ContactSnowTwinkleBG";
 import toast from "react-hot-toast";
+import { secureFetch } from '@/lib/csrf' // ✅ ADDED
 
 export default function Contact() {
   const [formData, setFormData] = useState({ fullName: "", email: "", phone: "", message: "" });
@@ -27,7 +28,8 @@ export default function Contact() {
 
     setSubmitting(true);
     try {
-      const res = await fetch("/api/contact", {
+      // ✅ CHANGED: Using secureFetch instead of fetch
+      const res = await secureFetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),

@@ -1,7 +1,9 @@
+// app/api/contact/route.jsx - ✅ UPDATED WITH VALIDATION
 import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/mongo";
 import ContactMessage from "@/models/ContactMessage";
 import { sendContactMail } from "@/lib/mailer";
+import { validateEmail, sanitizeString } from '@/utils/secureValidation'; // ✅ ADDED
 
 // GET: Fetch all messages - OPTIMIZED
 export async function GET() {
@@ -23,32 +25,40 @@ export async function GET() {
   }
 }
 
-// POST: Create new contact message
+// POST: Create new contact message - ✅ ENHANCED WITH VALIDATION
 export async function POST(req) {
   try {
     await connectDB();
     const body = await req.json();
 
-    console.log("📝 Contact form data received:", body); // ✅ Debug
+    console.log("📩 Contact form data received:", body);
 
-    // Validation
-    if (!body.fullName || body.fullName.trim() === "") {
+    // ✅ ADDED: Validate email
+    const emailValidation = validateEmail(body.email);
+    if (!emailValidation.valid) {
+      console.warn('🚨 Invalid email:', body.email);
       return NextResponse.json(
-        { success: false, message: "Full name is required" },
+        { success: false, message: emailValidation.error },
         { status: 400 }
       );
     }
 
-    if (!body.email || body.email.trim() === "") {
+    // ✅ ADDED: Sanitize name
+    const nameValidation = sanitizeString(body.fullName, 100);
+    if (!nameValidation.valid) {
+      console.warn('🚨 Invalid name:', body.fullName);
       return NextResponse.json(
-        { success: false, message: "Email is required" },
+        { success: false, message: 'Invalid name: ' + nameValidation.error },
         { status: 400 }
       );
     }
 
-    if (!body.message || body.message.trim().length < 5) {
+    // ✅ ADDED: Sanitize message
+    const messageValidation = sanitizeString(body.message, 1000);
+    if (!messageValidation.valid) {
+      console.warn('🚨 Invalid message:', body.message?.substring(0, 50));
       return NextResponse.json(
-        { success: false, message: "Message must be at least 5 characters" },
+        { success: false, message: 'Invalid message: ' + messageValidation.error },
         { status: 400 }
       );
     }
@@ -57,27 +67,27 @@ export async function POST(req) {
     const forwarded = req.headers.get("x-forwarded-for");
     const ip = forwarded ? forwarded.split(",")[0] : req.ip || "unknown";
 
-    // Create message
+    // ✅ Create message with sanitized data
     const message = await ContactMessage.create({
-      fullName: body.fullName.trim(),
-      email: body.email.trim(),
+      fullName: nameValidation.value,
+      email: emailValidation.value,
       phone: body.phone ? body.phone.trim() : '',
-      message: body.message.trim(),
+      message: messageValidation.value,
       ipAddress: ip,
       status: 'pending'
     });
 
     console.log("✅ Message saved to database:", message._id);
 
-    // ✅ FIXED: Send email WITH PHONE NUMBER
+    // ✅ Send email with sanitized data
     const emailData = {
-      fullName: message.fullName,
-      email: message.email,
-      phone: message.phone || "Not provided",
-      message: message.message
+      fullName: nameValidation.value,
+      email: emailValidation.value,
+      phone: body.phone || "Not provided",
+      message: messageValidation.value
     };
 
-    console.log("📧 Sending email with data:", emailData); // ✅ Debug
+    console.log("📧 Sending email with data:", emailData);
 
     sendContactMail(emailData).catch(err => {
       console.error("❌ Email error:", err);

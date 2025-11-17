@@ -12,6 +12,7 @@ import {
   FaSignOutAlt,
   FaCog,
   FaImages,
+  FaBlog, // ✅ ADDED: Blog icon
 } from "react-icons/fa";
 import toast from "react-hot-toast";
 
@@ -20,10 +21,11 @@ export default function Sidebar() {
   const pathname = usePathname();
   const router = useRouter();
 
-  // ✅ NO Reviews link
+  // ✅ ADDED: Blog link
   const links = [
     { name: "Dashboard", path: "/admin/dashboard", icon: FaHome },
     { name: "Bookings", path: "/admin/bookings", icon: FaCalendarCheck },
+    { name: "Blog Posts", path: "/admin/blog", icon: FaBlog }, // ✅ NEW!
     { name: "Gallery", path: "/admin/gallery", icon: FaImages },
     { name: "Messages", path: "/admin/contact", icon: FaEnvelope },
     { name: "Statistics", path: "/admin/stats", icon: FaChartBar },

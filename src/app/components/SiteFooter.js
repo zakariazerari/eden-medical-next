@@ -19,20 +19,32 @@ export default function SiteFooter() {
     setMounted(true);
     
     const updateTime = () => {
+      // ✅ CALIFORNIA TIMEZONE (America/Los_Angeles)
       const now = new Date();
+      
       const timeString = now.toLocaleTimeString("en-US", {
+        timeZone: "America/Los_Angeles", // ✅ California Time!
         hour: "2-digit",
         minute: "2-digit",
         second: "2-digit",
         hour12: true,
       });
+      
       const dateString = now.toLocaleDateString("en-US", {
+        timeZone: "America/Los_Angeles", // ✅ California Time!
         weekday: "short",
         month: "short",
         day: "numeric",
         year: "numeric",
       });
-      setCurrentTime(`${dateString} - ${timeString}`);
+      
+      // Get timezone abbreviation (PST/PDT)
+      const timeZone = now.toLocaleTimeString("en-US", {
+        timeZone: "America/Los_Angeles",
+        timeZoneName: "short"
+      }).split(' ').pop();
+      
+      setCurrentTime(`${dateString} - ${timeString} ${timeZone}`);
     };
 
     updateTime();
@@ -60,11 +72,12 @@ export default function SiteFooter() {
             <span>Serving all 58 California Counties</span>
           </div>
           
+          {/* ✅ CALIFORNIA TIME DISPLAY */}
           {mounted && currentTime && (
             <div className="flex items-center gap-2 text-sm text-gray-700 bg-gradient-to-r from-blue-50 to-red-50 p-3 rounded-lg border border-gray-200">
               <BiTime className="text-blue-600 text-xl animate-pulse flex-shrink-0" />
               <div>
-                <p className="font-semibold text-xs text-gray-500 uppercase">Current Time</p>
+                <p className="font-semibold text-xs text-gray-500 uppercase">California Time</p>
                 <p className="font-mono text-xs">{currentTime}</p>
               </div>
             </div>
