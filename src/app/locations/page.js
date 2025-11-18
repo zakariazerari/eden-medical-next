@@ -1,8 +1,7 @@
-// app/locations/page.js - ✅ FIXED VERSION (Remove "use client")
+// src/app/locations/page.js - ✅ COPY ALL OF THIS
 import Link from "next/link";
 import { FaMapMarkerAlt, FaPhoneAlt, FaArrowRight } from "react-icons/fa";
 
-// ✅ METADATA (Server Component)
 export const metadata = {
   title: "Service Locations California | Medical Transportation Coverage | Eden Medical",
   description: "Eden Medical Transport serves all 58 California counties. Find your local medical transportation service. Alameda, San Francisco, Santa Clara, Contra Costa, San Mateo. 24/7 availability.",
@@ -32,7 +31,6 @@ export const metadata = {
   },
 }
 
-// ✅ PAGE COMPONENT (Server Component - No "use client"!)
 export default function LocationsPage() {
   const locations = [
     {

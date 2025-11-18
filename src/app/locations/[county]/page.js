@@ -1,6 +1,6 @@
-// app/locations/[county]/page.js - ✅ FIXED VERSION
+// src/app/locations/[county]/page.js - ✅ COPY ALL OF THIS
 import Link from "next/link";
-import { FaPhoneAlt, FaMapMarkerAlt, FaArrowLeft, FaCheckCircle } from "react-icons/fa";
+import { FaPhoneAlt, FaArrowLeft, FaCheckCircle } from "react-icons/fa";
 
 const countyData = {
   "alameda-county": {
@@ -35,7 +35,6 @@ const countyData = {
   }
 };
 
-// ✅ METADATA FUNCTION (Server Component)
 export async function generateMetadata({ params }) {
   const county = countyData[params.county];
   
@@ -48,13 +47,6 @@ export async function generateMetadata({ params }) {
   return {
     title: `${county.name} Medical Transportation | Eden Medical Transport California`,
     description: `${county.description}. Call ${county.phone} for 24/7 medical transport in ${county.name}. Wheelchair accessible, licensed & insured.`,
-    keywords: [
-      `${county.name} medical transport`,
-      `medical transportation ${county.name}`,
-      `NEMT ${county.name}`,
-      `wheelchair transport ${county.name}`,
-      ...county.cities.map(city => `medical transport ${city}`)
-    ],
     openGraph: {
       title: `Medical Transportation ${county.name} | 24/7 Service`,
       description: county.description,
@@ -67,14 +59,12 @@ export async function generateMetadata({ params }) {
   }
 }
 
-// ✅ STATIC PARAMS (Server Component)
 export function generateStaticParams() {
   return Object.keys(countyData).map(county => ({
     county: county
   }))
 }
 
-// ✅ PAGE COMPONENT (Server Component - No "use client"!)
 export default function CountyPage({ params }) {
   const county = countyData[params.county];
 
@@ -105,10 +95,7 @@ export default function CountyPage({ params }) {
     <section className="bg-white">
       <div className="relative bg-gradient-to-r from-red-600 to-blue-700 py-20">
         <div className="max-w-7xl mx-auto px-4 text-white">
-          <Link 
-            href="/locations" 
-            className="inline-flex items-center gap-2 mb-6 hover:underline"
-          >
+          <Link href="/locations" className="inline-flex items-center gap-2 mb-6 hover:underline">
             <FaArrowLeft /> Back to Locations
           </Link>
 

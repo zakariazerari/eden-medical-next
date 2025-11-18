@@ -69,3 +69,4 @@ Thumbs.db
 # ✅ ADDED: Test files
 test-password.js
 generate-hash.js
+.vercel
