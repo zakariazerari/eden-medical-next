@@ -1,7 +1,8 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { FaUser, FaLock, FaShieldAlt, FaEye, FaEyeSlash, FaCheckCircle, FaTimesCircle } from "react-icons/fa";
+import Link from "next/link";
+import { FaUser, FaLock, FaShieldAlt, FaEye, FaEyeSlash, FaHome } from "react-icons/fa";
 import { toast } from "react-hot-toast";
 
 export default function AdminLoginForm() {
@@ -14,105 +15,63 @@ export default function AdminLoginForm() {
   const [resetLoading, setResetLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   
-  // Security features
   const [loginAttempts, setLoginAttempts] = useState(0);
   const [isBlocked, setIsBlocked] = useState(false);
   const [blockTimeLeft, setBlockTimeLeft] = useState(0);
   
   const router = useRouter();
 
-  // ✅ Custom Toast Styles
   const successToast = (message) => {
-    toast.custom((t) => (
-      <div className={`${t.visible ? 'animate-enter' : 'animate-leave'} max-w-md w-full bg-gradient-to-r from-green-500 to-green-600 shadow-2xl rounded-2xl pointer-events-auto flex ring-2 ring-white ring-opacity-60`}>
-        <div className="flex-1 w-0 p-4">
-          <div className="flex items-start">
-            <div className="flex-shrink-0 pt-0.5">
-              <FaCheckCircle className="h-10 w-10 text-white" />
-            </div>
-            <div className="ml-3 flex-1">
-              <p className="text-sm font-bold text-white">
-                Success!
-              </p>
-              <p className="mt-1 text-sm text-white/90">
-                {message}
-              </p>
-            </div>
-          </div>
-        </div>
-        <div className="flex border-l border-white/20">
-          <button
-            onClick={() => toast.dismiss(t.id)}
-            className="w-full border border-transparent rounded-none rounded-r-2xl p-4 flex items-center justify-center text-sm font-medium text-white hover:text-white/80 focus:outline-none"
-          >
-            ✕
-          </button>
-        </div>
-      </div>
-    ), { duration: 2000 }); // ✅ FIXED: 2 seconds
+    toast.success(message, {
+      duration: 2000,
+      position: 'top-center',
+      style: {
+        background: 'linear-gradient(to right, #10b981, #059669)',
+        color: '#fff',
+        fontWeight: 'bold',
+        padding: '16px 24px',
+        borderRadius: '12px',
+        fontSize: '14px',
+        boxShadow: '0 10px 25px rgba(16, 185, 129, 0.3)',
+      },
+      icon: '✅',
+    });
   };
 
   const errorToast = (message) => {
-    toast.custom((t) => (
-      <div className={`${t.visible ? 'animate-enter' : 'animate-leave'} max-w-md w-full bg-gradient-to-r from-red-500 to-red-600 shadow-2xl rounded-2xl pointer-events-auto flex ring-2 ring-white ring-opacity-60`}>
-        <div className="flex-1 w-0 p-4">
-          <div className="flex items-start">
-            <div className="flex-shrink-0 pt-0.5">
-              <FaTimesCircle className="h-10 w-10 text-white" />
-            </div>
-            <div className="ml-3 flex-1">
-              <p className="text-sm font-bold text-white">
-                Error!
-              </p>
-              <p className="mt-1 text-sm text-white/90">
-                {message}
-              </p>
-            </div>
-          </div>
-        </div>
-        <div className="flex border-l border-white/20">
-          <button
-            onClick={() => toast.dismiss(t.id)}
-            className="w-full border border-transparent rounded-none rounded-r-2xl p-4 flex items-center justify-center text-sm font-medium text-white hover:text-white/80 focus:outline-none"
-          >
-            ✕
-          </button>
-        </div>
-      </div>
-    ), { duration: 4000 });
+    toast.error(message, {
+      duration: 4000,
+      position: 'top-center',
+      style: {
+        background: 'linear-gradient(to right, #ef4444, #dc2626)',
+        color: '#fff',
+        fontWeight: 'bold',
+        padding: '16px 24px',
+        borderRadius: '12px',
+        fontSize: '14px',
+        boxShadow: '0 10px 25px rgba(239, 68, 68, 0.3)',
+      },
+      icon: '❌',
+    });
   };
 
   const warningToast = (message) => {
-    toast.custom((t) => (
-      <div className={`${t.visible ? 'animate-enter' : 'animate-leave'} max-w-md w-full bg-gradient-to-r from-yellow-500 to-orange-500 shadow-2xl rounded-2xl pointer-events-auto flex ring-2 ring-white ring-opacity-60`}>
-        <div className="flex-1 w-0 p-4">
-          <div className="flex items-start">
-            <div className="flex-shrink-0 pt-0.5">
-              <FaShieldAlt className="h-10 w-10 text-white" />
-            </div>
-            <div className="ml-3 flex-1">
-              <p className="text-sm font-bold text-white">
-                Warning!
-              </p>
-              <p className="mt-1 text-sm text-white/90">
-                {message}
-              </p>
-            </div>
-          </div>
-        </div>
-        <div className="flex border-l border-white/20">
-          <button
-            onClick={() => toast.dismiss(t.id)}
-            className="w-full border border-transparent rounded-none rounded-r-2xl p-4 flex items-center justify-center text-sm font-medium text-white hover:text-white/80 focus:outline-none"
-          >
-            ✕
-          </button>
-        </div>
-      </div>
-    ), { duration: 4000 });
+    toast(message, {
+      duration: 4000,
+      position: 'top-center',
+      style: {
+        background: 'linear-gradient(to right, #f59e0b, #ea580c)',
+        color: '#fff',
+        fontWeight: 'bold',
+        padding: '16px 24px',
+        borderRadius: '12px',
+        fontSize: '14px',
+        boxShadow: '0 10px 25px rgba(245, 158, 11, 0.3)',
+      },
+      icon: '⚠️',
+    });
   };
 
-  // Check if blocked on mount
   useEffect(() => {
     const blockedUntil = localStorage.getItem("loginBlockedUntil");
     if (blockedUntil) {
@@ -132,7 +91,6 @@ export default function AdminLoginForm() {
     }
   }, []);
 
-  // Countdown timer
   useEffect(() => {
     if (isBlocked && blockTimeLeft > 0) {
       const timer = setInterval(() => {
@@ -178,28 +136,24 @@ export default function AdminLoginForm() {
       const data = await res.json();
 
       if (res.ok && data.success) {
-        // Reset attempts on success
         localStorage.removeItem("loginAttempts");
         localStorage.removeItem("loginBlockedUntil");
         setLoginAttempts(0);
         
-        // ✅ FIXED: Show toast for 2 seconds, then redirect
         successToast("Welcome back, Admin! Redirecting...");
         
         setTimeout(() => {
           router.push("/admin/dashboard");
           router.refresh();
-        }, 2000); // ✅ 2 seconds delay
+        }, 2000);
         
       } else {
-        // Increment failed attempts
         const newAttempts = loginAttempts + 1;
         setLoginAttempts(newAttempts);
         localStorage.setItem("loginAttempts", newAttempts.toString());
 
         if (newAttempts >= 5) {
-          // Block for 1 minute
-          const blockUntil = Date.now() + 60000; // 1 minute
+          const blockUntil = Date.now() + 60000;
           localStorage.setItem("loginBlockedUntil", blockUntil.toString());
           setIsBlocked(true);
           setBlockTimeLeft(60);
@@ -208,12 +162,12 @@ export default function AdminLoginForm() {
           errorToast(`${data.error || "Invalid credentials"} (Attempt ${newAttempts}/5)`);
         }
         
-        setLoading(false); // ✅ Reset loading on error
+        setLoading(false);
       }
     } catch (err) {
       console.error("Login error:", err);
       errorToast("Network error, please try again later");
-      setLoading(false); // ✅ Reset loading on error
+      setLoading(false);
     }
   };
 
@@ -253,6 +207,14 @@ export default function AdminLoginForm() {
   if (showForgotPassword) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-tr from-gray-100 via-white to-gray-100 px-4">
+        <Link 
+          href="/"
+          className="fixed top-4 right-4 z-50 flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all font-semibold text-sm"
+        >
+          <FaHome className="text-lg" />
+          <span className="hidden sm:inline">Back to Home</span>
+        </Link>
+
         <form
           onSubmit={handleForgotPassword}
           className="w-full max-w-md bg-white p-8 sm:p-10 rounded-3xl shadow-xl border border-gray-200"
@@ -271,7 +233,7 @@ export default function AdminLoginForm() {
           </p>
 
           <div className="mb-6 relative">
-            <FaUser className="absolute top-3.5 left-3 text-blue-500" />
+            <FaUser className="absolute top-3.5 left-3 text-blue-500 z-10" />
             <input
               type="email"
               placeholder="example@gmail.com"
@@ -305,32 +267,26 @@ export default function AdminLoginForm() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-tr from-gray-100 via-white to-gray-100 px-4">
+      <Link 
+        href="/"
+        className="fixed top-4 right-4 z-50 flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all font-semibold text-sm"
+      >
+        <FaHome className="text-lg" />
+        <span className="hidden sm:inline">Back to Home</span>
+      </Link>
+
       <style jsx global>{`
-        @keyframes enter {
-          0% {
-            transform: scale(0.9) translateY(-20px);
-            opacity: 0;
-          }
-          100% {
-            transform: scale(1) translateY(0);
-            opacity: 1;
-          }
+        /* Hide browser's password reveal buttons */
+        input.password-input::-ms-reveal,
+        input.password-input::-ms-clear {
+          display: none !important;
         }
-        @keyframes leave {
-          0% {
-            transform: scale(1) translateY(0);
-            opacity: 1;
-          }
-          100% {
-            transform: scale(0.9) translateY(-20px);
-            opacity: 0;
-          }
-        }
-        .animate-enter {
-          animation: enter 0.3s ease-out;
-        }
-        .animate-leave {
-          animation: leave 0.2s ease-in forwards;
+        
+        input.password-input::-webkit-contacts-auto-fill-button,
+        input.password-input::-webkit-credentials-auto-fill-button {
+          visibility: hidden;
+          position: absolute;
+          right: 0;
         }
       `}</style>
 
@@ -338,7 +294,6 @@ export default function AdminLoginForm() {
         onSubmit={handleLogin}
         className="w-full max-w-md bg-white p-8 sm:p-10 rounded-3xl shadow-xl border border-gray-200 hover:shadow-2xl transition-all duration-300"
       >
-        {/* Security Shield Icon */}
         <div className="flex justify-center mb-6">
           <div className="w-20 h-20 bg-gradient-to-br from-red-600 to-red-700 rounded-full flex items-center justify-center shadow-lg animate-pulse">
             <FaShieldAlt className="text-4xl text-white" />
@@ -386,12 +341,8 @@ export default function AdminLoginForm() {
         {!isBlocked && loginAttempts > 0 && (
           <div className="mb-6 p-4 bg-gradient-to-r from-yellow-50 to-orange-50 border border-yellow-300 rounded-xl shadow-sm">
             <div className="flex items-center justify-between mb-2">
-              <p className="text-yellow-800 font-semibold text-sm">
-                Security Alert
-              </p>
-              <span className="text-xs font-bold text-orange-600">
-                {loginAttempts}/5 attempts
-              </span>
+              <p className="text-yellow-800 font-semibold text-sm">Security Alert</p>
+              <span className="text-xs font-bold text-orange-600">{loginAttempts}/5 attempts</span>
             </div>
             <div className="w-full bg-yellow-200 rounded-full h-2 overflow-hidden">
               <div 
@@ -410,7 +361,7 @@ export default function AdminLoginForm() {
         )}
 
         <div className="mb-6 relative">
-          <FaUser className="absolute top-3.5 left-3 text-blue-500" />
+          <FaUser className="absolute top-3.5 left-3 text-blue-500 z-10" />
           <input
             type="email"
             placeholder="example@gmail.com"
@@ -424,28 +375,25 @@ export default function AdminLoginForm() {
         </div>
 
         <div className="mb-4 relative">
-          <FaLock className="absolute top-3.5 left-3 text-red-500" />
+          <FaLock className="absolute top-3.5 left-3 text-red-500 z-10" />
           <input
             type={showPassword ? "text" : "password"}
             placeholder="Your password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             autoComplete="current-password"
-            className="w-full pl-10 pr-12 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-red-500 focus:outline-none text-gray-900"
+            className="w-full pl-10 pr-12 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-red-500 focus:outline-none text-gray-900 password-input"
             disabled={loading || isBlocked}
             style={{ WebkitTextFillColor: '#111827' }}
           />
           <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}
-            className="absolute top-3.5 right-3 text-red-500 hover:text-red-700 transition-colors focus:outline-none"
+            className="absolute top-3.5 right-3 text-red-500 hover:text-red-600 transition-colors focus:outline-none z-10"
             disabled={loading || isBlocked}
+            aria-label={showPassword ? "Hide password" : "Show password"}
           >
-            {showPassword ? (
-              <FaEyeSlash className="text-xl" />
-            ) : (
-              <FaEye className="text-xl" />
-            )}
+            {showPassword ? <FaEyeSlash className="text-xl" /> : <FaEye className="text-xl" />}
           </button>
         </div>
 

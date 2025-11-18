@@ -12,7 +12,7 @@ import {
   FaSignOutAlt,
   FaCog,
   FaImages,
-  FaBlog, // ✅ ADDED: Blog icon
+  FaBlog,
 } from "react-icons/fa";
 import toast from "react-hot-toast";
 
@@ -21,11 +21,10 @@ export default function Sidebar() {
   const pathname = usePathname();
   const router = useRouter();
 
-  // ✅ ADDED: Blog link
   const links = [
     { name: "Dashboard", path: "/admin/dashboard", icon: FaHome },
     { name: "Bookings", path: "/admin/bookings", icon: FaCalendarCheck },
-    { name: "Blog Posts", path: "/admin/blog", icon: FaBlog }, // ✅ NEW!
+    { name: "Blog Posts", path: "/admin/blog", icon: FaBlog },
     { name: "Gallery", path: "/admin/gallery", icon: FaImages },
     { name: "Messages", path: "/admin/contact", icon: FaEnvelope },
     { name: "Statistics", path: "/admin/stats", icon: FaChartBar },
@@ -40,18 +39,20 @@ export default function Sidebar() {
 
   return (
     <>
+      {/* Mobile Menu Button - Fixed Top Left */}
       <button
         onClick={() => setOpen(true)}
-        className="md:hidden fixed top-4 left-4 z-50 p-3 rounded-full bg-gradient-to-r from-red-700 to-blue-700 text-white shadow-2xl hover:scale-110 transition-transform"
+        className="md:hidden fixed top-4 left-4 z-50 p-3 rounded-xl bg-gradient-to-r from-red-600 to-red-700 text-white shadow-xl hover:shadow-2xl hover:scale-110 transition-all"
         aria-label="Open menu"
       >
         <FaBars className="text-xl" />
       </button>
 
-      <aside className="hidden md:flex flex-col w-64 h-screen bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 text-white shadow-2xl fixed top-0 left-0">
-        <div className="p-6 text-center border-b border-gray-700/40">
-          <h2 className="text-2xl font-extrabold bg-gradient-to-r from-red-400 to-blue-400 bg-clip-text text-transparent">
-            🚀 Eden Admin
+      {/* Desktop Sidebar */}
+      <aside className="hidden md:flex flex-col w-64 h-screen bg-gradient-to-b from-red-900 via-red-800 to-gray-900 text-white shadow-2xl fixed top-0 left-0 z-40">
+        <div className="p-6 text-center border-b border-red-700/40">
+          <h2 className="text-2xl font-extrabold bg-gradient-to-r from-red-300 to-white bg-clip-text text-transparent">
+            🚑 Eden Admin
           </h2>
         </div>
 
@@ -62,8 +63,8 @@ export default function Sidebar() {
               href={path}
               className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 ${
                 pathname === path
-                  ? "bg-gradient-to-r from-red-600 to-red-700 shadow-lg scale-105"
-                  : "hover:bg-gray-700/50 hover:translate-x-1"
+                  ? "bg-gradient-to-r from-red-600 to-red-700 shadow-lg scale-105 border-2 border-white"
+                  : "hover:bg-red-800/50 hover:translate-x-1"
               }`}
             >
               <Icon className="text-xl flex-shrink-0" />
@@ -72,10 +73,10 @@ export default function Sidebar() {
           ))}
         </nav>
 
-        <div className="p-6 border-t border-gray-700/40">
+        <div className="p-6 border-t border-red-700/40">
           <button
             onClick={handleLogout}
-            className="flex items-center gap-3 w-full px-4 py-3 bg-red-600/80 hover:bg-red-700 rounded-xl transition-all duration-300"
+            className="flex items-center gap-3 w-full px-4 py-3 bg-red-600 hover:bg-red-700 rounded-xl transition-all duration-300 border-2 border-red-400"
           >
             <FaSignOutAlt className="flex-shrink-0" />
             <span>Logout</span>
@@ -83,55 +84,62 @@ export default function Sidebar() {
         </div>
       </aside>
 
+      {/* Mobile Sidebar Overlay */}
       {open && (
         <>
+          {/* Backdrop */}
           <div
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[60] animate-fade-in md:hidden"
+            className="fixed inset-0 bg-black/70 backdrop-blur-sm z-[998] animate-fade-in"
             onClick={() => setOpen(false)}
           />
 
-          <div className="fixed top-0 left-0 w-[280px] sm:w-[320px] h-full bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 text-white z-[70] shadow-2xl overflow-y-auto animate-slide-in-left md:hidden">
-            <div className="flex items-center justify-between p-4 sm:p-6 border-b border-gray-700/40">
-              <h2 className="text-lg sm:text-xl font-extrabold bg-gradient-to-r from-red-400 to-blue-400 bg-clip-text text-transparent">
-                🚀 Eden Admin
+          {/* Sidebar Panel */}
+          <div className="fixed top-0 left-0 w-[280px] h-full bg-gradient-to-b from-red-900 via-red-800 to-gray-900 text-white z-[999] shadow-2xl overflow-hidden animate-slide-in-left border-r-4 border-red-600 flex flex-col">
+            
+            {/* Header - Fixed */}
+            <div className="flex items-center justify-between p-4 border-b-2 border-red-700/50 flex-shrink-0">
+              <h2 className="text-lg font-extrabold bg-gradient-to-r from-red-300 to-white bg-clip-text text-transparent">
+                🚑 Eden Admin
               </h2>
               <button 
                 onClick={() => setOpen(false)} 
-                className="text-2xl hover:text-red-400 transition p-2"
+                className="text-2xl hover:text-red-400 transition p-2 hover:bg-red-800/50 rounded-lg"
                 aria-label="Close menu"
               >
                 <FaTimes />
               </button>
             </div>
 
-            <nav className="p-4 sm:p-6 space-y-2">
+            {/* Navigation Links - Scrollable */}
+            <nav className="flex-1 overflow-y-auto p-4 space-y-2">
               {links.map(({ name, path, icon: Icon }) => (
                 <Link
                   key={name}
                   href={path}
                   onClick={() => setOpen(false)}
-                  className={`flex items-center gap-3 sm:gap-4 px-3 sm:px-4 py-3 rounded-xl transition-all text-sm sm:text-base ${
+                  className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${
                     pathname === path
-                      ? "bg-gradient-to-r from-red-600 to-red-700 shadow-lg"
-                      : "hover:bg-gray-700/50"
+                      ? "bg-gradient-to-r from-red-600 to-red-700 shadow-xl border-2 border-white"
+                      : "hover:bg-red-800/50 active:scale-95"
                   }`}
                 >
-                  <Icon className="text-lg sm:text-xl flex-shrink-0" />
-                  <span className="font-medium">{name}</span>
+                  <Icon className="text-lg flex-shrink-0" />
+                  <span className="font-semibold text-sm">{name}</span>
                 </Link>
               ))}
             </nav>
 
-            <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 border-t border-gray-700/40 bg-gray-900">
+            {/* Logout Button - Fixed Bottom */}
+            <div className="p-4 border-t-2 border-red-700/50 bg-red-900 flex-shrink-0">
               <button
                 onClick={() => {
                   setOpen(false);
                   handleLogout();
                 }}
-                className="flex items-center gap-3 w-full px-3 sm:px-4 py-3 bg-red-600 hover:bg-red-700 rounded-xl transition text-sm sm:text-base"
+                className="flex items-center gap-3 w-full px-4 py-3 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 rounded-xl transition shadow-xl border-2 border-red-400 active:scale-95"
               >
-                <FaSignOutAlt className="flex-shrink-0" />
-                <span>Logout</span>
+                <FaSignOutAlt className="text-lg flex-shrink-0" />
+                <span className="font-semibold text-sm">Logout</span>
               </button>
             </div>
           </div>
@@ -157,7 +165,7 @@ export default function Sidebar() {
           animation: fade-in 0.2s ease-out;
         }
         .animate-slide-in-left {
-          animation: slide-in-left 0.3s ease-out;
+          animation: slide-in-left 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
       `}</style>
     </>

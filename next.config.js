@@ -55,10 +55,38 @@ const nextConfig = {
           }
         ],
       },
+      // ✅ ADDED: Cache static assets for better performance
+      {
+        source: '/uploads/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      {
+        source: '/_next/static/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      {
+        source: '/favicon.ico',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
     ]
   },
 
-  // ✅ YOUR EXISTING IMAGES CONFIG + TIMEOUT FIX
+  // ✅ YOUR EXISTING IMAGES CONFIG + OPTIMIZATIONS
   images: {
     remotePatterns: [
       {
@@ -87,10 +115,11 @@ const nextConfig = {
         pathname: '/**',
       },
     ],
-    formats: ['image/webp'], // ✅ Changed from avif to webp only (faster, less timeout)
+    // ✅ OPTIMIZED: WebP only (faster, less timeout issues)
+    formats: ['image/webp'],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
-    // ✅ NEW: Add cache and optimization settings
+    // ✅ ADDED: Cache and optimization settings
     minimumCacheTTL: 60,
     dangerouslyAllowSVG: true,
     contentDispositionType: 'attachment',
@@ -102,6 +131,29 @@ const nextConfig = {
     removeConsole: process.env.NODE_ENV === 'production' ? {
       exclude: ['error', 'warn']
     } : false,
+  },
+
+  // ✅ ADDED: Enable compression
+  compress: true,
+
+  // ✅ ADDED: Enable SWC minification (faster builds)
+  swcMinify: true,
+
+  // ✅ ADDED: Disable source maps in production (smaller bundle)
+  productionBrowserSourceMaps: false,
+
+  // ✅ ADDED: Remove powered by header (security)
+  poweredByHeader: false,
+
+  // ✅ ADDED: Optimize production build
+  generateEtags: true,
+
+  // ✅ ADDED: Enable experimental features (optional)
+  experimental: {
+    // Optimize font loading
+    optimizeFonts: true,
+    // Optimize CSS
+    optimizeCss: true,
   },
 }
 

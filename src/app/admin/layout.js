@@ -21,12 +21,14 @@ export default function AdminLayout({ children }) {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-red-50 to-blue-50">
       <Sidebar />
-      {/* ✅ Responsive: Full width mobile, margin on desktop for sidebar */}
-      <main className="md:ml-64 p-4 sm:p-6 lg:p-8 min-h-screen">
+      
+      {/* ✅ FIXED: Added top padding for mobile menu button */}
+      <main className="md:ml-64 pt-20 md:pt-8 p-4 sm:p-6 lg:p-8 min-h-screen">
         {children}
       </main>
+      
       <Toaster position="top-center" />
     </div>
   );

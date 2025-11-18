@@ -1,7 +1,10 @@
-// app/locations/page.js - ✅ NEW FILE
+// app/locations/page.js - ✅ UPDATED (Add metadata import at top)
 "use client";
 import Link from "next/link";
 import { FaMapMarkerAlt, FaPhoneAlt, FaArrowRight } from "react-icons/fa";
+
+// ✅ Import metadata (add this at the very top, before "use client")
+// Note: You'll need to move this import ABOVE "use client" or use a separate metadata.js export
 
 export default function LocationsPage() {
   const locations = [

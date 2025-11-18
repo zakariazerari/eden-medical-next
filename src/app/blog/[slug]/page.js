@@ -1,6 +1,4 @@
-// Premium Single Blog Post Page - Clean Version (FIXED)
-// Location: /app/blog/[slug]/page.js
-
+// app/blog/[slug]/page.js - ✅ UPDATED (Add after line 17)
 "use client";
 import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
@@ -15,13 +13,15 @@ import {
   FaShare,
   FaFacebook,
   FaTwitter,
-  FaLinkedin
+  FaLinkedin,
+  FaArrowRight
 } from "react-icons/fa";
 
 export default function SinglePostPage() {
   const params = useParams();
   const router = useRouter();
   const [post, setPost] = useState(null);
+  const [relatedPosts, setRelatedPosts] = useState([]); // ✅ ADD THIS
   const [loading, setLoading] = useState(true);
   const [readProgress, setReadProgress] = useState(0);
   const [showShareMenu, setShowShareMenu] = useState(false);
@@ -43,6 +43,24 @@ export default function SinglePostPage() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // ✅ ADD THIS FUNCTION
+  const fetchRelatedPosts = async (category, currentSlug) => {
+    try {
+      const res = await fetch(`/api/blog?category=${encodeURIComponent(category)}`);
+      const data = await res.json();
+      
+      if (data.success && data.posts) {
+        const filtered = data.posts
+          .filter(p => p.slug !== currentSlug)
+          .slice(0, 3);
+        setRelatedPosts(filtered);
+      }
+    } catch (error) {
+      console.error("Error fetching related posts:", error);
+    }
+  };
+
+  // ✅ UPDATE THIS FUNCTION
   const fetchPost = async () => {
     try {
       const res = await fetch(`/api/blog/${params.slug}`);
@@ -50,6 +68,8 @@ export default function SinglePostPage() {
       
       if (data.success) {
         setPost(data.post);
+        // ✅ Fetch related posts
+        fetchRelatedPosts(data.post.category, data.post.slug);
       } else {
         router.push('/404');
       }
@@ -118,11 +138,10 @@ export default function SinglePostPage() {
 
       <article className="min-h-screen bg-gradient-to-br from-white via-gray-50 to-blue-50 pt-24">
         
-        {/* Simple Header */}
+        {/* Header */}
         <div className="bg-gradient-to-br from-gray-50 to-white border-b border-gray-200">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             
-            {/* Back Button & Category */}
             <div className="flex items-center gap-4 mb-6">
               <Link 
                 href="/blog"
@@ -137,12 +156,10 @@ export default function SinglePostPage() {
               </span>
             </div>
 
-            {/* Title */}
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-gray-900 mb-6 leading-tight">
               {post.title}
             </h1>
 
-            {/* Meta Info */}
             <div className="flex flex-wrap items-center gap-4 text-gray-600 mb-6">
               <span className="flex items-center gap-2">
                 <FaCalendar className="text-blue-600" />
@@ -161,7 +178,6 @@ export default function SinglePostPage() {
               <span>By {post.author || 'Eden Medical Transport'}</span>
             </div>
 
-            {/* Share Button */}
             <div className="relative">
               <button
                 onClick={() => setShowShareMenu(!showShareMenu)}
@@ -175,21 +191,18 @@ export default function SinglePostPage() {
                   <button
                     onClick={() => sharePost('facebook')}
                     className="p-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all hover:scale-110"
-                    title="Share on Facebook"
                   >
                     <FaFacebook size={18} />
                   </button>
                   <button
                     onClick={() => sharePost('twitter')}
                     className="p-3 bg-sky-500 text-white rounded-lg hover:bg-sky-600 transition-all hover:scale-110"
-                    title="Share on Twitter"
                   >
                     <FaTwitter size={18} />
                   </button>
                   <button
                     onClick={() => sharePost('linkedin')}
                     className="p-3 bg-blue-700 text-white rounded-lg hover:bg-blue-800 transition-all hover:scale-110"
-                    title="Share on LinkedIn"
                   >
                     <FaLinkedin size={18} />
                   </button>
@@ -215,22 +228,19 @@ export default function SinglePostPage() {
         {/* Content Container */}
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           
-          {/* Excerpt */}
           <div className="mb-10 p-6 bg-gradient-to-br from-blue-50 to-purple-50 border-l-4 border-red-600 rounded-xl shadow-md">
             <p className="text-xl text-gray-800 font-medium leading-relaxed italic">
               {post.excerpt}
             </p>
           </div>
 
-          {/* Main Content */}
           <div className="bg-white rounded-2xl shadow-xl p-6 md:p-10 mb-10">
             <div 
               dangerouslySetInnerHTML={{ __html: post.content }}
-              className="prose prose-lg lg:prose-xl max-w-none prose-headings:text-gray-900 prose-headings:font-bold prose-h2:text-3xl prose-h2:mt-12 prose-h2:mb-6 prose-h2:pb-4 prose-h2:border-b-2 prose-h2:border-red-600 prose-h3:text-2xl prose-h3:mt-8 prose-h3:mb-4 prose-h3:text-blue-900 prose-p:text-gray-700 prose-p:leading-relaxed prose-p:mb-6 prose-p:text-lg prose-a:text-red-600 prose-a:font-semibold prose-a:no-underline hover:prose-a:underline prose-strong:text-gray-900 prose-strong:font-bold prose-ul:my-6 prose-ul:space-y-2 prose-li:text-gray-700 prose-li:leading-relaxed prose-ol:my-6 prose-ol:space-y-2 prose-blockquote:border-l-4 prose-blockquote:border-blue-600 prose-blockquote:bg-blue-50 prose-blockquote:p-4 prose-blockquote:rounded-r-lg prose-blockquote:italic prose-blockquote:text-gray-700 prose-img:rounded-xl prose-img:shadow-lg"
+              className="prose prose-lg lg:prose-xl max-w-none"
             />
           </div>
 
-          {/* Tags */}
           {post.tags && post.tags.length > 0 && (
             <div className="mb-10 p-6 bg-white rounded-2xl shadow-lg">
               <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
@@ -245,6 +255,46 @@ export default function SinglePostPage() {
                   >
                     #{tag}
                   </span>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* ✅ RELATED POSTS SECTION - ADD HERE */}
+          {relatedPosts.length > 0 && (
+            <div className="mt-16 mb-10">
+              <h3 className="text-3xl font-bold text-gray-900 mb-8 text-center">
+                Related Articles
+              </h3>
+              <div className="grid md:grid-cols-3 gap-6">
+                {relatedPosts.map(related => (
+                  <Link
+                    key={related._id}
+                    href={`/blog/${related.slug}`}
+                    className="bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all overflow-hidden group"
+                  >
+                    {related.featuredImage && (
+                      <div className="relative h-48 overflow-hidden">
+                        <Image
+                          src={related.featuredImage}
+                          alt={related.title}
+                          fill
+                          className="object-cover group-hover:scale-110 transition-transform duration-500"
+                        />
+                      </div>
+                    )}
+                    <div className="p-6">
+                      <h4 className="font-bold text-lg text-gray-900 mb-2 line-clamp-2 group-hover:text-red-600 transition">
+                        {related.title}
+                      </h4>
+                      <p className="text-gray-600 text-sm line-clamp-2 mb-4">
+                        {related.excerpt}
+                      </p>
+                      <span className="inline-flex items-center gap-2 text-blue-600 font-semibold group-hover:gap-3 transition-all">
+                        Read More <FaArrowRight />
+                      </span>
+                    </div>
+                  </Link>
                 ))}
               </div>
             </div>
@@ -278,7 +328,6 @@ export default function SinglePostPage() {
             </div>
           </div>
 
-          {/* Back to Blog */}
           <div className="mt-10 text-center">
             <Link 
               href="/blog"
