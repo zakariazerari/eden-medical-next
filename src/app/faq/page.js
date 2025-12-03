@@ -14,11 +14,11 @@ export default function FAQPage() {
         },
         {
           q: "What types of vehicles do you have?",
-          a: "We have a modern fleet including comfortable sedans, spacious vans, and minibuses for group transport. All vehicles are well-maintained, climate-controlled, clean, and regularly inspected to ensure the highest safety and comfort standards."
+          a: "We have a modern fleet including comfortable sedans, spacious wheelchair and gurney vans , All vehicles are well-maintained, climate-controlled, clean, and regularly inspected to ensure the highest safety and comfort standards."
         },
         {
           q: "Are your drivers professional and trained?",
-          a: "Yes! All our drivers are professionally trained, licensed, background-checked, and experienced in customer service. They know California roads well and are committed to providing safe, punctual, and courteous transportation service."
+          a: "Yes! All our drivers are professionally trained, licensed, background-checked, and experienced in customer service. they know the roads well and are committed to providing safe, punctual, and courteous transportation service."
         },
         {
           q: "Can I choose my driver or request a specific vehicle?",
@@ -44,12 +44,8 @@ export default function FAQPage() {
         },
         {
           q: "What if I need to cancel or reschedule?",
-          a: "Please call us as soon as possible if you need to cancel or reschedule. We understand plans change, and we're flexible. For the best service, try to give us at least 2 hours notice for cancellations when possible."
+          a: "Please call us as soon as possible if you need to cancel or reschedule."
         },
-        {
-          q: "How early will the driver arrive?",
-          a: "Our drivers typically arrive 5-10 minutes before your scheduled pickup time. For time-sensitive trips like airport departures, we build in extra buffer time to ensure punctual arrival. You'll receive a call or text when your driver is en route."
-        }
       ]
     },
     {
@@ -64,18 +60,12 @@ export default function FAQPage() {
           q: "What payment methods do you accept?",
           a: "We accept cash, all major credit cards (Visa, MasterCard, American Express, Discover), digital payments (Venmo, Zelle, Cash App), and online payments. Payment can be made before service or immediately after your trip. We provide detailed receipts upon request."
         },
-        {
-          q: "Is there a waiting time fee?",
-          a: "We include up to 15 minutes of wait time at your destination at no extra charge. If you need us to wait longer, there's a small hourly fee. Let us know in advance if you expect a longer stop and we'll accommodate you."
-        },
+       
         {
           q: "Do you offer discounts for frequent riders?",
           a: "Yes! We offer special rates for recurring rides and frequent customers. If you need transportation 2+ times per week, ask about our loyalty program and package discounts when booking. Save money while enjoying reliable service!"
         },
-        {
-          q: "Is there a cancellation fee?",
-          a: "We understand plans change. If you cancel at least 2 hours before pickup, there's no fee. Cancellations with less than 2 hours notice or no-shows may incur a small cancellation fee. Contact us as soon as you know your plans have changed."
-        }
+        
       ]
     },
     {
@@ -84,19 +74,16 @@ export default function FAQPage() {
       questions: [
         {
           q: "What areas do you serve in California?",
-          a: "We proudly serve all 58 California counties! We have dedicated service in major areas: Alameda County, San Francisco, Contra Costa, Santa Clara, San Mateo, Marin, and throughout the Bay Area and California. Call (510) 957-8383 for service anywhere in California."
+          a: "We proudly Serving Alameda, San Francisco, Santa Clara, Contra Costa and Sanoma counties! We have dedicated service in major areas: Alameda County, San Francisco, Contra Costa, Santa Clara, San Mateo, Marin, and throughout the Bay Area and California. Call (510) 957-8383 for service anywhere in California."
         },
-        {
-          q: "Do you provide long-distance transportation?",
-          a: "Yes, we provide transportation throughout California, including long-distance trips between counties and cities. Whether you need transport from San Francisco to Los Angeles or Oakland to San Diego, we can accommodate inter-city transportation at competitive rates."
-        },
+      
         {
           q: "Can you transport to airports?",
-          a: "Absolutely! Airport transportation is one of our specialties. We serve all major California airports including SFO, OAK, SJC, LAX, and more. We track your flight and adjust pickup times if there are delays. Professional, reliable airport service every time."
+          a: "Absolutely! Airport transportation is one of our specialties. We serve all major cities including SFO, OAK, SJC, and more. We track your flight and adjust pickup times if there are delays. Professional, reliable airport service every time."
         },
         {
           q: "Do you provide out-of-state transportation?",
-          a: "While we primarily serve California, we can arrange special out-of-state transportation for certain situations. Contact us to discuss your specific needs and we'll do our best to help or refer you to trusted partners."
+          a: "While we primarily serve the Bay Area and surrounding cities, we can arrange special out-of-state transportation for certain situations. Contact us to discuss your specific needs and we'll do our best to help or refer you to trusted partners."
         }
       ]
     },
@@ -109,16 +96,8 @@ export default function FAQPage() {
           a: "Passenger and driver safety is our top priority. All vehicles are thoroughly cleaned between trips. Drivers follow safe driving practices and California traffic laws. Vehicles are well-maintained with regular inspections. We have comprehensive insurance coverage for your peace of mind."
         },
         {
-          q: "Can family members or friends ride with me?",
-          a: "Yes! For sedan service, we accommodate up to 3-4 passengers. For group transportation, we have vans and minibuses that accommodate 6-15 passengers. Let us know your group size when booking so we can provide the right vehicle."
-        },
-        {
           q: "Are you licensed, insured, and certified?",
-          a: "Absolutely. Eden Transport Services is fully licensed by the California DMV for passenger transportation, commercially insured with comprehensive liability coverage, bonded, and compliant with all California regulations. We maintain all required certifications and undergo regular inspections."
-        },
-        {
-          q: "Can I bring luggage or shopping bags?",
-          a: "Yes! Our vehicles have ample trunk and storage space for luggage, shopping bags, groceries, and personal belongings. For airport trips, we accommodate standard checked bags and carry-ons. If you have oversized items, let us know when booking."
+          a: "Absolutely. Eden Transport Services is fully licensed with , commercially insured comprehensive liability coverage, bonded, and compliant with all California regulations. We maintain all required certifications and undergo regular inspections."
         },
         {
           q: "What if I need to make multiple stops?",
@@ -135,10 +114,6 @@ export default function FAQPage() {
           a: "Yes! Our drivers provide door-to-door service and will assist passengers as needed. We're here to make your journey comfortable and stress-free from start to finish."
         },
         {
-          q: "Can you transport children?",
-          a: "Yes, we transport children with an accompanying adult (parent or guardian). We have car seats available for younger children if needed. Our drivers are experienced and professional, creating a safe and comfortable environment for families."
-        },
-        {
           q: "Do you provide transportation for events and parties?",
           a: "Absolutely! We specialize in event transportation including weddings, concerts, sporting events, corporate events, birthdays, and nights out. We can provide single vehicles or coordinate multiple vehicles for larger groups. Contact us for event transportation planning."
         },
@@ -146,10 +121,6 @@ export default function FAQPage() {
           q: "Can you accommodate special requests?",
           a: "We do our best to accommodate special requests! Whether you need a specific route, music preferences, temperature settings, or other accommodations, just let us know when booking. Customer satisfaction is our priority."
         },
-        {
-          q: "Do you offer corporate transportation services?",
-          a: "Yes! We provide corporate transportation for businesses including employee shuttles, airport transfers for executives, client transportation, and event transportation. We offer corporate accounts with billing and special rates for businesses. Contact us to discuss your company's transportation needs."
-        }
       ]
     }
   ]
@@ -245,7 +216,7 @@ export default function FAQPage() {
             <a href="/services/group-transport" className="bg-red-50 p-6 rounded-xl hover:shadow-lg transition text-center">
               <div className="text-4xl mb-3">👥</div>
               <h4 className="font-bold text-lg mb-2">Group Transport</h4>
-              <p className="text-gray-600 text-sm">Families & groups</p>
+              <p className="text-gray-600 text-sm">Families </p>
             </a>
           </div>
         </div>

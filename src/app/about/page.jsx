@@ -33,7 +33,7 @@ export default function About() {
                 Founded with a simple mission: provide safe, reliable, and comfortable transportation for everyone who needs it.
               </p>
               <p>
-                Since <strong className="text-blue-700">2014</strong>, we've served <strong className="text-red-700">thousands of customers</strong> across California, helping them reach important appointments, school, work, shopping, and any destination with comfort and peace of mind.
+                Since <strong className="text-blue-700">2011</strong>, we've served <strong className="text-red-700">thousands of customers</strong> across California, helping them reach important appointments, school, work, shopping, and any destination with comfort and peace of mind.
               </p>
               <p>
                 Our fleet of modern, comfortable vehicles is maintained to the highest standards. Every driver is professionally trained, background-checked, and certified, ensuring your safety and comfort throughout your journey.
@@ -145,10 +145,10 @@ export default function About() {
             <div className="space-y-6 md:space-y-8 max-w-4xl mx-auto">
               {[
                 { year: "2014", title: "Founded", desc: "Eden Transport Services established with 2 vehicles and a vision to serve California" },
-                { year: "2016", title: "Expansion", desc: "Expanded coverage to serve all major California counties with professional service" },
+                { year: "2016", title: "Expansion", desc: "coming soon..." },
                 { year: "2019", title: "Recognition", desc: "Awarded 'Best Transport Service' by California Business Association" },
                 { year: "2022", title: "Milestone", desc: "Completed 50,000+ safe rides with industry-leading 98% on-time rate" },
-                { year: "2024", title: "Innovation", desc: "Launched online booking system and mobile app for easier reservations" }
+                { year: "2024", title: "Innovation", desc: "Online booking for easier reservation" }
               ].map((item, i) => (
                 <div key={i} className="flex flex-col sm:flex-row gap-4 md:gap-6 items-start">
                   <div className={`flex-shrink-0 w-20 h-20 md:w-24 md:h-24 ${i % 2 === 0 ? 'bg-gradient-to-br from-red-600 to-red-700' : 'bg-gradient-to-br from-blue-600 to-blue-700'} rounded-full flex items-center justify-center shadow-xl`}>

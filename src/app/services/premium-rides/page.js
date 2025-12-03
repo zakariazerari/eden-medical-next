@@ -120,7 +120,7 @@ export default function PremiumRidesPage() {
             <div className="grid md:grid-cols-3 gap-4 my-8 not-prose">
               <div className="bg-gradient-to-br from-blue-500 to-blue-600 text-white p-6 rounded-xl shadow-lg">
                 <h4 className="font-bold text-xl mb-2">📍 Alameda County</h4>
-                <p className="text-blue-100 text-sm">Oakland, Berkeley, Fremont, Hayward, San Leandro</p>
+                <p className="text-blue-100 text-sm">Service Areas throughout California and replace serving the Bay Area and sounding areas</p>
                 <p className="font-mono text-sm mt-3">☎️ (510) 957-8383</p>
               </div>
               <div className="bg-gradient-to-br from-purple-500 to-purple-600 text-white p-6 rounded-xl shadow-lg">

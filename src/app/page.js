@@ -139,7 +139,7 @@ export default function HomePage() {
             California's Most Trusted <span className="text-red-400">Medical Transport</span>
           </h1>
           <p className="text-lg md:text-2xl mb-8 text-gray-100 max-w-3xl mx-auto">
-            Safe, comfortable, and reliable non-emergency medical transportation across all California counties
+            Safe, comfortable, and reliable non-emergency medical transportation serving the Bay Area counties
           </p>
           <div className="flex gap-4 justify-center flex-wrap">
             <a href="#book" className="bg-gradient-to-r from-red-600 to-red-700 text-white px-8 py-4 rounded-xl font-bold hover:shadow-2xl hover:scale-105 transition-all">
@@ -186,7 +186,6 @@ export default function HomePage() {
                 <label className="text-sm font-semibold block mb-2 text-gray-700">Service Type</label>
                 <select name="serviceType" value={formData.serviceType} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-transparent">
                   <option>Non-Emergency</option>
-                  <option>Emergency</option>
                 </select>
               </div>
               <div>
@@ -299,7 +298,6 @@ export default function HomePage() {
                   <option>Cash</option>
                   <option>Credit Card</option>
                   <option>Zelle</option>
-                  <option>Insurance</option>
                 </select>
                 {errors.paymentMethod && <p className="text-red-600 text-sm mt-1 flex items-center gap-2"><FaExclamationTriangle />{errors.paymentMethod}</p>}
               </div>
@@ -376,7 +374,7 @@ export default function HomePage() {
           <h2 className="text-5xl font-extrabold text-center text-gray-900 mb-16">Frequently Asked Questions</h2>
           <div className="space-y-4">
             {[
-              { q: "What counties do you serve?", a: "We serve all California counties including Alameda, San Francisco, Contra Costa, Santa Clara, and San Mateo." },
+              { q: "What counties do you serve?", a: "We serve Alameda, san Francisco, Contra Costa, Santa Clara, and San Mateo counties" },
               { q: "Do you accept insurance?", a: "Yes, we accept most major insurance plans. Contact us for specific coverage details." },
               { q: "Can I book same-day rides?", a: "Yes! We offer same-day service based on availability. Call us for urgent bookings." },
               { q: "Are your vehicles wheelchair accessible?", a: "All our vehicles are fully wheelchair and stretcher accessible with trained staff." }

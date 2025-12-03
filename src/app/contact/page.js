@@ -102,7 +102,7 @@ export default function Contact() {
                   <FaEnvelope className="text-2xl text-blue-600 mt-1" />
                   <div>
                     <p className="font-bold text-gray-800">Email</p>
-                    <a href="mailto:info@edenmedical.com" className="text-blue-600 hover:text-blue-700">info@edenmedical.com</a>
+                    <a href="mailto:info@edenmedical.com" className="text-blue-600 hover:text-blue-700">edenmedtrans@gmail.com</a>
                   </div>
                 </div>
                 
@@ -110,7 +110,7 @@ export default function Contact() {
                   <FaMapMarkerAlt className="text-2xl text-red-600 mt-1" />
                   <div>
                     <p className="font-bold text-gray-800">Service Area</p>
-                    <p className="text-gray-600">All California Counties</p>
+                    <p className="text-gray-600">Serving Alameda, San Francisco, Santa Clara, Contra Costa and Sanoma counties</p>
                   </div>
                 </div>
                 

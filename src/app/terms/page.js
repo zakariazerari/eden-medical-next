@@ -134,10 +134,6 @@ export default function TermsPage() {
                   <div className="text-3xl mb-2">📱</div>
                   <p className="font-bold text-sm">Zelle/Digital</p>
                 </div>
-                <div className="bg-red-100 p-4 rounded-lg text-center">
-                  <div className="text-3xl mb-2">🏥</div>
-                  <p className="font-bold text-sm">Insurance</p>
-                </div>
               </div>
 
               <h3 className="text-xl font-bold text-gray-800 mb-3">Payment Timing</h3>

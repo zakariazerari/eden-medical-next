@@ -64,12 +64,11 @@ export default function SiteFooter() {
             Eden Transport Services
           </h2>
           <p className="text-sm leading-relaxed text-gray-700">
-            California&apos;s trusted transportation provider since 2014. 
-            Safe, comfortable, and reliable rides for all your travel needs.
+           Bay Area. trusted transportation provider since 2011. Safe, comfortable, and reliable rides for all your travel needs.
           </p>
           <div className="flex items-center gap-2 text-sm text-gray-600">
             <FaMapMarkerAlt className="text-red-600 flex-shrink-0" />
-            <span>Serving all 58 California Counties</span>
+            <span>Serving Alameda, San Francisco, Santa Clara, Contra Costa and Sanoma counties  </span>
           </div>
           
           {/* ✅ CALIFORNIA TIME DISPLAY */}
@@ -147,7 +146,7 @@ export default function SiteFooter() {
                 <span className="text-2xl group-hover:scale-110 transition-transform">👥</span>
                 <div>
                   <div className="font-semibold group-hover:text-red-700">Group Transport</div>
-                  <div className="text-xs text-gray-600">Families & groups</div>
+                  <div className="text-xs text-gray-600">Families</div>
                 </div>
               </Link>
             </li>
@@ -181,7 +180,7 @@ export default function SiteFooter() {
             </div>
             <div className="text-sm">
               <p className="font-semibold">Email Us</p>
-              <p className="text-xs text-gray-900 break-all">info@edentransport.com</p>
+              <p className="text-xs text-gray-900 break-all">edenmedtrans@gmail.com</p>
             </div>
           </a>
 
@@ -230,7 +229,7 @@ export default function SiteFooter() {
           <div className="text-center space-y-3">
             <div className="text-xs leading-relaxed text-gray-600">
               <strong className="text-gray-800 font-semibold">Service Areas:</strong>{" "}
-              <span className="text-gray-700">Alameda County (Oakland, Berkeley, Fremont, Hayward) • San Francisco • Contra Costa County (Concord, Walnut Creek) • Santa Clara County (San Jose, Palo Alto, Sunnyvale) • San Mateo County (Redwood City, Daly City) • Marin County (San Rafael, Novato) • All 58 California Counties</span>
+              <span className="text-gray-700"> serving Alameda County, Contra Costa County, Santa Clara County, and Sanoma counties</span>
             </div>
             <div className="text-xs leading-relaxed text-gray-600">
               <strong className="text-gray-800 font-semibold">Services:</strong>{" "}
