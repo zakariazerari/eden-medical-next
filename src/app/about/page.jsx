@@ -144,7 +144,7 @@ export default function About() {
             <h2 className="text-3xl md:text-4xl font-extrabold text-center text-gray-900 mb-8 md:mb-12">Our Journey</h2>
             <div className="space-y-6 md:space-y-8 max-w-4xl mx-auto">
               {[
-                { year: "2014", title: "Founded", desc: "Eden Transport Services established with 2 vehicles and a vision to serve California" },
+                { year: "2014", title: "Founded", desc: "Eden Medical transport establish with 2 vehicle and a vision to serve the Bay Area and surrounding areas with reliable wheelchair, gurney and ambulatory transportation" },
                 { year: "2016", title: "Expansion", desc: "coming soon..." },
                 { year: "2019", title: "Recognition", desc: "Awarded 'Best Transport Service' by California Business Association" },
                 { year: "2022", title: "Milestone", desc: "Completed 50,000+ safe rides with industry-leading 98% on-time rate" },

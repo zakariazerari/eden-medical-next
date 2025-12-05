@@ -116,19 +116,8 @@ export default function PrivacyPage() {
                 </div>
 
                 <div className="border-l-4 border-blue-500 pl-4">
-                  <h4 className="font-bold text-gray-800">Insurance Companies</h4>
-                  <p className="text-gray-700">For billing and claims processing when applicable 
-                  (Medi-Cal, Medicare, private insurance)</p>
-                </div>
-
-                <div className="border-l-4 border-blue-500 pl-4">
                   <h4 className="font-bold text-gray-800">Legal Requirements</h4>
                   <p className="text-gray-700">When required by law, court order, or legal process</p>
-                </div>
-
-                <div className="border-l-4 border-blue-500 pl-4">
-                  <h4 className="font-bold text-gray-800">Emergency Situations</h4>
-                  <p className="text-gray-700">With emergency responders if necessary for your safety</p>
                 </div>
               </div>
 

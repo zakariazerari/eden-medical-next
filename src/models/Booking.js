@@ -1,15 +1,21 @@
 import mongoose from "mongoose";
 
+// ✅ FORCE DELETE OLD CACHED MODEL
+if (mongoose.models.Booking) {
+  delete mongoose.models.Booking;
+  delete mongoose.connection.models.Booking;
+}
+
 const bookingSchema = new mongoose.Schema({
   serviceType: { 
     type: String, 
     required: true,
-    enum: ['Emergency', 'Non-Emergency']
+    enum: ['Non-Emergency']
   },
   mobility: { 
     type: String, 
     required: true,
-    enum: ['Wheelchair', 'Stretcher', 'Sedan']
+    enum: ['Wheelchair', 'Stretcher', 'Sedan', 'Stair Assistance']
   },
   date: { 
     type: Date, 
@@ -62,7 +68,7 @@ const bookingSchema = new mongoose.Schema({
   paymentMethod: { 
     type: String, 
     required: true,
-    enum: ['Cash', 'Credit Card', 'Zelle', 'Insurance']
+    enum: ['Cash', 'Credit Card', 'Zelle']
   },
   specialNotes: { 
     type: String,
@@ -89,8 +95,12 @@ const bookingSchema = new mongoose.Schema({
   }
 });
 
+// Indexes for performance
 bookingSchema.index({ createdAt: -1 });
 bookingSchema.index({ status: 1, date: 1 });
 bookingSchema.index({ status: 1, createdAt: -1 });
 
-export default mongoose.models.Booking || mongoose.model("Booking", bookingSchema);
+// ✅ CREATE NEW MODEL
+const Booking = mongoose.model("Booking", bookingSchema);
+
+export default Booking;

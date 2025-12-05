@@ -136,10 +136,10 @@ export default function HomePage() {
         <div className="absolute inset-0 bg-gradient-to-r from-gray-900/80 to-blue-900/60"></div>
         <div className="relative z-10 max-w-5xl text-center text-white">
           <h1 className="text-4xl md:text-6xl font-extrabold mb-6">
-            California's Most Trusted <span className="text-red-400">Medical Transport</span>
+           To Bay Area Most Trusted <span className="text-red-400">Non - Emergency transport</span>
           </h1>
           <p className="text-lg md:text-2xl mb-8 text-gray-100 max-w-3xl mx-auto">
-            Safe, comfortable, and reliable non-emergency medical transportation serving the Bay Area counties
+            Safe, comfortable, and reliable non-emergency medical transportation serving the Bay Area counties
           </p>
           <div className="flex gap-4 justify-center flex-wrap">
             <a href="#book" className="bg-gradient-to-r from-red-600 to-red-700 text-white px-8 py-4 rounded-xl font-bold hover:shadow-2xl hover:scale-105 transition-all">
@@ -194,6 +194,7 @@ export default function HomePage() {
                   <option>Wheelchair</option>
                   <option>Stretcher</option>
                   <option>Sedan</option>
+                  <option>Stair Assistance</option>
                 </select>
               </div>
             </div>
@@ -359,7 +360,7 @@ export default function HomePage() {
                   <div className="flex gap-1">
                     {[...Array(testimonial.rating)].map((_, j) => (
                       <FaStar key={j} className="text-yellow-500" />
-                    ))}
+                      ))}
                   </div>
                 </div>
               </div>
@@ -374,8 +375,7 @@ export default function HomePage() {
           <h2 className="text-5xl font-extrabold text-center text-gray-900 mb-16">Frequently Asked Questions</h2>
           <div className="space-y-4">
             {[
-              { q: "What counties do you serve?", a: "We serve Alameda, san Francisco, Contra Costa, Santa Clara, and San Mateo counties" },
-              { q: "Do you accept insurance?", a: "Yes, we accept most major insurance plans. Contact us for specific coverage details." },
+              { q: "What counties do you serve?", a: "We serve Alameda, san Francisco, Contra Costa, Santa Clara, and San Mateo counties" },
               { q: "Can I book same-day rides?", a: "Yes! We offer same-day service based on availability. Call us for urgent bookings." },
               { q: "Are your vehicles wheelchair accessible?", a: "All our vehicles are fully wheelchair and stretcher accessible with trained staff." }
             ].map((faq, i) => (
@@ -392,7 +392,7 @@ export default function HomePage() {
       <section className="bg-gradient-to-r from-red-700 to-blue-700 py-20">
         <div className="max-w-4xl mx-auto text-center px-6">
           <h2 className="text-4xl md:text-5xl font-extrabold text-white mb-6">Ready to Book Your Ride?</h2>
-          <p className="text-xl text-red-100 mb-8">Join thousands of satisfied patients across California</p>
+          <p className="text-xl text-red-100 mb-8"> across the Bay Area and surrounding area</p>
           <a href="#book" className="inline-block bg-white text-red-700 px-10 py-4 rounded-xl font-bold text-lg hover:bg-gray-50 hover:scale-105 transition-all shadow-2xl">
             Book Now - It's Easy!
           </a>

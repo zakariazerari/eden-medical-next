@@ -23,7 +23,7 @@ export default function SiteFooter() {
       const now = new Date();
       
       const timeString = now.toLocaleTimeString("en-US", {
-        timeZone: "America/Los_Angeles", // ✅ California Time!
+        timeZone: "America/Los_Angeles",
         hour: "2-digit",
         minute: "2-digit",
         second: "2-digit",
@@ -31,7 +31,7 @@ export default function SiteFooter() {
       });
       
       const dateString = now.toLocaleDateString("en-US", {
-        timeZone: "America/Los_Angeles", // ✅ California Time!
+        timeZone: "America/Los_Angeles",
         weekday: "short",
         month: "short",
         day: "numeric",
@@ -64,11 +64,11 @@ export default function SiteFooter() {
             Eden Transport Services
           </h2>
           <p className="text-sm leading-relaxed text-gray-700">
-           Bay Area. trusted transportation provider since 2011. Safe, comfortable, and reliable rides for all your travel needs.
+            For over a decade, our transportation service has been the Bay Area's go-to provider for safe, comfortable, and dependable rides. Whether you require wheelchair or gurney transport, or need assistance with stairs, we've got you covered.
           </p>
           <div className="flex items-center gap-2 text-sm text-gray-600">
             <FaMapMarkerAlt className="text-red-600 flex-shrink-0" />
-            <span>Serving Alameda, San Francisco, Santa Clara, Contra Costa and Sanoma counties  </span>
+            <span>Serving Alameda, San Francisco, Santa Clara, Contra Costa and Sanoma counties</span>
           </div>
           
           {/* ✅ CALIFORNIA TIME DISPLAY */}
@@ -172,7 +172,7 @@ export default function SiteFooter() {
           </a>
 
           <a
-            href="mailto:info@edentransport.com"
+            href="mailto:edenmedtrans@gmail.com"
             className="flex items-center gap-3 text-gray-700 hover:text-red-700 transition-all duration-300 group"
           >
             <div className="p-2 bg-red-100 rounded-lg group-hover:bg-red-200 transition-colors">
@@ -229,7 +229,7 @@ export default function SiteFooter() {
           <div className="text-center space-y-3">
             <div className="text-xs leading-relaxed text-gray-600">
               <strong className="text-gray-800 font-semibold">Service Areas:</strong>{" "}
-              <span className="text-gray-700"> serving Alameda County, Contra Costa County, Santa Clara County, and Sanoma counties</span>
+              <span className="text-gray-700">serving Alameda County, Contra Costa County, Santa Clara County, and Sanoma counties</span>
             </div>
             <div className="text-xs leading-relaxed text-gray-600">
               <strong className="text-gray-800 font-semibold">Services:</strong>{" "}

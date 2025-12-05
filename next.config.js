@@ -6,7 +6,7 @@ const nextConfig = {
     ignoreDuringBuilds: true,
   },
 
-  // ✅ ADDED: Security Headers (NO BREAKING CHANGES)
+  // ✅ Security Headers (NO BREAKING CHANGES)
   async headers() {
     return [
       {
@@ -55,7 +55,7 @@ const nextConfig = {
           }
         ],
       },
-      // ✅ ADDED: Cache static assets for better performance
+      // ✅ Cache static assets for better performance
       {
         source: '/uploads/:path*',
         headers: [
@@ -119,42 +119,40 @@ const nextConfig = {
     formats: ['image/webp'],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
-    // ✅ ADDED: Cache and optimization settings
+    // ✅ Cache and optimization settings
     minimumCacheTTL: 60,
     dangerouslyAllowSVG: true,
     contentDispositionType: 'attachment',
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
   },
 
-  // ✅ ADDED: Remove console.logs in production only
+  // ✅ Remove console.logs in production only
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production' ? {
       exclude: ['error', 'warn']
     } : false,
   },
 
-  // ✅ ADDED: Enable compression
+  // ✅ Enable compression
   compress: true,
 
-  // ✅ ADDED: Enable SWC minification (faster builds)
-  swcMinify: true,
-
-  // ✅ ADDED: Disable source maps in production (smaller bundle)
+  // ✅ Disable source maps in production (smaller bundle)
   productionBrowserSourceMaps: false,
 
-  // ✅ ADDED: Remove powered by header (security)
+  // ✅ Remove powered by header (security)
   poweredByHeader: false,
 
-  // ✅ ADDED: Optimize production build
+  // ✅ Optimize production build
   generateEtags: true,
 
-  // ✅ ADDED: Enable experimental features (optional)
-  experimental: {
-    // Optimize font loading
-    optimizeFonts: true,
-    // Optimize CSS
-    optimizeCss: true,
-  },
+  // ✅ FIXED: Removed deprecated options
+  // ❌ REMOVED: swcMinify (this is now default in Next.js 13+)
+  // ❌ REMOVED: experimental.optimizeFonts (this is now default)
+  
+  // ✅ Keep only valid experimental options if needed
+  // experimental: {
+  //   // Add valid experimental features here if needed
+  // },
 }
 
 module.exports = nextConfig
