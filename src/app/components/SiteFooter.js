@@ -64,11 +64,11 @@ export default function SiteFooter() {
             Eden Transport Services
           </h2>
           <p className="text-sm leading-relaxed text-gray-700">
-            For over a decade, our transportation service has been the Bay Area's go-to provider for safe, comfortable, and dependable rides. Whether you require wheelchair or gurney transport, or need assistance with stairs, we've got you covered.
+            For over a decade, our transportation service has been the Bay Area's go-to provider for safe, comfortable, and dependable rides. Whether you require wheelchair or gurney transport, or need assistance with stairs, we've got you covered.
           </p>
           <div className="flex items-center gap-2 text-sm text-gray-600">
             <FaMapMarkerAlt className="text-red-600 flex-shrink-0" />
-            <span>Serving Alameda, San Francisco, Santa Clara, Contra Costa and Sanoma counties</span>
+            <span>Serving Alameda, San Francisco, Santa Clara, Contra Costa, and San Mateo counties</span>
           </div>
           
           {/* ✅ CALIFORNIA TIME DISPLAY */}
@@ -229,7 +229,7 @@ export default function SiteFooter() {
           <div className="text-center space-y-3">
             <div className="text-xs leading-relaxed text-gray-600">
               <strong className="text-gray-800 font-semibold">Service Areas:</strong>{" "}
-              <span className="text-gray-700">serving Alameda County, Contra Costa County, Santa Clara County, and Sanoma counties</span>
+              <span className="text-gray-700">Serving Alameda County, San Francisco County, Santa Clara County, Contra Costa County, and San Mateo County</span>
             </div>
             <div className="text-xs leading-relaxed text-gray-600">
               <strong className="text-gray-800 font-semibold">Services:</strong>{" "}
@@ -241,6 +241,17 @@ export default function SiteFooter() {
                 <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
               </span>
               <span className="text-xs font-bold text-gray-800">Available 24/7 • Same-Day Service • Licensed & Insured</span>
+            </div>
+            
+            {/* ✨ Developer Credit */}
+            <div className="pt-4 border-t border-gray-200/50 mt-4">
+              <p className="text-xs text-gray-500">
+                Developed with <span className="text-red-500 animate-pulse">🔥</span> by{" "}
+                <span className="font-semibold text-gray-700 hover:text-blue-600 transition-colors">
+                  Zakaria Zerari
+                </span>
+                {" "}- Full Stack Web Developer
+              </p>
             </div>
           </div>
         </div>
