@@ -428,7 +428,7 @@ export default function AdminLoginForm() {
         </button>
 
         <p className="text-center text-sm text-gray-500 mt-4">
-          Default: admin@eden.com / Password: 123456
+          Default: exemple@gmail.com / Password: xxxxxxxx
         </p>
       </form>
     </div>

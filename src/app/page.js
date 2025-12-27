@@ -136,10 +136,10 @@ export default function HomePage() {
         <div className="absolute inset-0 bg-gradient-to-r from-gray-900/80 to-blue-900/60"></div>
         <div className="relative z-10 max-w-5xl text-center text-white">
           <h1 className="text-4xl md:text-6xl font-extrabold mb-6">
-           To Bay Area Most Trusted <span className="text-red-400">Non - Emergency transport</span>
+           Bay Area most trusted  <span className="text-red-400">Non-Emergency Transportation</span>
           </h1>
           <p className="text-lg md:text-2xl mb-8 text-gray-100 max-w-3xl mx-auto">
-            Safe, comfortable, and reliable non-emergency medical transportation serving the Bay Area counties
+           Safe, contactable, and reliable wheelchair transport, stairs Assistsnce, ambulatory transport and gurney transportation. Serving the Bay Area and surrounding area.
           </p>
           <div className="flex gap-4 justify-center flex-wrap">
             <a href="#book" className="bg-gradient-to-r from-red-600 to-red-700 text-white px-8 py-4 rounded-xl font-bold hover:shadow-2xl hover:scale-105 transition-all">
@@ -375,7 +375,7 @@ export default function HomePage() {
           <h2 className="text-5xl font-extrabold text-center text-gray-900 mb-16">Frequently Asked Questions</h2>
           <div className="space-y-4">
             {[
-              { q: "What counties do you serve?", a: "We serve Alameda, san Francisco, Contra Costa, Santa Clara, and San Mateo counties" },
+              { q: "What counties do you serve?", a: "Yes! We offer same-day service based on availability. Weather it’s wheelchair transport, stairs assistance or gurney transportation. Call us for urgent booking." },
               { q: "Can I book same-day rides?", a: "Yes! We offer same-day service based on availability. Call us for urgent bookings." },
               { q: "Are your vehicles wheelchair accessible?", a: "All our vehicles are fully wheelchair and stretcher accessible with trained staff." }
             ].map((faq, i) => (

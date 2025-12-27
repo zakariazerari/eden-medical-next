@@ -57,7 +57,7 @@ export default function Contact() {
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h1 className="text-5xl font-extrabold mb-6 text-center text-gray-900">Get In Touch</h1>
         <p className="text-xl text-center text-gray-600 mb-16 max-w-3xl mx-auto">
-          Available 24/7 for your medical transportation needs across California
+          Available 24/7 for your medical transportation needs across Bay Area and surrounding counties 
         </p>
 
         <div className="grid lg:grid-cols-2 gap-12 mb-16">
@@ -110,7 +110,7 @@ export default function Contact() {
                   <FaMapMarkerAlt className="text-2xl text-red-600 mt-1" />
                   <div>
                     <p className="font-bold text-gray-800">Service Area</p>
-                    <p className="text-gray-600">Serving Alameda, San Francisco, Santa Clara, Contra Costa and Sanoma counties</p>
+                    <p className="text-gray-600">Serving Alameda, San Francisco, Santa Clara, Contra Costa and Solano counties</p>
                   </div>
                 </div>
                 

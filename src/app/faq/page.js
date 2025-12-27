@@ -10,7 +10,7 @@ export default function FAQPage() {
       questions: [
         {
           q: "What types of transportation services do you provide?",
-          a: "Eden Transport Services provides comfortable, reliable transportation for all your needs including airport transfers, daily commutes, school transport, shopping trips, special events, recurring appointments, and group transportation. We serve individuals, families, and businesses throughout California with professional drivers and modern vehicles."
+          a: "Eden Transport Services provides comfortable, reliable transportation for all your needs including airport transfers, daily commutes, school transport, shopping trips, special events, recurring appointments, and group transportation. We serve individuals, families, and businesses throughout the Bay Area whether it is wheelchair transport, stairs assistance, ambulatory or  stretcher transportation.  With professional drivers and modern vehicles."
         },
         {
           q: "What types of vehicles do you have?",
@@ -60,11 +60,6 @@ export default function FAQPage() {
           q: "What payment methods do you accept?",
           a: "We accept cash, all major credit cards (Visa, MasterCard, American Express, Discover), digital payments (Venmo, Zelle, Cash App), and online payments. Payment can be made before service or immediately after your trip. We provide detailed receipts upon request."
         },
-       
-        {
-          q: "Do you offer discounts for frequent riders?",
-          a: "Yes! We offer special rates for recurring rides and frequent customers. If you need transportation 2+ times per week, ask about our loyalty program and package discounts when booking. Save money while enjoying reliable service!"
-        },
         
       ]
     },
@@ -73,8 +68,8 @@ export default function FAQPage() {
       icon: "📍",
       questions: [
         {
-          q: "What areas do you serve in California?",
-          a: "We proudly Serving Alameda, San Francisco, Santa Clara, Contra Costa and Sanoma counties! We have dedicated service in major areas: Alameda County, San Francisco, Contra Costa, Santa Clara, San Mateo, Marin, and throughout the Bay Area and California. Call (510) 957-8383 for service anywhere in California."
+          q: "What areas do you serve in The Bay Area ? ",
+          a: "We provide service in Alameda County, San Francisco, Contra Costa, Santa Clara, San Mateo, Marin, Solano counties and throughout the Bay Area. Call (510) 957-8383 for wheelchair, stairs assistance, ambulatory and stretcher transportation."
         },
       
         {

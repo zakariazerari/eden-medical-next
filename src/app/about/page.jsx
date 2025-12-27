@@ -21,29 +21,22 @@ export default function About() {
               About <span className="text-red-600">Eden Transport</span>
             </h1>
             <p className="text-lg sm:text-xl md:text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed px-4">
-              More than a ride - a promise of comfort, reliability, and professional transportation services across California
+              More than a ride - A promise of comfort across the Bay Area.
+              Since 2011, providing wheelchair, stairs assistance, and stretcher transportation 
+              across the Bay Area, helping them reach important medical appointments, school, 
+              work, and social events with comfort and peace of mind.
             </p>
           </div>
 
           {/* Main Story Section */}
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center mb-16 md:mb-24">
-            <div className="space-y-4 md:space-y-6 text-gray-700 text-base md:text-lg leading-relaxed order-2 lg:order-1">
-              <p className="text-lg md:text-xl">
-                <strong className="text-red-700 text-xl md:text-2xl block mb-2">Eden Transport Services</strong>
-                Founded with a simple mission: provide safe, reliable, and comfortable transportation for everyone who needs it.
-              </p>
-              <p>
-                Since <strong className="text-blue-700">2011</strong>, we've served <strong className="text-red-700">thousands of customers</strong> across California, helping them reach important appointments, school, work, shopping, and any destination with comfort and peace of mind.
-              </p>
-              <p>
-                Our fleet of modern, comfortable vehicles is maintained to the highest standards. Every driver is professionally trained, background-checked, and certified, ensuring your safety and comfort throughout your journey.
-              </p>
+            
               <div className="bg-gradient-to-r from-blue-50 to-red-50 p-4 md:p-6 rounded-xl border-l-4 border-blue-600">
                 <p className="text-blue-800 font-semibold text-lg md:text-xl italic">
                   "Your destination matters. So does how you get there."
                 </p>
               </div>
-            </div>
+            
 
             <div className="rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl border-4 border-red-200 transform hover:scale-105 transition-transform duration-500 order-1 lg:order-2">
               <Image
@@ -101,7 +94,7 @@ export default function About() {
               </div>
               <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-3 md:mb-4">Our Vision</h3>
               <p className="text-sm md:text-base text-gray-600 leading-relaxed">
-                Be California's most trusted transportation provider, setting the standard for excellence in service.
+                Set the standard for excellence in serving as one of the Bay Area's most trusted transportation provider.
               </p>
             </div>
             
@@ -144,11 +137,11 @@ export default function About() {
             <h2 className="text-3xl md:text-4xl font-extrabold text-center text-gray-900 mb-8 md:mb-12">Our Journey</h2>
             <div className="space-y-6 md:space-y-8 max-w-4xl mx-auto">
               {[
-                { year: "2014", title: "Founded", desc: "Eden Medical transport establish with 2 vehicle and a vision to serve the Bay Area and surrounding areas with reliable wheelchair, gurney and ambulatory transportation" },
-                { year: "2016", title: "Expansion", desc: "coming soon..." },
+                { year: "2011", title: "Founded", desc: "Eden Medical Transportation was established with a vision to serve the Bay Area." },
+                { year: "2016", title: "Expansion", desc: "Expanded services covering more Bay Area counties." },
                 { year: "2019", title: "Recognition", desc: "Awarded 'Best Transport Service' by California Business Association" },
                 { year: "2022", title: "Milestone", desc: "Completed 50,000+ safe rides with industry-leading 98% on-time rate" },
-                { year: "2024", title: "Innovation", desc: "Online booking for easier reservation" }
+                { year: "2024", title: "Innovation", desc: "Launched online booking system for easier reservations" }
               ].map((item, i) => (
                 <div key={i} className="flex flex-col sm:flex-row gap-4 md:gap-6 items-start">
                   <div className={`flex-shrink-0 w-20 h-20 md:w-24 md:h-24 ${i % 2 === 0 ? 'bg-gradient-to-br from-red-600 to-red-700' : 'bg-gradient-to-br from-blue-600 to-blue-700'} rounded-full flex items-center justify-center shadow-xl`}>
@@ -169,9 +162,8 @@ export default function About() {
             <p className="text-center text-gray-300 mb-8 md:mb-12 max-w-2xl mx-auto text-sm md:text-base">
               We maintain all required licenses, certifications, and insurance to provide you with safe, legal, and professional transportation services.
             </p>
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8 text-center">
+            <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8 text-center">
               {[
-                { title: "Licensed by CA DMV", icon: FaAward },
                 { title: "Professional Drivers", icon: FaCar },
                 { title: "Insured & Bonded", icon: FaShieldAlt },
                 { title: "24/7 Available", icon: FaStar }
