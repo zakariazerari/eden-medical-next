@@ -68,18 +68,18 @@ function ResetPasswordForm() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-tr from-violet-100 via-white to-indigo-100 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-tr from-blue-50 via-white to-blue-100 px-4">
       <form
         onSubmit={handleSubmit}
-        className="w-full max-w-md bg-white p-8 sm:p-10 rounded-3xl shadow-xl border border-violet-100"
+        className="w-full max-w-md bg-white p-8 sm:p-10 rounded-3xl shadow-xl border border-blue-100"
       >
         <div className="flex justify-center mb-6">
-          <div className="w-20 h-20 bg-gradient-to-br from-violet-600 to-indigo-600 rounded-full flex items-center justify-center">
+          <div className="w-20 h-20 bg-gradient-to-br from-blue-600 to-blue-700 rounded-full flex items-center justify-center">
             <FaShieldAlt className="text-4xl text-white" />
           </div>
         </div>
 
-        <h2 className="text-3xl font-extrabold text-violet-700 mb-4 text-center">
+        <h2 className="text-3xl font-extrabold text-blue-700 mb-4 text-center">
           Reset Password
         </h2>
         <p className="text-center text-gray-600 mb-8">
@@ -87,25 +87,25 @@ function ResetPasswordForm() {
         </p>
 
         <div className="mb-6 relative">
-          <FaLock className="absolute top-3.5 left-3 text-violet-500" />
+          <FaLock className="absolute top-3.5 left-3 text-blue-500" />
           <input
             type="password"
             placeholder="New password"
             value={newPassword}
             onChange={(e) => setNewPassword(e.target.value)}
-            className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-violet-500 focus:outline-none"
+            className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none"
             disabled={loading}
           />
         </div>
 
         <div className="mb-6 relative">
-          <FaLock className="absolute top-3.5 left-3 text-violet-500" />
+          <FaLock className="absolute top-3.5 left-3 text-blue-500" />
           <input
             type="password"
             placeholder="Confirm password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
-            className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-violet-500 focus:outline-none"
+            className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none"
             disabled={loading}
           />
         </div>
@@ -113,7 +113,7 @@ function ResetPasswordForm() {
         <button
           type="submit"
           disabled={loading}
-          className="w-full py-3 bg-gradient-to-r from-violet-600 to-indigo-500 text-white font-semibold rounded-xl shadow-md hover:scale-105 transition-transform disabled:opacity-50"
+          className="w-full py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold rounded-xl shadow-md hover:scale-105 transition-transform disabled:opacity-50"
         >
           {loading ? "Resetting..." : "Reset Password"}
         </button>
@@ -126,8 +126,8 @@ function ResetPasswordForm() {
 export default function ResetPasswordPage() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-tr from-violet-100 via-white to-indigo-100">
-        <div className="text-violet-600 text-lg">Loading...</div>
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-tr from-blue-50 via-white to-blue-100">
+        <div className="text-blue-600 text-lg">Loading...</div>
       </div>
     }>
       <ResetPasswordForm />

@@ -1,22 +1,22 @@
 // app/locations/metadata.js - ✅ NEW FILE
 export const metadata = {
-  title: "Service Locations California | Medical Transportation Coverage | Eden Medical",
-  description: "Eden Medical Transport serves all 58 California counties. Find your local medical transportation service. Alameda, San Francisco, Santa Clara, Contra Costa, San Mateo. 24/7 availability.",
+  title: "Service Locations East Bay | Medical Transportation Coverage | Eden Medical",
+  description: "Eden Medical Transport serves the Bay Area and surrounding areas. Find your local medical transportation service. Alameda, San Francisco, Santa Clara, Contra Costa, San Mateo. 24/7 availability.",
   
   keywords: [
-    "medical transport locations California",
+    "medical transport locations East Bay",
     "NEMT service areas",
-    "California medical transportation",
+    "East Bay medical transportation",
     "Bay Area medical transport",
     "county medical transportation",
     "Eden Medical locations",
-    "wheelchair transport California",
+    "wheelchair transport East Bay",
     "dialysis transport locations"
   ],
   
   openGraph: {
-    title: "Medical Transportation Service Locations | All California Counties",
-    description: "Serving all 58 California counties with professional medical transportation. Wheelchair accessible, licensed & insured.",
+    title: "Medical Transportation Service Locations | East Bay & Bay Area",
+    description: "Serving the Bay Area and surrounding areas with professional medical transportation. Wheelchair accessible, licensed & insured.",
     url: "https://edenmedical.com/locations",
     type: "website",
     images: [{

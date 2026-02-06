@@ -1,10 +1,10 @@
 // app/blog/metadata.js
 export const metadata = {
-  title: "Transport Services Blog | Travel Tips & Industry News | Eden Transport California",
-  description: "Read expert articles about transportation, travel tips, industry news, and transportation guides from Eden Transport Services California. Stay informed about ride services.",
+  title: "Transport Services Blog | Travel Tips & Industry News | Eden Transport East Bay",
+  description: "Read expert articles about transportation, travel tips, industry news, and transportation guides from Eden Transport Services East Bay. Stay informed about ride services.",
   
   keywords: [
-    "transport services blog California",
+    "transport services blog East Bay",
     "travel tips articles",
     "transportation tips",
     "ride service guide",
@@ -17,7 +17,7 @@ export const metadata = {
   
   openGraph: {
     title: "Transport Services Blog | Expert Articles & Travel Tips",
-    description: "Expert insights on transportation, travel tips, and industry news from Eden Transport Services California.",
+    description: "Expert insights on transportation, travel tips, and industry news from Eden Transport Services East Bay.",
     url: "https://edentransport.com/blog",
     type: "website",
     images: [{

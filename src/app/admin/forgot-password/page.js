@@ -42,7 +42,7 @@ export default function ForgotPasswordPage() {
 
   if (emailSent) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-violet-600 to-indigo-800 p-4">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-600 to-blue-800 p-4">
         <div className="bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full text-center">
           <div className="mb-6">
             <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -53,13 +53,13 @@ export default function ForgotPasswordPage() {
               Check your email for a password reset link.
             </p>
             <p className="text-sm text-gray-500 mt-4">
-              The link expires in 1 hour.
+              The link expires in 24 hours.
             </p>
           </div>
 
           <Link
             href="/admin/login"
-            className="flex items-center justify-center gap-2 text-violet-600 hover:text-violet-700 font-semibold"
+            className="flex items-center justify-center gap-2 text-blue-600 hover:text-blue-700 font-semibold"
           >
             <FaArrowLeft /> Back to Login
           </Link>
@@ -69,7 +69,7 @@ export default function ForgotPasswordPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-violet-600 to-indigo-800 p-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-600 to-blue-800 p-4">
       <div className="bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-extrabold text-gray-800 mb-2">
@@ -91,7 +91,7 @@ export default function ForgotPasswordPage() {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-violet-500"
+                className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500"
                 placeholder="admin@example.com"
                 required
               />
@@ -101,7 +101,7 @@ export default function ForgotPasswordPage() {
           <button
             type="submit"
             disabled={loading}
-            className={`w-full bg-gradient-to-r from-violet-600 to-indigo-600 text-white py-3 rounded-xl font-semibold hover:shadow-lg transition-all ${
+            className={`w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-3 rounded-xl font-semibold hover:shadow-lg transition-all ${
               loading ? "opacity-50 cursor-not-allowed" : ""
             }`}
           >
@@ -110,7 +110,7 @@ export default function ForgotPasswordPage() {
 
           <Link
             href="/admin/login"
-            className="flex items-center justify-center gap-2 text-violet-600 hover:text-violet-700 font-semibold"
+            className="flex items-center justify-center gap-2 text-blue-600 hover:text-blue-700 font-semibold"
           >
             <FaArrowLeft /> Back to Login
           </Link>

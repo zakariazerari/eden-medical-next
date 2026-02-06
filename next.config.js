@@ -6,6 +6,30 @@ const nextConfig = {
     ignoreDuringBuilds: true,
   },
 
+  // ✅ NEW: REDIRECTS FOR WWW AND OLD URLS
+  async redirects() {
+    return [
+      // Redirect www to non-www
+      {
+        source: '/:path*',
+        has: [
+          {
+            type: 'host',
+            value: 'www.edenmedtrans.com',
+          },
+        ],
+        destination: 'https://edenmedtrans.com/:path*',
+        permanent: true,
+      },
+      // Redirect old GoDaddy URLs
+      {
+        source: '/medical-transportation-about-us',
+        destination: '/about',
+        permanent: true,
+      },
+    ];
+  },
+
   // ✅ Security Headers (NO BREAKING CHANGES)
   async headers() {
     return [
@@ -144,15 +168,6 @@ const nextConfig = {
 
   // ✅ Optimize production build
   generateEtags: true,
-
-  // ✅ FIXED: Removed deprecated options
-  // ❌ REMOVED: swcMinify (this is now default in Next.js 13+)
-  // ❌ REMOVED: experimental.optimizeFonts (this is now default)
-  
-  // ✅ Keep only valid experimental options if needed
-  // experimental: {
-  //   // Add valid experimental features here if needed
-  // },
 }
 
 module.exports = nextConfig

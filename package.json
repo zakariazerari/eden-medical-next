@@ -20,6 +20,7 @@
     "bcryptjs": "^3.0.2",
     "better-sqlite3": "^12.4.1",
     "critters": "^0.0.23",
+    "dotenv": "^17.2.3",
     "framer-motion": "^12.23.22",
     "isomorphic-dompurify": "^2.31.0",
     "jsonwebtoken": "^9.0.2",

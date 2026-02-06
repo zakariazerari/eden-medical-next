@@ -23,26 +23,26 @@ export const metadata = {
   metadataBase: new URL('https://edenmedical.com'),
   
   title: {
-    default: "Eden Medical Transport | Professional Medical Rides in California 24/7",
+    default: "Eden Medical Transport | Professional Medical Rides in East Bay 24/7",
     template: "%s | Eden Medical Transport"
   },
   
-  description: "Book safe, reliable non-emergency medical transportation in California. Wheelchair accessible, stretcher service, dialysis transport. Licensed, insured, available 24/7. Call (510) 957-8383",
+  description: "Book safe, reliable non-emergency medical transportation in East Bay. Wheelchair accessible, stretcher service, dialysis transport. Licensed, insured, available 24/7. Call (510) 957-8383",
   
   keywords: [
-    "medical transport California",
+    "medical transport East Bay",
     "non-emergency transportation",
-    "NEMT California",
+    "NEMT East Bay",
     "wheelchair van service",
     "dialysis transport",
     "stretcher service",
-    "medical rides California",
+    "medical rides East Bay",
     "Eden Medical Transport",
     "ambulette service",
     "patient transportation",
     "wheelchair accessible van",
     "medical appointment transport",
-    "senior transportation California",
+    "senior transportation East Bay",
     "Medi-Cal transportation",
     "Medicare transport"
   ],
@@ -73,23 +73,23 @@ export const metadata = {
     type: 'website',
     locale: 'en_US',
     url: 'https://edenmedical.com',
-    title: 'Eden Medical Transport - Safe Medical Rides in California',
-    description: 'Professional non-emergency medical transportation across California. Wheelchair accessible, licensed & insured. Available 24/7.',
+    title: 'Eden Medical Transport - Safe Medical Rides in East Bay',
+    description: 'Professional non-emergency medical transportation across East Bay. Wheelchair accessible, licensed & insured. Available 24/7.',
     siteName: 'Eden Medical Transport',
     images: [
       {
         url: '/og-image.jpg',
         width: 1200,
         height: 630,
-        alt: 'Eden Medical Transport - Professional Medical Transportation California',
+        alt: 'Eden Medical Transport - Professional Medical Transportation East Bay',
       }
     ],
   },
   
   twitter: {
     card: 'summary_large_image',
-    title: 'Eden Medical Transport | California Medical Transportation 24/7',
-    description: 'Professional medical transportation in California. Wheelchair accessible, stretcher service, dialysis transport.',
+    title: 'Eden Medical Transport | East Bay Medical Transportation 24/7',
+    description: 'Professional medical transportation in East Bay. Wheelchair accessible, stretcher service, dialysis transport.',
     images: ['/twitter-image.jpg'],
     creator: '@edenmedical',
   },
@@ -147,7 +147,7 @@ export default function RootLayout({ children }) {
           "height": 600
         },
         "image": "https://edenmedical.com/og-image.jpg",
-        "description": "Professional non-emergency medical transportation services in California. Wheelchair accessible, stretcher service, dialysis transport. Licensed, insured, available 24/7.",
+        "description": "Professional non-emergency medical transportation services in East Bay. Wheelchair accessible, stretcher service, dialysis transport. Licensed, insured, available 24/7.",
         "telephone": "+1-510-957-8383",
         "email": "info@edenmedical.com",
         "address": {
@@ -266,7 +266,7 @@ export default function RootLayout({ children }) {
         "@id": "https://edenmedical.com/#website",
         "url": "https://edenmedical.com",
         "name": "Eden Medical Transport",
-        "description": "Professional non-emergency medical transportation services in California",
+        "description": "Professional non-emergency medical transportation services in East Bay",
         "publisher": {
           "@id": "https://edenmedical.com/#organization"
         },
@@ -284,14 +284,14 @@ export default function RootLayout({ children }) {
         "@type": "WebPage",
         "@id": "https://edenmedical.com/#webpage",
         "url": "https://edenmedical.com",
-        "name": "Eden Medical Transport - Professional Medical Rides in California 24/7",
+        "name": "Eden Medical Transport - Professional Medical Rides in East Bay 24/7",
         "isPartOf": {
           "@id": "https://edenmedical.com/#website"
         },
         "about": {
           "@id": "https://edenmedical.com/#organization"
         },
-        "description": "Book safe, reliable non-emergency medical transportation in California. Wheelchair accessible, stretcher service, dialysis transport.",
+        "description": "Book safe, reliable non-emergency medical transportation in East Bay. Wheelchair accessible, stretcher service, dialysis transport.",
         "inLanguage": "en-US"
       }
     ]

@@ -236,7 +236,7 @@ export default function AdminLoginForm() {
             <FaUser className="absolute top-3.5 left-3 text-blue-500 z-10" />
             <input
               type="email"
-              placeholder="example@gmail.com"
+              placeholder="admin@eden.com"
               value={resetEmail}
               onChange={(e) => setResetEmail(e.target.value)}
               className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none text-gray-900"
@@ -301,10 +301,10 @@ export default function AdminLoginForm() {
         </div>
 
         <h2 className="text-3xl font-extrabold text-gray-900 mb-2 text-center">
-          Secure Admin Login
+          Admin Login
         </h2>
         <p className="text-center text-sm text-gray-500 mb-8">
-          Protected access to Eden Medical Transport
+          Secure access to Eden Medical Transport
         </p>
 
         {isBlocked && (
@@ -364,7 +364,7 @@ export default function AdminLoginForm() {
           <FaUser className="absolute top-3.5 left-3 text-blue-500 z-10" />
           <input
             type="email"
-            placeholder="example@gmail.com"
+            placeholder="admin@eden.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             autoComplete="username"
@@ -378,7 +378,7 @@ export default function AdminLoginForm() {
           <FaLock className="absolute top-3.5 left-3 text-red-500 z-10" />
           <input
             type={showPassword ? "text" : "password"}
-            placeholder="Your password"
+            placeholder="Enter your password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             autoComplete="current-password"
@@ -427,9 +427,7 @@ export default function AdminLoginForm() {
           {loading ? "Logging in..." : isBlocked ? `Blocked (${blockTimeLeft}s)` : "Login"}
         </button>
 
-        <p className="text-center text-sm text-gray-500 mt-4">
-          Default: exemple@gmail.com / Password: xxxxxxxx
-        </p>
+        {/* ✅ REMOVED FAKE CREDENTIALS */}
       </form>
     </div>
   );

@@ -1,10 +1,10 @@
 // app/gallery/metadata.js
 export const metadata = {
   title: "Fleet Gallery | Wheelchair Accessible Vehicles & Medical Transport Equipment | Eden Medical",
-  description: "View our modern fleet of wheelchair accessible vehicles, stretcher vans, and medical transport equipment. Clean, safe, and comfortable medical transportation in California. ADA compliant vehicles.",
+  description: "View our modern fleet of wheelchair accessible vehicles, stretcher vans, and medical transport equipment. Clean, safe, and comfortable medical transportation in East Bay. ADA compliant vehicles.",
   
   keywords: [
-    "medical transport vehicles California",
+    "medical transport vehicles East Bay",
     "wheelchair accessible vans",
     "stretcher transport vehicles",
     "medical transport fleet",
@@ -12,7 +12,7 @@ export const metadata = {
     "ADA compliant vehicles",
     "medical van interior",
     "wheelchair lift vans",
-    "California medical transport equipment"
+    "East Bay medical transport equipment"
   ],
   
   openGraph: {
@@ -34,7 +34,7 @@ export const metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Eden Medical Transport Vehicle Gallery | Wheelchair Accessible Fleet",
-    description: "See our modern, ADA-compliant medical transportation vehicles serving California.",
+    description: "See our modern, ADA-compliant medical transportation vehicles serving East Bay.",
     images: ["https://edenmedical.com/og-image-gallery.jpg"],
   },
   

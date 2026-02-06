@@ -1,10 +1,10 @@
 // app/faq/metadata.js
 export const metadata = {
-  title: "FAQ - Medical Transportation Questions | Eden Medical Transport California",
-  description: "Get answers to frequently asked questions about non-emergency medical transportation, booking, insurance coverage, pricing, and service areas in California. Available 24/7 NEMT support.",
+  title: "FAQ - Medical Transportation Questions | Eden Medical Transport East Bay",
+  description: "Get answers to frequently asked questions about non-emergency medical transportation, booking, insurance coverage, pricing, and service areas in East Bay. Available 24/7 NEMT support.",
   
   keywords: [
-    "medical transport FAQ California",
+    "medical transport FAQ East Bay",
     "NEMT questions",
     "wheelchair transport FAQ",
     "medical transportation cost",
