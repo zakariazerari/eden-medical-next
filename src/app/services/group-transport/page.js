@@ -14,7 +14,7 @@ export default function GroupTransportPage() {
               👥 Group Service Specialist
             </div>
             <h1 className="text-5xl md:text-6xl font-extrabold mb-6 leading-tight">
-              Group Transportation Services in California
+              Group Transportation Services in East Bay
             </h1>
             <p className="text-xl md:text-2xl text-white/90 mb-8">
               Safe, comfortable group transportation for families, friends, and teams traveling together
@@ -35,7 +35,7 @@ export default function GroupTransportPage() {
       <section className="py-16 bg-white">
         <div className="max-w-5xl mx-auto px-6">
           <p className="text-xl text-gray-700 leading-relaxed mb-12">
-            Eden Transport Services provides professional group transportation throughout California. Our spacious vehicles accommodate families, friend groups, business teams, and event attendees traveling together. Whether you need airport shuttles, event transportation, or group outings, we deliver safe and comfortable rides with experienced drivers.
+            Eden Transport Services provides professional group transportation throughout East Bay and Bay Area. Our spacious vehicles accommodate families, friend groups, business teams, and event attendees traveling together. Whether you need airport shuttles, event transportation, or group outings, we deliver safe and comfortable rides with experienced drivers.
           </p>
 
           <h2 className="text-3xl font-bold text-purple-700 mb-8">Why Choose Our Group Service?</h2>
@@ -123,7 +123,7 @@ export default function GroupTransportPage() {
           </div>
 
           <h2 className="text-3xl font-bold text-purple-700 mb-6">Service Areas</h2>
-          <p className="text-lg mb-6">We provide group transportation throughout California including:</p>
+          <p className="text-lg mb-6">We provide group transportation throughout East Bay including:</p>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
             <div className="bg-purple-100 p-4 rounded-lg text-center">
               <p className="font-bold">Alameda County</p>

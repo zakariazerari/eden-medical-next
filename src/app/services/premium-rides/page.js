@@ -14,7 +14,7 @@ export default function PremiumRidesPage() {
               ⭐ Premium Comfort Service
             </div>
             <h1 className="text-5xl md:text-6xl font-extrabold mb-6 leading-tight">
-              Premium Ride Services in California
+              Premium Ride Services in East Bay
             </h1>
             <p className="text-xl md:text-2xl text-white/90 mb-8">
               Comfortable, reliable, and professional transportation with certified drivers and luxury vehicles for all your travel needs
@@ -36,7 +36,7 @@ export default function PremiumRidesPage() {
         <div className="max-w-5xl mx-auto px-6">
           <div className="prose prose-lg max-w-none">
             <p className="text-xl text-gray-700 leading-relaxed mb-8">
-              Eden Transport Services provides professional premium transportation throughout California. Our modern fleet of comfortable vehicles ensures passengers can travel to any destination with safety, comfort, and style. Whether you need rides for appointments, work, school, shopping, or special occasions, we provide the perfect transportation solution.
+              Eden Transport Services provides professional premium transportation throughout East Bay and Bay Area. Our modern fleet of comfortable vehicles ensures passengers can travel to any destination with safety, comfort, and style. Whether you need rides for appointments, work, school, shopping, or special occasions, we provide the perfect transportation solution.
             </p>
 
             <h2 className="text-3xl font-bold text-blue-700 mt-12 mb-6">Why Choose Our Premium Service?</h2>
@@ -102,7 +102,7 @@ export default function PremiumRidesPage() {
                   <span className="text-2xl">✈️</span>
                   <div>
                     <strong className="text-gray-900">Airport Transport:</strong>
-                    <span className="text-gray-700"> Reliable rides to/from SFO, OAK, SJC and all California airports</span>
+                    <span className="text-gray-700"> Reliable rides to/from SFO, OAK, SJC and all Bay Area airports</span>
                   </div>
                 </li>
                 <li className="flex items-start gap-3">
@@ -115,12 +115,12 @@ export default function PremiumRidesPage() {
               </ul>
             </div>
 
-            <h2 className="text-3xl font-bold text-blue-700 mt-16 mb-6">Service Areas Throughout California</h2>
-            <p className="text-lg mb-6">We provide transportation services in all major California cities and counties:</p>
+            <h2 className="text-3xl font-bold text-blue-700 mt-16 mb-6">Service Areas Throughout East Bay</h2>
+            <p className="text-lg mb-6">We provide transportation services throughout East Bay and Bay Area:</p>
             <div className="grid md:grid-cols-3 gap-4 my-8 not-prose">
               <div className="bg-gradient-to-br from-blue-500 to-blue-600 text-white p-6 rounded-xl shadow-lg">
                 <h4 className="font-bold text-xl mb-2">📍 Alameda County</h4>
-                <p className="text-blue-100 text-sm">Service Areas throughout California and replace serving the Bay Area and sounding areas</p>
+                <p className="text-blue-100 text-sm">Oakland, Berkeley, Fremont, Hayward and surrounding areas</p>
                 <p className="font-mono text-sm mt-3">☎️ (510) 957-8383</p>
               </div>
               <div className="bg-gradient-to-br from-purple-500 to-purple-600 text-white p-6 rounded-xl shadow-lg">
@@ -175,7 +175,7 @@ export default function PremiumRidesPage() {
             Book Your Ride Now
           </h2>
           <p className="text-xl md:text-2xl mb-8">
-            Available 24/7 throughout California • Same-day service available
+            Available 24/7 throughout East Bay • Same-day service available
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a href="tel:+15109578383" className="bg-white text-blue-700 px-10 py-5 rounded-xl font-bold text-xl hover:scale-105 transition shadow-2xl">

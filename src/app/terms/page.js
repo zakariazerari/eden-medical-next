@@ -1,6 +1,6 @@
 export const metadata = {
-  title: "Terms of Service | Eden Medical Transport California",
-  description: "Terms and conditions for using Eden Medical Transport non-emergency medical transportation services in California",
+  title: "Terms of Service | Eden Medical Transport East Bay",
+  description: "Terms and conditions for using Eden Medical Transport non-emergency medical transportation services in East Bay",
   robots: {
     index: true,
     follow: true,
@@ -41,7 +41,7 @@ export default function TermsPage() {
               <p className="text-gray-700 leading-relaxed text-lg">
                 By booking or using Eden Medical Transport services, you agree to be bound by these 
                 Terms of Service. If you disagree with any part of these terms, you may not use our services. 
-                These terms apply to all users of our non-emergency medical transportation services in California.
+                These terms apply to all users of our non-emergency medical transportation services in East Bay.
               </p>
             </section>
 
@@ -57,7 +57,7 @@ export default function TermsPage() {
                   <li>Dialysis transportation (recurring appointments)</li>
                   <li>Medical appointment transportation</li>
                   <li>Hospital discharge transportation</li>
-                  <li>24/7 availability throughout California</li>
+                  <li>24/7 availability throughout East Bay and Bay Area</li>
                 </ul>
               </div>
 
@@ -192,7 +192,7 @@ export default function TermsPage() {
               <div className="bg-yellow-50 border-2 border-yellow-300 rounded-xl p-6">
                 <h3 className="text-xl font-bold text-yellow-900 mb-3">🛡️ Our Commitments</h3>
                 <ul className="list-disc pl-6 text-gray-700 space-y-2">
-                  <li>All vehicles maintained to California DMV standards</li>
+                  <li>All vehicles maintained to DMV standards</li>
                   <li>All drivers licensed, background-checked, and trained</li>
                   <li>ADA compliant wheelchair accessible vehicles</li>
                   <li>Comprehensive commercial insurance coverage</li>
@@ -250,7 +250,7 @@ export default function TermsPage() {
               <h2 className="text-3xl font-bold text-gray-900 mb-4">12. Governing Law</h2>
               <p className="text-gray-700">
                 These Terms are governed by the laws of the State of California. Any disputes shall be 
-                resolved in the appropriate courts of California.
+                resolved in the appropriate courts of the State of California.
               </p>
             </section>
 

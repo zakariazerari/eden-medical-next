@@ -14,7 +14,7 @@ export default function RecurringRidesPage() {
               📅 Scheduled Service Specialist
             </div>
             <h1 className="text-5xl md:text-6xl font-extrabold mb-6 leading-tight">
-              Recurring Transportation Services in California
+              Recurring Transportation Services in East Bay
             </h1>
             <p className="text-xl md:text-2xl text-white/90 mb-8">
               Reliable, punctual transportation for your regular trips - daily, weekly, or monthly schedules. Never worry about your commute again.
@@ -35,7 +35,7 @@ export default function RecurringRidesPage() {
       <section className="py-16 bg-white">
         <div className="max-w-5xl mx-auto px-6">
           <p className="text-xl text-gray-700 leading-relaxed mb-12">
-            Eden Transport Services specializes in reliable recurring transportation throughout California. We understand that consistency matters for your daily routine, which is why punctuality and dependability are our top priorities. Our professional drivers ensure you arrive on time for every scheduled trip.
+            Eden Transport Services specializes in reliable recurring transportation throughout East Bay and Bay Area. We understand that consistency matters for your daily routine, which is why punctuality and dependability are our top priorities. Our professional drivers ensure you arrive on time for every scheduled trip.
           </p>
 
           <h2 className="text-3xl font-bold text-red-700 mb-8">Why Choose Recurring Rides?</h2>
@@ -156,7 +156,7 @@ export default function RecurringRidesPage() {
           </div>
 
           <h2 className="text-3xl font-bold text-red-700 mb-6">Coverage Areas</h2>
-          <p className="text-lg mb-6">Recurring transportation available throughout California including:</p>
+          <p className="text-lg mb-6">Recurring transportation available throughout East Bay including:</p>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-12">
             {['Alameda County', 'San Francisco', 'Contra Costa', 'Santa Clara', 'San Mateo', 'Marin County'].map(area => (
               <div key={area} className="bg-red-100 p-4 rounded-lg text-center font-semibold">
