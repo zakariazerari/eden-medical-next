@@ -22,7 +22,7 @@ export default function About() {
             </h1>
             <p className="text-lg sm:text-xl md:text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed px-4">
               More than a ride - A promise of comfort across the Bay Area.
-              Since 2011, providing wheelchair, stairs assistance, and stretcher transportation 
+              Since 2011, providing wheelchair, stair assistance, and stretcher transportation 
               across the Bay Area, helping them reach important medical appointments, school, 
               work, and social events with comfort and peace of mind.
             </p>

@@ -35,12 +35,12 @@ export default function HomePage() {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
     name: "Eden Medical Transport",
-    description: "Professional non-emergency medical transportation in California",
+    description: "Professional non-emergency medical transportation in East Bay",
     url: "https://edenmedical.com",
     telephone: "+1-510-957-8383",
     address: {
       "@type": "PostalAddress",
-      addressLocality: "California",
+      addressLocality: "East Bay",
       addressCountry: "US",
     },
     openingHoursSpecification: {
@@ -136,10 +136,10 @@ export default function HomePage() {
         <div className="absolute inset-0 bg-gradient-to-r from-gray-900/80 to-blue-900/60"></div>
         <div className="relative z-10 max-w-5xl text-center text-white">
           <h1 className="text-4xl md:text-6xl font-extrabold mb-6">
-           Bay Area most trusted  <span className="text-red-400">Non-Emergency Transportation</span>
+           Bay Area most trusted <span className="text-red-400">Non-Emergency Transportation</span>
           </h1>
           <p className="text-lg md:text-2xl mb-8 text-gray-100 max-w-3xl mx-auto">
-           Safe, contactable, and reliable wheelchair transport, stairs Assistsnce, ambulatory transport and gurney transportation. Serving the Bay Area and surrounding area.
+           Safe, comfortable, and reliable wheelchair transport, stair assistance, ambulatory transport and gurney transportation. Serving the Bay Area and surrounding area.
           </p>
           <div className="flex gap-4 justify-center flex-wrap">
             <a href="#book" className="bg-gradient-to-r from-red-600 to-red-700 text-white px-8 py-4 rounded-xl font-bold hover:shadow-2xl hover:scale-105 transition-all">
@@ -320,7 +320,7 @@ export default function HomePage() {
       <section className="bg-gradient-to-br from-gray-50 to-blue-50 py-24">
         <div className="max-w-7xl mx-auto px-6 text-center">
           <h2 className="text-5xl font-extrabold text-gray-900 mb-4">Why Choose Eden Medical Transport?</h2>
-          <p className="text-xl text-gray-600 mb-16 max-w-3xl mx-auto">Trusted by thousands of patients and healthcare facilities across California</p>
+          <p className="text-xl text-gray-600 mb-16 max-w-3xl mx-auto">Trusted by thousands of patients and healthcare facilities across East Bay</p>
 
           <div className="grid md:grid-cols-3 gap-10">
             <div className="bg-white rounded-2xl p-8 shadow-xl hover:shadow-2xl transform hover:-translate-y-2 transition-all">
@@ -375,7 +375,7 @@ export default function HomePage() {
           <h2 className="text-5xl font-extrabold text-center text-gray-900 mb-16">Frequently Asked Questions</h2>
           <div className="space-y-4">
             {[
-              { q: "What counties do you serve?", a: "Yes! We offer same-day service based on availability. Weather it’s wheelchair transport, stairs assistance or gurney transportation. Call us for urgent booking." },
+              { q: "What counties do you serve?", a: "We serve all of East Bay including Alameda County, Contra Costa County, and surrounding areas. Whether it's wheelchair transport, stair assistance or gurney transportation, we're here to help." },
               { q: "Can I book same-day rides?", a: "Yes! We offer same-day service based on availability. Call us for urgent bookings." },
               { q: "Are your vehicles wheelchair accessible?", a: "All our vehicles are fully wheelchair and stretcher accessible with trained staff." }
             ].map((faq, i) => (
@@ -392,7 +392,7 @@ export default function HomePage() {
       <section className="bg-gradient-to-r from-red-700 to-blue-700 py-20">
         <div className="max-w-4xl mx-auto text-center px-6">
           <h2 className="text-4xl md:text-5xl font-extrabold text-white mb-6">Ready to Book Your Ride?</h2>
-          <p className="text-xl text-red-100 mb-8"> across the Bay Area and surrounding area</p>
+          <p className="text-xl text-red-100 mb-8">Available 24/7 across the Bay Area and surrounding area</p>
           <a href="#book" className="inline-block bg-white text-red-700 px-10 py-4 rounded-xl font-bold text-lg hover:bg-gray-50 hover:scale-105 transition-all shadow-2xl">
             Book Now - It's Easy!
           </a>
