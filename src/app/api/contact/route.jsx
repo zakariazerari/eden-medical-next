@@ -1,11 +1,12 @@
-// app/api/contact/route.jsx - ✅ UPDATED WITH VALIDATION
+// app/api/contact/route.jsx
+
 import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/mongo";
 import ContactMessage from "@/models/ContactMessage";
 import { sendContactMail } from "@/lib/mailer";
-import { validateEmail, sanitizeString } from '@/utils/secureValidation'; // ✅ ADDED
+import { validateEmail, sanitizeString } from '@/utils/secureValidation';
 
-// GET: Fetch all messages - OPTIMIZED
+// GET: Fetch all messages
 export async function GET() {
   try {
     await connectDB();
@@ -25,7 +26,7 @@ export async function GET() {
   }
 }
 
-// POST: Create new contact message - ✅ ENHANCED WITH VALIDATION
+// POST: Create new contact message - FIXED EMAIL!
 export async function POST(req) {
   try {
     await connectDB();
@@ -33,7 +34,7 @@ export async function POST(req) {
 
     console.log("📩 Contact form data received:", body);
 
-    // ✅ ADDED: Validate email
+    // Validate email
     const emailValidation = validateEmail(body.email);
     if (!emailValidation.valid) {
       console.warn('🚨 Invalid email:', body.email);
@@ -43,7 +44,7 @@ export async function POST(req) {
       );
     }
 
-    // ✅ ADDED: Sanitize name
+    // Sanitize name
     const nameValidation = sanitizeString(body.fullName, 100);
     if (!nameValidation.valid) {
       console.warn('🚨 Invalid name:', body.fullName);
@@ -53,7 +54,7 @@ export async function POST(req) {
       );
     }
 
-    // ✅ ADDED: Sanitize message
+    // Sanitize message
     const messageValidation = sanitizeString(body.message, 1000);
     if (!messageValidation.valid) {
       console.warn('🚨 Invalid message:', body.message?.substring(0, 50));
@@ -67,7 +68,7 @@ export async function POST(req) {
     const forwarded = req.headers.get("x-forwarded-for");
     const ip = forwarded ? forwarded.split(",")[0] : req.ip || "unknown";
 
-    // ✅ Create message with sanitized data
+    // Create message with sanitized data
     const message = await ContactMessage.create({
       fullName: nameValidation.value,
       email: emailValidation.value,
@@ -79,19 +80,34 @@ export async function POST(req) {
 
     console.log("✅ Message saved to database:", message._id);
 
-    // ✅ Send email with sanitized data
-    const emailData = {
-      fullName: nameValidation.value,
-      email: emailValidation.value,
-      phone: body.phone || "Not provided",
-      message: messageValidation.value
-    };
+    // ✅ SEND EMAIL AND WAIT (FIXED!)
+    try {
+      console.log("📧 Attempting to send contact email...");
+      console.log("📧 Email credentials check:", {
+        hasEmailUser: !!process.env.EMAIL_USER,
+        hasEmailPass: !!process.env.EMAIL_PASS,
+        hasEmailTo: !!process.env.EMAIL_TO
+      });
 
-    console.log("📧 Sending email with data:", emailData);
+      const emailData = {
+        fullName: nameValidation.value,
+        email: emailValidation.value,
+        phone: body.phone || "Not provided",
+        message: messageValidation.value
+      };
 
-    sendContactMail(emailData).catch(err => {
-      console.error("❌ Email error:", err);
-    });
+      const emailResult = await sendContactMail(emailData);
+      
+      if (emailResult && emailResult.success) {
+        console.log("✅ Contact email sent successfully!");
+      } else {
+        console.error("❌ Contact email failed:", emailResult?.error || "Unknown error");
+      }
+    } catch (emailError) {
+      console.error("❌ Contact email error:", emailError);
+      console.error("❌ Email error details:", emailError.message);
+      // Don't fail the request - message is saved
+    }
 
     return NextResponse.json(
       { 
@@ -107,6 +123,7 @@ export async function POST(req) {
       },
       { status: 201 }
     );
+
   } catch (error) {
     console.error("❌ POST message error:", error);
     return NextResponse.json(
