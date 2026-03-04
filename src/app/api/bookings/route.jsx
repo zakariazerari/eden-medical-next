@@ -4,7 +4,7 @@ import Booking from "@/models/Booking";
 import { sendMail } from "@/lib/mailer";
 import { logError, logSuccess } from "@/lib/logger";
 
-// GET: Fetch ALL bookings - OPTIMIZED
+// GET: Fetch ALL bookings
 export async function GET(request) {
   try {
     await connectDB();
@@ -33,7 +33,7 @@ export async function GET(request) {
   }
 }
 
-// POST: Create new booking
+// POST: Create new booking with EMAIL FIX
 export async function POST(req) {
   try {
     await connectDB();
@@ -95,16 +95,50 @@ export async function POST(req) {
       status: 'pending'
     });
 
+    console.log("✅ Booking created successfully:", booking._id);
     logSuccess("✅ Booking created", { bookingId: booking._id });
 
-    // Send email (async, non-blocking)
-    sendMail(body).catch(err => logError(err, { context: 'sendMail after booking' }));
+    // ✅ SEND EMAIL AND WAIT (FIXED!)
+    try {
+      console.log("📧 Attempting to send email...");
+      console.log("📧 Email credentials check:", {
+        hasEmailUser: !!process.env.EMAIL_USER,
+        hasEmailPass: !!process.env.EMAIL_PASS,
+        hasEmailTo: !!process.env.EMAIL_TO
+      });
 
-    return NextResponse.json(booking, { status: 201 });
+      const emailResult = await sendMail(body);
+      
+      if (emailResult && emailResult.success) {
+        console.log("✅ Email sent successfully!");
+      } else {
+        console.error("❌ Email failed:", emailResult?.error || "Unknown error");
+      }
+    } catch (emailError) {
+      console.error("❌ Email sending error:", emailError);
+      console.error("❌ Email error details:", emailError.message);
+      logError(emailError, { 
+        context: 'sendMail after booking',
+        bookingId: booking._id 
+      });
+      // Don't fail the request - booking is saved
+    }
+
+    return NextResponse.json({
+      success: true,
+      booking: booking,
+      message: "Booking created successfully"
+    }, { status: 201 });
+
   } catch (error) {
+    console.error("❌ Booking creation error:", error);
     logError(error, { route: '/api/bookings', method: 'POST' });
+    
     return NextResponse.json(
-      { message: error.message || "Error creating booking" },
+      { 
+        success: false,
+        message: error.message || "Error creating booking" 
+      },
       { status: 500 }
     );
   }

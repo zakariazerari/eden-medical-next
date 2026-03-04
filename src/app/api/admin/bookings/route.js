@@ -5,7 +5,7 @@ import { sendMail } from "@/lib/mailer";
 import { logError, logSuccess } from "@/lib/logger";
 import { validateBookingData } from '@/utils/secureValidation';
 
-// GET: Fetch ALL bookings
+// GET: Fetch ALL bookings - OPTIMIZED
 export async function GET(request) {
   try {
     await connectDB();
@@ -34,16 +34,13 @@ export async function GET(request) {
   }
 }
 
-// POST: Create new booking with EMAIL
+// POST: Create new booking - ENHANCED WITH VALIDATION
 export async function POST(req) {
   try {
-    // Connect to database
     await connectDB();
-    
-    // Parse request body
     const body = await req.json();
 
-    // Validate data
+    // Comprehensive validation and sanitization
     const validation = validateBookingData(body);
     
     if (!validation.valid) {
@@ -54,64 +51,30 @@ export async function POST(req) {
       );
     }
 
+    // Use sanitized data
     const sanitizedData = validation.sanitized;
 
     // Get IP address
     const forwarded = req.headers.get("x-forwarded-for");
     const ip = forwarded ? forwarded.split(",")[0] : req.ip || "unknown";
 
-    // Create booking in database
+    // Create booking with sanitized data
     const booking = await Booking.create({
       ...sanitizedData,
       ipAddress: ip,
       status: 'pending'
     });
 
-    console.log("✅ Booking created successfully:", booking._id);
     logSuccess("✅ Booking created", { bookingId: booking._id });
 
-    // ✅ SEND EMAIL AND WAIT (FIXED!)
-    try {
-      console.log("📧 Attempting to send email...");
-      console.log("📧 Email credentials check:", {
-        hasEmailUser: !!process.env.EMAIL_USER,
-        hasEmailPass: !!process.env.EMAIL_PASS,
-        hasEmailTo: !!process.env.EMAIL_TO
-      });
+    // Send email (async, non-blocking)
+    sendMail(sanitizedData).catch(err => logError(err, { context: 'sendMail after booking' }));
 
-      const emailResult = await sendMail(sanitizedData);
-      
-      if (emailResult && emailResult.success) {
-        console.log("✅ Email sent successfully!");
-      } else {
-        console.error("❌ Email failed:", emailResult?.error || "Unknown error");
-      }
-    } catch (emailError) {
-      console.error("❌ Email sending error:", emailError);
-      console.error("❌ Email error details:", emailError.message);
-      logError(emailError, { 
-        context: 'sendMail after booking',
-        bookingId: booking._id 
-      });
-      // Don't fail the request - booking is saved
-    }
-
-    // Return success
-    return NextResponse.json({
-      success: true,
-      booking: booking,
-      message: "Booking created successfully"
-    }, { status: 201 });
-
+    return NextResponse.json(booking, { status: 201 });
   } catch (error) {
-    console.error("❌ Booking creation error:", error);
     logError(error, { route: '/api/bookings', method: 'POST' });
-    
     return NextResponse.json(
-      { 
-        success: false,
-        message: error.message || "Error creating booking" 
-      },
+      { message: error.message || "Error creating booking" },
       { status: 500 }
     );
   }
