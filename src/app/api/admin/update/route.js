@@ -3,8 +3,12 @@ import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { connectDB } from "@/lib/mongo";
 import mongoose from "mongoose";
+import { requireAdminAuth } from "@/utils/adminAuth";
 
 export async function POST(req) {
+  const authError = await requireAdminAuth();
+  if (authError) return authError;
+
   try {
     await connectDB();
     

@@ -1,10 +1,13 @@
-// src/app/api/messages/route.js
 import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/mongo";
 import ContactMessage from "@/models/ContactMessage";
+import { requireAdminAuth } from "@/utils/adminAuth";
 
-// GET: Fetch recent messages (last 7 days)
+// GET: Fetch recent messages - Admin only
 export async function GET() {
+  const authError = await requireAdminAuth();
+  if (authError) return authError;
+
   try {
     await connectDB();
     const oneWeekAgo = new Date();
@@ -12,22 +15,10 @@ export async function GET() {
 
     const messages = await ContactMessage.find({
       createdAt: { $gte: oneWeekAgo }
-    }).sort({ createdAt: -1 });
+    }).sort({ createdAt: -1 }).lean();
 
     return NextResponse.json(messages, { status: 200 });
   } catch (error) {
     return NextResponse.json({ error: "Failed to fetch messages" }, { status: 500 });
-  }
-}
-
-// POST: Create new message
-export async function POST(req) {
-  try {
-    await connectDB();
-    const body = await req.json();
-    const message = await ContactMessage.create(body);
-    return NextResponse.json(message, { status: 201 });
-  } catch (error) {
-    return NextResponse.json({ error: "Failed to create message" }, { status: 500 });
   }
 }

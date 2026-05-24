@@ -3,52 +3,44 @@ import { connectDB } from "@/lib/mongo";
 import Gallery from "@/models/gallery";
 import { unlink } from "fs/promises";
 import path from "path";
+import { requireAdminAuth } from "@/utils/adminAuth";
 
-// DELETE - Remove image
+// DELETE - Remove image - Admin only
 export async function DELETE(request, { params }) {
+  const authError = await requireAdminAuth();
+  if (authError) return authError;
+
   try {
     await connectDB();
-    
     const { id } = params;
 
-    // Find and delete image from MongoDB
     const image = await Gallery.findByIdAndDelete(id);
-    
+
     if (!image) {
       return NextResponse.json({ error: "Image not found" }, { status: 404 });
     }
 
-    // Delete file from disk
     try {
       const filePath = path.join(process.cwd(), "public", image.image_url);
       await unlink(filePath);
-      console.log("✅ File deleted:", filePath);
     } catch (err) {
-      console.error("⚠️ File deletion error (file may not exist):", err.message);
-      // Continue even if file deletion fails
+      console.error("⚠️ File deletion error:", err.message);
     }
 
-    return NextResponse.json({
-      success: true,
-      message: "Image deleted successfully",
-    });
+    return NextResponse.json({ success: true, message: "Image deleted successfully" });
   } catch (error) {
     console.error("Delete error:", error);
-    return NextResponse.json(
-      { error: "Failed to delete image: " + error.message },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to delete image: " + error.message }, { status: 500 });
   }
 }
 
-// GET - Get single image (optional)
+// GET - Get single image (public)
 export async function GET(request, { params }) {
   try {
     await connectDB();
-    
     const { id } = params;
-    const image = await Gallery.findById(id);
-    
+    const image = await Gallery.findById(id).lean();
+
     if (!image) {
       return NextResponse.json({ error: "Image not found" }, { status: 404 });
     }
@@ -61,25 +53,26 @@ export async function GET(request, { params }) {
       created_at: image.createdAt,
     });
   } catch (error) {
-    console.error("Fetch error:", error);
-    return NextResponse.json(
-      { error: "Failed to fetch image" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to fetch image" }, { status: 500 });
   }
 }
 
-// PUT - Update image info (optional)
+// PUT - Update image info - Admin only
 export async function PUT(request, { params }) {
+  const authError = await requireAdminAuth();
+  if (authError) return authError;
+
   try {
     await connectDB();
-    
     const { id } = params;
-    const body = await request.json();
-    const { title, category } = body;
+    const { title, category } = await request.json();
 
     if (!title || !category) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
+    }
+
+    if (!["vehicles", "interior", "staff"].includes(category)) {
+      return NextResponse.json({ error: "Invalid category" }, { status: 400 });
     }
 
     const updatedImage = await Gallery.findByIdAndUpdate(
@@ -103,10 +96,6 @@ export async function PUT(request, { params }) {
       },
     });
   } catch (error) {
-    console.error("Update error:", error);
-    return NextResponse.json(
-      { error: "Failed to update image" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to update image" }, { status: 500 });
   }
 }

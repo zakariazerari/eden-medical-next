@@ -1,9 +1,13 @@
 import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/mongo";
 import Booking from "@/models/Booking";
+import { requireAdminAuth } from "@/utils/adminAuth";
 
-// PATCH: Update booking status
+// PATCH: Update booking status - Admin only
 export async function PATCH(req, { params }) {
+  const authError = await requireAdminAuth();
+  if (authError) return authError;
+
   try {
     await connectDB();
     const { id } = await params; // ✅ FIXED: Added await
@@ -39,8 +43,11 @@ export async function PATCH(req, { params }) {
   }
 }
 
-// DELETE: Delete booking
+// DELETE: Delete booking - Admin only
 export async function DELETE(req, { params }) {
+  const authError = await requireAdminAuth();
+  if (authError) return authError;
+
   try {
     await connectDB();
     const { id } = await params; // ✅ FIXED: Added await

@@ -4,6 +4,7 @@ import Gallery from "@/models/gallery";
 import { writeFile, mkdir } from "fs/promises";
 import sharp from "sharp";
 import path from "path";
+import { requireAdminAuth } from "@/utils/adminAuth";
 
 // ✅ GET - Fetch gallery images (default 50)
 export async function GET(request) {
@@ -47,8 +48,11 @@ export async function GET(request) {
   }
 }
 
-// POST - Upload new image with compression
+// POST - Upload new image - Admin only
 export async function POST(request) {
+  const authError = await requireAdminAuth();
+  if (authError) return authError;
+
   try {
     await connectDB();
     
@@ -115,8 +119,11 @@ export async function POST(request) {
   }
 }
 
-// DELETE - Delete image
+// DELETE - Delete image - Admin only
 export async function DELETE(request) {
+  const authError = await requireAdminAuth();
+  if (authError) return authError;
+
   try {
     await connectDB();
     

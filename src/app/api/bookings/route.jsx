@@ -3,9 +3,14 @@ import { connectDB } from "@/lib/mongo";
 import Booking from "@/models/Booking";
 import { sendMail } from "@/lib/mailer";
 import { logError, logSuccess } from "@/lib/logger";
+import { requireAdminAuth } from "@/utils/adminAuth";
+import { checkRateLimit } from "@/lib/rateLimit";
 
-// GET: Fetch ALL bookings
+// GET: Fetch ALL bookings - Admin only
 export async function GET(request) {
+  const authError = await requireAdminAuth();
+  if (authError) return authError;
+
   try {
     await connectDB();
 
@@ -33,8 +38,14 @@ export async function GET(request) {
   }
 }
 
-// POST: Create new booking with EMAIL FIX
+// POST: Create new booking - Public with rate limiting
 export async function POST(req) {
+  const ip = req.headers.get("x-forwarded-for")?.split(",")[0] || req.headers.get("x-real-ip") || "unknown";
+  const rateCheck = checkRateLimit(ip, 5, 600000); // 5 bookings per 10 minutes
+  if (!rateCheck.allowed) {
+    return NextResponse.json({ success: false, message: "Too many requests. Please try again later." }, { status: 429 });
+  }
+
   try {
     await connectDB();
     const body = await req.json();

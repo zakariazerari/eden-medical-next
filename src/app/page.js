@@ -7,9 +7,9 @@ import {
   FaClock,
   FaStar,
   FaQuoteLeft,
+  FaPhone,
 } from "react-icons/fa";
-import ParticlesBg from "./components/ParticlesBg";
-import Link from "next/link";
+
 
 export default function HomePage() {
   const [formData, setFormData] = useState({
@@ -132,52 +132,52 @@ export default function HomePage() {
       />
 
       {/* Hero Section */}
-      <section className="relative bg-cover bg-center bg-no-repeat px-6 py-32 flex items-center justify-center min-h-[700px]" style={{ backgroundImage: "url('/image3.jpg')" }}>
-        <div className="absolute inset-0 bg-gradient-to-r from-gray-900/80 to-blue-900/60"></div>
-        <div className="relative z-10 max-w-5xl text-center text-white">
-          <h1 className="text-4xl md:text-6xl font-extrabold mb-6">
-           Bay Area most trusted <span className="text-red-400">Non-Emergency Transportation</span>
+      <section className="relative bg-cover bg-center bg-no-repeat flex items-center justify-center min-h-[620px] sm:min-h-[720px]" style={{ backgroundImage: "url('/image3.jpg')" }}>
+        <div className="absolute inset-0 bg-gray-900/80"></div>
+        <div className="relative z-10 max-w-4xl mx-auto px-6 text-center text-white">
+          <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-4 py-2 mb-8 text-sm font-medium tracking-wide">
+            <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+            Available 24/7 · Licensed & Insured in the Bay Area
+          </div>
+          <h1 className="text-2xl sm:text-5xl md:text-6xl font-extrabold mb-6 leading-tight drop-shadow-lg">
+            Bay Area&apos;s Most Trusted{" "}
+            <span className="text-red-400">Non-Emergency Transportation</span>
           </h1>
-          <p className="text-lg md:text-2xl mb-8 text-gray-100 max-w-3xl mx-auto">
-           Safe, comfortable, and reliable wheelchair transport, stair assistance, ambulatory transport and gurney transportation. Serving the Bay Area and surrounding area.
+          <p className="text-lg sm:text-xl mb-10 text-white/85 max-w-2xl mx-auto leading-relaxed">
+            Safe, comfortable, and reliable wheelchair transport, stair assistance, ambulatory transport and gurney transportation. Serving the Bay Area and surrounding area.
           </p>
           <div className="flex gap-4 justify-center flex-wrap">
-            <a href="#book" className="bg-gradient-to-r from-red-600 to-red-700 text-white px-8 py-4 rounded-xl font-bold hover:shadow-2xl hover:scale-105 transition-all">
+            <a href="#book" className="bg-red-600 hover:bg-red-700 text-white px-8 py-4 rounded-xl font-bold shadow-lg hover:shadow-xl hover:scale-105 transition-all text-base">
               Book Your Ride Now
             </a>
-            <Link href="/about" className="bg-white text-blue-700 px-8 py-4 rounded-xl font-bold hover:bg-gray-50 hover:scale-105 transition-all">
-              Learn More
-            </Link>
+            <a href="tel:+15109578383" className="bg-white text-gray-900 hover:bg-gray-100 px-8 py-4 rounded-xl font-bold shadow-lg hover:scale-105 transition-all text-base">
+              Call (510) 957-8383
+            </a>
           </div>
         </div>
       </section>
 
       {/* Stats Counter Section */}
-      <section className="py-16 bg-white">
+      <section className="py-12 sm:py-16 bg-white border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="grid md:grid-cols-3 gap-8 text-center">
-            <div className="p-6 transform hover:scale-105 transition-transform">
-              <div className="text-5xl font-extrabold text-red-600 mb-2">5,000+</div>
-              <p className="text-gray-600 text-lg">Safe Rides Completed</p>
-            </div>
-            <div className="p-6 transform hover:scale-105 transition-transform">
-              <div className="text-5xl font-extrabold text-blue-600 mb-2">2,500+</div>
-              <p className="text-gray-600 text-lg">Happy Customers</p>
-            </div>
-            <div className="p-6 transform hover:scale-105 transition-transform">
-              <div className="text-5xl font-extrabold text-gray-800 mb-2">10+</div>
-              <p className="text-gray-600 text-lg">Years of Excellence</p>
-            </div>
+          <div className="grid grid-cols-3 gap-4 sm:gap-8 text-center">
+            {[
+              { value: "5,000+", label: "Safe Rides", color: "text-red-600" },
+              { value: "2,500+", label: "Happy Patients", color: "text-blue-600" },
+              { value: "10+", label: "Years of Excellence", color: "text-gray-800" },
+            ].map((stat, i) => (
+              <div key={i} className="p-4 sm:p-6 transform hover:scale-105 transition-transform">
+                <div className={`text-3xl sm:text-5xl font-extrabold ${stat.color} mb-1 sm:mb-2`}>{stat.value}</div>
+                <p className="text-gray-600 text-xs sm:text-lg">{stat.label}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
       {/* Booking Section */}
-      <section className="relative min-h-screen flex items-center justify-center px-4 py-16 overflow-hidden" id="book">
-        <div className="absolute inset-0 z-0">
-          <ParticlesBg />
-        </div>
-        <div className="relative z-10 backdrop-blur-md bg-white/95 border border-gray-200 shadow-2xl rounded-3xl w-full max-w-4xl p-10">
+      <section className="relative min-h-screen flex items-center justify-center px-4 py-16 overflow-hidden bg-gradient-to-br from-gray-50 via-blue-50/30 to-red-50/20" id="book">
+        <div className="relative z-10 bg-white border border-gray-200 shadow-2xl rounded-3xl w-full max-w-4xl p-10">
           <h2 className="text-4xl font-extrabold text-center text-gray-900 mb-10">Book Your Medical Ride</h2>
 
           <form onSubmit={handleSubmit} className="space-y-6">
@@ -369,19 +369,28 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Divider */}
+      <div className="max-w-5xl mx-auto px-6">
+        <div className="h-px bg-gray-200"></div>
+      </div>
+
       {/* FAQ Section */}
-      <section className="py-24 bg-gradient-to-br from-blue-50 to-red-50">
-        <div className="max-w-4xl mx-auto px-6">
-          <h2 className="text-5xl font-extrabold text-center text-gray-900 mb-16">Frequently Asked Questions</h2>
-          <div className="space-y-4">
+      <section className="py-20 bg-white">
+        <div className="max-w-3xl mx-auto px-6">
+          <h2 className="text-4xl font-extrabold text-center text-gray-900 mb-3">Frequently Asked Questions</h2>
+          <p className="text-center text-gray-500 mb-12">Everything you need to know about our services</p>
+          <div className="space-y-3">
             {[
               { q: "What counties do you serve?", a: "We serve all of East Bay including Alameda County, Contra Costa County, and surrounding areas. Whether it's wheelchair transport, stair assistance or gurney transportation, we're here to help." },
               { q: "Can I book same-day rides?", a: "Yes! We offer same-day service based on availability. Call us for urgent bookings." },
               { q: "Are your vehicles wheelchair accessible?", a: "All our vehicles are fully wheelchair and stretcher accessible with trained staff." }
             ].map((faq, i) => (
-              <details key={i} className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow">
-                <summary className="font-bold text-lg text-gray-900 cursor-pointer">{faq.q}</summary>
-                <p className="mt-4 text-gray-600 pl-4">{faq.a}</p>
+              <details key={i} className="group bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                <summary className="flex items-center justify-between px-6 py-5 font-semibold text-gray-900 cursor-pointer list-none">
+                  <span>{faq.q}</span>
+                  <span className="ml-4 w-6 h-6 flex items-center justify-center rounded-full bg-red-50 text-red-600 font-bold text-lg flex-shrink-0 group-open:bg-red-600 group-open:text-white transition-colors">+</span>
+                </summary>
+                <p className="px-6 pb-5 text-gray-600 border-t border-gray-100 pt-4">{faq.a}</p>
               </details>
             ))}
           </div>
@@ -389,15 +398,30 @@ export default function HomePage() {
       </section>
 
       {/* CTA Section */}
-      <section className="bg-gradient-to-r from-red-700 to-blue-700 py-20">
+      <section className="bg-red-600 py-20">
         <div className="max-w-4xl mx-auto text-center px-6">
-          <h2 className="text-4xl md:text-5xl font-extrabold text-white mb-6">Ready to Book Your Ride?</h2>
-          <p className="text-xl text-red-100 mb-8">Available 24/7 across the Bay Area and surrounding area</p>
-          <a href="#book" className="inline-block bg-white text-red-700 px-10 py-4 rounded-xl font-bold text-lg hover:bg-gray-50 hover:scale-105 transition-all shadow-2xl">
-            Book Now - It's Easy!
-          </a>
+          <h2 className="text-4xl md:text-5xl font-extrabold text-white mb-4">Ready to Book Your Ride?</h2>
+          <p className="text-lg text-red-100 mb-10">Available 24/7 across the Bay Area and surrounding area</p>
+          <div className="flex gap-4 justify-center flex-wrap">
+            <a href="#book" className="bg-white text-red-600 px-10 py-4 rounded-xl font-bold text-lg hover:bg-gray-100 hover:scale-105 transition-all shadow-xl">
+              Book Now - It&apos;s Easy!
+            </a>
+            <a href="tel:+15109578383" className="bg-red-700 border border-white/30 text-white px-10 py-4 rounded-xl font-bold text-lg hover:bg-red-800 hover:scale-105 transition-all">
+              Call (510) 957-8383
+            </a>
+          </div>
         </div>
       </section>
+
+      {/* Floating Call Button - Mobile */}
+      <a
+        href="tel:+15109578383"
+        className="fixed bottom-6 right-6 z-50 flex items-center gap-3 bg-gradient-to-r from-red-600 to-red-700 text-white px-5 py-3 rounded-full shadow-2xl hover:scale-110 transition-all duration-300 lg:hidden"
+        aria-label="Call Eden Medical Transport"
+      >
+        <FaPhone className="text-lg animate-pulse" />
+        <span className="font-bold text-sm">Call Now</span>
+      </a>
     </main>
   );
 }

@@ -3,7 +3,6 @@
 "use client";
 import { useState } from "react";
 import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, FaClock } from "react-icons/fa";
-import ContactSnowTwinkleBG from "../components/ContactSnowTwinkleBG";
 import toast from "react-hot-toast";
 import { secureFetch } from '@/lib/csrf' // ✅ ADDED
 
@@ -49,12 +48,8 @@ export default function Contact() {
   };
 
   return (
-    <section className="relative bg-gradient-to-br from-white via-gray-50 to-gray-100 py-24 overflow-hidden">
-      <div className="absolute inset-0 z-0">
-        <ContactSnowTwinkleBG />
-      </div>
-
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="bg-gradient-to-br from-white via-gray-50 to-blue-50/30 py-24">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h1 className="text-5xl font-extrabold mb-6 text-center text-gray-900">Get In Touch</h1>
         <p className="text-xl text-center text-gray-600 mb-16 max-w-3xl mx-auto">
           Available 24/7 for your medical transportation needs across Bay Area and surrounding counties 

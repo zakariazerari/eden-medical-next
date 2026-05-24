@@ -1,5 +1,6 @@
 // middleware.js - ENHANCED VERSION
 import { NextResponse } from "next/server";
+import { verifyToken } from "@/utils/cookieToken";
 
 export function middleware(request) {
   const token = request.cookies.get("admin-auth")?.value;
@@ -8,7 +9,7 @@ export function middleware(request) {
   // Check admin authentication
   let response;
   if (pathname.startsWith("/admin") && !pathname.startsWith("/admin/login") && !pathname.includes("/admin/reset-password") && !pathname.includes("/admin/forgot-password")) {
-    if (token !== "true") {
+    if (!verifyToken(token)) {
       return NextResponse.redirect(new URL("/admin/login", request.url));
     }
     response = NextResponse.next();

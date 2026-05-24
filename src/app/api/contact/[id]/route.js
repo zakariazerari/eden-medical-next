@@ -1,9 +1,13 @@
 import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/mongo";
 import ContactMessage from "@/models/ContactMessage";
+import { requireAdminAuth } from "@/utils/adminAuth";
 
-// PATCH: Update message status
+// PATCH: Update message status - Admin only
 export async function PATCH(req, { params }) {
+  const authError = await requireAdminAuth();
+  if (authError) return authError;
+
   try {
     await connectDB();
     const { id } = params;
@@ -39,8 +43,11 @@ export async function PATCH(req, { params }) {
   }
 }
 
-// DELETE: Delete message
+// DELETE: Delete message - Admin only
 export async function DELETE(req, { params }) {
+  const authError = await requireAdminAuth();
+  if (authError) return authError;
+
   try {
     await connectDB();
     const { id } = params;

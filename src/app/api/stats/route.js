@@ -2,14 +2,13 @@ import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/mongo";
 import Booking from "@/models/Booking";
 import ContactMessage from "@/models/ContactMessage";
+import { requireAdminAuth } from "@/utils/adminAuth";
 
-// ✅ FIXED: Removed Driver & Review (not needed for now)
-// If you need them later, make sure to:
-// 1. Create the models: @/models/Driver.js and @/models/Review.js
-// 2. Import them here
-
-// GET: Fetch all statistics - OPTIMIZED
+// GET: Fetch all statistics - Admin only
 export async function GET() {
+  const authError = await requireAdminAuth();
+  if (authError) return authError;
+
   try {
     console.time("⏱️ Stats API");
     await connectDB();

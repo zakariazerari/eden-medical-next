@@ -5,9 +5,14 @@ import { connectDB } from "@/lib/mongo";
 import ContactMessage from "@/models/ContactMessage";
 import { sendContactMail } from "@/lib/mailer";
 import { validateEmail, sanitizeString } from '@/utils/secureValidation';
+import { requireAdminAuth } from "@/utils/adminAuth";
+import { checkRateLimit } from "@/lib/rateLimit";
 
-// GET: Fetch all messages
+// GET: Fetch all messages - Admin only
 export async function GET() {
+  const authError = await requireAdminAuth();
+  if (authError) return authError;
+
   try {
     await connectDB();
 
@@ -26,8 +31,14 @@ export async function GET() {
   }
 }
 
-// POST: Create new contact message - FIXED EMAIL!
+// POST: Create new contact message - Public with rate limiting
 export async function POST(req) {
+  const ip = req.headers.get("x-forwarded-for")?.split(",")[0] || req.headers.get("x-real-ip") || "unknown";
+  const rateCheck = checkRateLimit(ip, 3, 600000); // 3 messages per 10 minutes
+  if (!rateCheck.allowed) {
+    return NextResponse.json({ success: false, message: "Too many requests. Please try again later." }, { status: 429 });
+  }
+
   try {
     await connectDB();
     const body = await req.json();

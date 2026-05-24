@@ -4,9 +4,13 @@
 import { NextResponse } from 'next/server';
 import { connectDB } from "@/lib/mongo";
 import BlogPost from '@/models/BlogPost';
+import { requireAdminAuth } from "@/utils/adminAuth";
 
-// GET - Fetch all blog posts
+// GET - Fetch all blog posts - Admin only
 export async function GET(request) {
+  const authError = await requireAdminAuth();
+  if (authError) return authError;
+
   try {
     await connectDB();
 
@@ -36,8 +40,11 @@ export async function GET(request) {
   }
 }
 
-// POST - Create new blog post
+// POST - Create new blog post - Admin only
 export async function POST(request) {
+  const authError = await requireAdminAuth();
+  if (authError) return authError;
+
   console.log('📝 POST /api/admin/blog - Starting...');
   
   try {

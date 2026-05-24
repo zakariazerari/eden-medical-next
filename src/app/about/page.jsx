@@ -2,19 +2,14 @@
 
 "use client";
 import Image from "next/image";
-import ParticlesMaskBG from "../components/ParticlesMaskBG";
 import { FaAward, FaUsers, FaHeart, FaShieldAlt, FaCar, FaCheckCircle, FaStar, FaHandshake } from "react-icons/fa";
 
 export default function About() {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-white via-gray-50 to-blue-50 py-16 md:py-24 lg:py-32">
-        <div className="absolute inset-0 z-0">
-          <ParticlesMaskBG />
-        </div>
-        
-        <div className="container mx-auto px-4 sm:px-6 lg:px-12 xl:px-24 relative z-10">
+      <section className="bg-gradient-to-br from-white via-gray-50 to-blue-50 py-16 md:py-24 lg:py-32">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-12 xl:px-24">
           {/* Hero Header */}
           <div className="text-center mb-12 md:mb-16">
             <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-gray-900 mb-4 md:mb-6">
@@ -30,15 +25,23 @@ export default function About() {
 
           {/* Main Story Section */}
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center mb-16 md:mb-24">
-            
-              <div className="bg-gradient-to-r from-blue-50 to-red-50 p-4 md:p-6 rounded-xl border-l-4 border-blue-600">
-                <p className="text-blue-800 font-semibold text-lg md:text-xl italic">
+
+            <div className="space-y-6">
+              <div className="bg-gradient-to-r from-blue-50 to-red-50 p-6 md:p-8 rounded-xl border-l-4 border-red-600">
+                <p className="text-gray-800 font-semibold text-xl md:text-2xl italic leading-relaxed">
                   "Your destination matters. So does how you get there."
                 </p>
               </div>
-            
+              <p className="text-gray-600 text-base md:text-lg leading-relaxed">
+                Founded in 2011, Eden Medical Transportation has been dedicated to providing safe, comfortable, and reliable non-emergency medical transportation across the Bay Area. Our trained drivers and modern vehicles ensure every patient arrives with dignity and care.
+              </p>
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-1 bg-red-600 rounded-full"></div>
+                <span className="text-red-600 font-semibold">Serving the Bay Area since 2011</span>
+              </div>
+            </div>
 
-            <div className="rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl border-4 border-red-200 transform hover:scale-105 transition-transform duration-500 order-1 lg:order-2">
+            <div className="rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl border-4 border-red-200 transform hover:scale-105 transition-transform duration-500">
               <Image
                 src="/image3.jpg"
                 alt="Eden Transport Vehicle"
@@ -49,6 +52,8 @@ export default function About() {
               />
             </div>
           </div>
+
+          <div className="h-px bg-gray-200 mb-16 md:mb-24"></div>
 
           {/* Stats Section */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 mb-16 md:mb-24">
@@ -76,6 +81,8 @@ export default function About() {
             ))}
           </div>
 
+          <div className="h-px bg-gray-200 mb-16 md:mb-24"></div>
+
           {/* Mission, Vision, Values */}
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-16 md:mb-24">
             <div className="bg-white p-6 md:p-8 rounded-xl md:rounded-2xl shadow-xl text-center transform hover:-translate-y-2 transition-all border-b-4 border-red-600">
@@ -87,20 +94,20 @@ export default function About() {
                 Provide reliable, comfortable transportation that puts customer satisfaction and safety first, every single ride.
               </p>
             </div>
-            
-            <div className="bg-white p-6 md:p-8 rounded-xl md:rounded-2xl shadow-xl text-center transform hover:-translate-y-2 transition-all border-b-4 border-blue-600">
-              <div className="w-16 h-16 md:w-20 md:h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <FaShieldAlt className="text-3xl md:text-4xl text-blue-600" />
+
+            <div className="bg-white p-6 md:p-8 rounded-xl md:rounded-2xl shadow-xl text-center transform hover:-translate-y-2 transition-all border-b-4 border-red-600">
+              <div className="w-16 h-16 md:w-20 md:h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <FaShieldAlt className="text-3xl md:text-4xl text-red-600" />
               </div>
               <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-3 md:mb-4">Our Vision</h3>
               <p className="text-sm md:text-base text-gray-600 leading-relaxed">
                 Set the standard for excellence in serving as one of the Bay Area's most trusted transportation provider.
               </p>
             </div>
-            
-            <div className="bg-white p-6 md:p-8 rounded-xl md:rounded-2xl shadow-xl text-center transform hover:-translate-y-2 transition-all border-b-4 border-gray-600 sm:col-span-2 lg:col-span-1">
-              <div className="w-16 h-16 md:w-20 md:h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <FaUsers className="text-3xl md:text-4xl text-gray-700" />
+
+            <div className="bg-white p-6 md:p-8 rounded-xl md:rounded-2xl shadow-xl text-center transform hover:-translate-y-2 transition-all border-b-4 border-red-600 sm:col-span-2 lg:col-span-1">
+              <div className="w-16 h-16 md:w-20 md:h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <FaUsers className="text-3xl md:text-4xl text-red-600" />
               </div>
               <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-3 md:mb-4">Our Values</h3>
               <p className="text-sm md:text-base text-gray-600 leading-relaxed">
@@ -108,6 +115,8 @@ export default function About() {
               </p>
             </div>
           </div>
+
+          <div className="h-px bg-gray-200 mb-16 md:mb-24"></div>
 
           {/* Why Choose Us */}
           <div className="bg-gradient-to-br from-blue-50 to-white p-6 md:p-12 rounded-2xl md:rounded-3xl shadow-2xl mb-16 md:mb-24">
@@ -132,6 +141,8 @@ export default function About() {
             </div>
           </div>
 
+          <div className="h-px bg-gray-200 mb-16 md:mb-24"></div>
+
           {/* Timeline */}
           <div className="mb-16 md:mb-24">
             <h2 className="text-3xl md:text-4xl font-extrabold text-center text-gray-900 mb-8 md:mb-12">Our Journey</h2>
@@ -155,6 +166,8 @@ export default function About() {
               ))}
             </div>
           </div>
+
+          <div className="h-px bg-gray-200 mb-16 md:mb-24"></div>
 
           {/* Certifications */}
           <div className="bg-gradient-to-br from-gray-900 to-blue-900 p-8 md:p-12 rounded-2xl md:rounded-3xl shadow-2xl">

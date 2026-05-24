@@ -17,7 +17,8 @@ export default function Header() {
     if (typeof window !== "undefined") {
       const cookies = document.cookie.split(";").map((c) => c.trim());
       const hasAuth = cookies.find((c) => c.startsWith("admin-auth="));
-      setIsAdmin(hasAuth?.split("=")[1] === "true");
+      const cookieVal = hasAuth?.split("=")[1];
+      setIsAdmin(!!cookieVal && cookieVal.includes("."));
     }
 
     const handleScroll = () => {
@@ -35,24 +36,19 @@ export default function Header() {
   ];
 
   const dropdownLinks = [
-    { name: "Blog", path: "/blog", icon: "📝" },
-    { name: "FAQ", path: "/faq", icon: "❓" }
+    { name: "Blog", path: "/blog" },
+    { name: "FAQ", path: "/faq" }
   ];
 
   const isDropdownActive = dropdownLinks.some(link => pathname === link.path);
 
-  // ✅ IMPROVED: Better timeout handling
   const handleMouseEnter = () => {
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-    }
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
     setDropdownOpen(true);
   };
 
   const handleMouseLeave = () => {
-    timeoutRef.current = setTimeout(() => {
-      setDropdownOpen(false);
-    }, 300); // ✅ Increased to 300ms
+    timeoutRef.current = setTimeout(() => setDropdownOpen(false), 300);
   };
 
   return (
@@ -64,7 +60,7 @@ export default function Header() {
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 md:px-6 flex justify-between items-center">
-        
+
         {/* Logo */}
         <Link href="/" className="group flex-shrink-0 -my-4 md:-my-6 relative">
           <div className="relative w-28 h-28 md:w-36 md:h-36 transform transition-all duration-300 group-hover:scale-105">
@@ -72,10 +68,10 @@ export default function Header() {
               src="/logo.png"
               alt="Eden Medical Transportation"
               fill
+              sizes="(max-width: 768px) 112px, 144px"
               className="object-contain drop-shadow-2xl"
               priority
             />
-            <div className="absolute inset-0 bg-gray-400/0 group-hover:bg-gray-400/10 blur-xl transition-all duration-300 -z-10 rounded-full"></div>
           </div>
         </Link>
 
@@ -84,7 +80,6 @@ export default function Header() {
           {mainLinks.map((link) => {
             const isActive = pathname === link.path;
             const isRed = link.color === "red";
-            
             return (
               <Link
                 key={link.name}
@@ -92,7 +87,7 @@ export default function Header() {
                 className={`relative px-3 xl:px-5 py-2.5 rounded-xl font-semibold transition-all duration-300 text-sm xl:text-base ${
                   isActive
                     ? isRed
-                      ? "text-white bg-red-600 shadow-lg" 
+                      ? "text-white bg-red-600 shadow-lg"
                       : "text-white bg-blue-600 shadow-lg"
                     : "text-gray-700 hover:text-gray-900 hover:bg-gray-100"
                 }`}
@@ -105,8 +100,8 @@ export default function Header() {
             );
           })}
 
-          {/* Resources Dropdown - FULLY FIXED */}
-          <div 
+          {/* Resources Dropdown */}
+          <div
             className="relative"
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
@@ -119,19 +114,16 @@ export default function Header() {
               }`}
             >
               <span className="relative z-10">Resources</span>
-              <FaChevronDown className={`text-xs transition-transform duration-300 ${dropdownOpen ? 'rotate-180' : ''}`} />
+              <FaChevronDown className={`text-xs transition-transform duration-300 ${dropdownOpen ? "rotate-180" : ""}`} />
               {isDropdownActive && (
                 <span className="absolute bottom-1 left-1/2 transform -translate-x-1/2 w-8 xl:w-10 h-1 bg-white rounded-full shadow-lg"></span>
               )}
             </button>
 
-            {/* Dropdown Menu with Gap Bridge */}
             {dropdownOpen && (
               <>
-                {/* ✅ Invisible bridge to prevent gap */}
                 <div className="absolute top-full left-0 right-0 h-3"></div>
-                
-                <div 
+                <div
                   className="absolute top-full mt-2 left-0 w-56 bg-white rounded-xl shadow-2xl border-2 border-gray-200 overflow-hidden z-50"
                   onMouseEnter={handleMouseEnter}
                   onMouseLeave={handleMouseLeave}
@@ -148,7 +140,6 @@ export default function Header() {
                             : "text-gray-700 hover:bg-red-50 hover:text-red-600 hover:pl-7"
                         }`}
                       >
-                        <span className="text-2xl">{item.icon}</span>
                         <span className="font-semibold text-base">{item.name}</span>
                       </Link>
                     );
@@ -161,7 +152,6 @@ export default function Header() {
 
         {/* Right Section */}
         <div className="hidden lg:flex items-center gap-2 xl:gap-3">
-          {/* Phone Button */}
           <a
             href="tel:+15109578383"
             className="group flex items-center gap-2 xl:gap-3 px-3 xl:px-4 py-2 xl:py-2.5 bg-blue-50 hover:bg-blue-100 rounded-xl transition-all duration-300 shadow-md hover:shadow-xl"
@@ -175,7 +165,6 @@ export default function Header() {
             </div>
           </a>
 
-          {/* Admin Button */}
           <Link
             href={isAdmin ? "/admin/dashboard" : "/admin/login"}
             className="group relative flex items-center gap-2 px-4 xl:px-5 py-2.5 bg-red-600 hover:bg-red-700 text-white font-bold rounded-xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 text-sm xl:text-base"
@@ -198,18 +187,16 @@ export default function Header() {
       {/* Mobile Menu */}
       {isOpen && (
         <div className="lg:hidden fixed inset-0 top-[88px] z-40">
-          <div 
+          <div
             className="absolute inset-0 bg-black/60 backdrop-blur-sm"
             onClick={() => setIsOpen(false)}
           ></div>
 
           <div className="relative bg-white shadow-2xl max-h-[calc(100vh-88px)] overflow-y-auto">
             <div className="px-6 py-6 space-y-3">
-              {/* Main Links */}
               {mainLinks.map((link) => {
                 const isActive = pathname === link.path;
                 const isRed = link.color === "red";
-                
                 return (
                   <Link
                     key={link.name}
@@ -231,9 +218,8 @@ export default function Header() {
                 );
               })}
 
-              {/* Resources Section */}
               <div className="bg-gradient-to-br from-gray-50 to-blue-50 rounded-xl p-4 space-y-2 border-2 border-blue-100">
-                <p className="text-xs font-bold text-gray-500 uppercase mb-3 px-1">📚 Resources</p>
+                <p className="text-xs font-bold text-gray-500 uppercase mb-3 px-1">Resources</p>
                 {dropdownLinks.map((item) => {
                   const isActive = pathname === item.path;
                   return (
@@ -247,17 +233,14 @@ export default function Header() {
                       }`}
                       onClick={() => setIsOpen(false)}
                     >
-                      <span className="text-2xl">{item.icon}</span>
                       <span className="font-semibold text-base">{item.name}</span>
                     </Link>
                   );
                 })}
               </div>
 
-              {/* Divider */}
               <div className="h-px bg-gray-300 my-4"></div>
 
-              {/* Action Buttons */}
               <div className="space-y-3">
                 <a
                   href="tel:+15109578383"
@@ -282,10 +265,9 @@ export default function Header() {
                 </Link>
               </div>
 
-              {/* Bottom Info */}
               <div className="mt-6 pt-6 border-t border-gray-200">
                 <p className="text-center text-sm text-gray-600 font-medium">
-                  🚑 <span className="text-green-600 font-bold">Available 24/7</span> for Transport
+                  <span className="text-green-600 font-bold">Available 24/7</span> for Transport
                 </p>
               </div>
             </div>

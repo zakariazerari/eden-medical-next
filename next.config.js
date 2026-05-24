@@ -1,27 +1,42 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // ✅ YOUR EXISTING CONFIG - KEPT AS IS
   reactStrictMode: false,
-  eslint: {
-    ignoreDuringBuilds: true,
+  compress: true,
+  poweredByHeader: false,
+  productionBrowserSourceMaps: false,
+  generateEtags: true,
+
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production' ? {
+      exclude: ['error', 'warn']
+    } : false,
   },
 
-  // ✅ NEW: REDIRECTS FOR WWW AND OLD URLS
+  images: {
+    formats: ['image/avif', 'image/webp'],
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    minimumCacheTTL: 60 * 60 * 24 * 30,
+    dangerouslyAllowSVG: true,
+    contentDispositionType: 'attachment',
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
+    remotePatterns: [
+      { protocol: 'https', hostname: '**.cloudinary.com', pathname: '/**' },
+      { protocol: 'https', hostname: 'res.cloudinary.com', pathname: '/**' },
+      { protocol: 'https', hostname: 'lh3.googleusercontent.com', pathname: '/**' },
+      { protocol: 'https', hostname: 'images.unsplash.com', pathname: '/**' },
+      { protocol: 'https', hostname: 'via.placeholder.com', pathname: '/**' },
+    ],
+  },
+
   async redirects() {
     return [
-      // Redirect www to non-www
       {
         source: '/:path*',
-        has: [
-          {
-            type: 'host',
-            value: 'www.edenmedtrans.com',
-          },
-        ],
+        has: [{ type: 'host', value: 'www.edenmedtrans.com' }],
         destination: 'https://edenmedtrans.com/:path*',
         permanent: true,
       },
-      // Redirect old GoDaddy URLs
       {
         source: '/medical-transportation-about-us',
         destination: '/about',
@@ -30,16 +45,12 @@ const nextConfig = {
     ];
   },
 
-  // ✅ Security Headers (NO BREAKING CHANGES)
   async headers() {
     return [
       {
         source: '/:path*',
         headers: [
-          {
-            key: 'Strict-Transport-Security',
-            value: 'max-age=63072000; includeSubDomains; preload'
-          },
+          { key: 'Strict-Transport-Security', value: 'max-age=63072000; includeSubDomains; preload' },
           {
             key: 'Content-Security-Policy',
             value: [
@@ -57,117 +68,27 @@ const nextConfig = {
               "upgrade-insecure-requests"
             ].join('; ')
           },
-          {
-            key: 'X-XSS-Protection',
-            value: '1; mode=block'
-          },
-          {
-            key: 'X-Frame-Options',
-            value: 'DENY'
-          },
-          {
-            key: 'X-Content-Type-Options',
-            value: 'nosniff'
-          },
-          {
-            key: 'Referrer-Policy',
-            value: 'strict-origin-when-cross-origin'
-          },
-          {
-            key: 'Permissions-Policy',
-            value: 'camera=(), microphone=(), geolocation=()'
-          }
+          { key: 'X-XSS-Protection', value: '1; mode=block' },
+          { key: 'X-Frame-Options', value: 'DENY' },
+          { key: 'X-Content-Type-Options', value: 'nosniff' },
+          { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
+          { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
         ],
       },
-      // ✅ Cache static assets for better performance
       {
         source: '/uploads/:path*',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
-          },
-        ],
+        headers: [{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }],
       },
       {
         source: '/_next/static/:path*',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
-          },
-        ],
+        headers: [{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }],
       },
       {
-        source: '/favicon.ico',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
-          },
-        ],
+        source: '/:all*(jpg|jpeg|png|gif|ico|svg|webp|avif|woff2|woff)',
+        headers: [{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }],
       },
-    ]
+    ];
   },
-
-  // ✅ YOUR EXISTING IMAGES CONFIG + OPTIMIZATIONS
-  images: {
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: '**.cloudinary.com',
-        pathname: '/**',
-      },
-      {
-        protocol: 'https',
-        hostname: 'res.cloudinary.com',
-        pathname: '/**',
-      },
-      {
-        protocol: 'https',
-        hostname: 'lh3.googleusercontent.com',
-        pathname: '/**',
-      },
-      {
-        protocol: 'https',
-        hostname: 'images.unsplash.com',
-        pathname: '/**',
-      },
-      {
-        protocol: 'https',
-        hostname: 'via.placeholder.com',
-        pathname: '/**',
-      },
-    ],
-    // ✅ OPTIMIZED: WebP only (faster, less timeout issues)
-    formats: ['image/webp'],
-    deviceSizes: [640, 750, 828, 1080, 1200, 1920],
-    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
-    // ✅ Cache and optimization settings
-    minimumCacheTTL: 60,
-    dangerouslyAllowSVG: true,
-    contentDispositionType: 'attachment',
-    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
-  },
-
-  // ✅ Remove console.logs in production only
-  compiler: {
-    removeConsole: process.env.NODE_ENV === 'production' ? {
-      exclude: ['error', 'warn']
-    } : false,
-  },
-
-  // ✅ Enable compression
-  compress: true,
-
-  // ✅ Disable source maps in production (smaller bundle)
-  productionBrowserSourceMaps: false,
-
-  // ✅ Remove powered by header (security)
-  poweredByHeader: false,
-
-  // ✅ Optimize production build
-  generateEtags: true,
 }
 
 module.exports = nextConfig

@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/mongo";
 import { verifyAdmin } from "@/utils/auth";
 import { checkRateLimit } from "@/lib/rateLimit";
+import { createAdminCookieValue } from "@/utils/adminAuth";
 
 // ✅ Track failed login attempts per IP + Email
 const failedAttempts = new Map()
@@ -120,7 +121,7 @@ export async function POST(request) {
     const maxAge = rememberMe ? 60 * 60 * 24 * 7 : 60 * 60 * 24
     
     // ✅ 7. Set secure cookies
-    response.cookies.set("admin-auth", "true", {
+    response.cookies.set("admin-auth", createAdminCookieValue(), {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       path: "/",
