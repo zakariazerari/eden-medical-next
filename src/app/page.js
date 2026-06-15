@@ -219,7 +219,7 @@ export default function HomePage() {
                   {errors.date && <p className="text-red-600 text-xs mt-1 flex items-center gap-1"><FaExclamationTriangle className="text-[10px]" />{errors.date}</p>}
                 </div>
 
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-4">
                   <div>
                     <label className="text-xs md:text-sm font-semibold block mb-1 text-gray-700">Pick-Up Time *</label>
                     <input
@@ -230,11 +230,10 @@ export default function HomePage() {
                       className={`w-full p-2 md:p-3 text-sm border ${errors.time ? "border-red-500" : "border-gray-300"} rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
                     />
                     {errors.time && <p className="text-red-600 text-xs mt-1 flex items-center gap-1"><FaExclamationTriangle className="text-[10px]" />{errors.time}</p>}
-                    <p className="text-xs text-gray-500 mt-1 hidden md:block">When we pick you up</p>
                   </div>
 
                   <div>
-                    <label className="text-xs md:text-sm font-semibold block mb-1 text-gray-700">Appt. Time *</label>
+                    <label className="text-xs md:text-sm font-semibold block mb-1 text-gray-700">Appointment Time *</label>
                     <input
                       type="time"
                       name="appointmentTime"
@@ -243,10 +242,9 @@ export default function HomePage() {
                       className={`w-full p-2 md:p-3 text-sm border ${errors.appointmentTime ? "border-red-500" : "border-gray-300"} rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
                     />
                     {errors.appointmentTime && <p className="text-red-600 text-xs mt-1 flex items-center gap-1"><FaExclamationTriangle className="text-[10px]" />{errors.appointmentTime}</p>}
-                    <p className="text-xs text-gray-500 mt-1 hidden md:block">Your appointment</p>
                   </div>
 
-                  <div className="col-span-2 md:col-span-1">
+                  <div>
                     <label className="text-xs md:text-sm font-semibold block mb-1 text-gray-700">Return Time <span className="text-green-600">(Optional)</span></label>
                     <input
                       type="time"
@@ -255,7 +253,6 @@ export default function HomePage() {
                       onChange={handleChange}
                       className="w-full p-2 md:p-3 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                     />
-                    <p className="text-xs text-gray-500 mt-1 hidden md:block">Leave empty if no return</p>
                   </div>
                 </div>
               </div>
