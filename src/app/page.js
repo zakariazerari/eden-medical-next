@@ -178,10 +178,10 @@ export default function HomePage() {
       {/* Booking Section */}
       <section className="relative min-h-screen flex items-center justify-center px-4 py-16 overflow-hidden bg-gradient-to-br from-gray-50 via-blue-50/30 to-red-50/20" id="book">
         <div className="relative z-10 bg-white border border-gray-200 shadow-2xl rounded-3xl w-full max-w-4xl p-4 md:p-10">
-          <h2 className="text-4xl font-extrabold text-center text-gray-900 mb-10">Book Your Medical Ride</h2>
+          <h2 className="text-2xl md:text-4xl font-extrabold text-center text-gray-900 mb-4 md:mb-10">Book Your Medical Ride</h2>
 
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="grid md:grid-cols-2 gap-6">
+          <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
+            <div className="grid md:grid-cols-2 gap-4 md:gap-6">
               <div>
                 <label className="text-sm font-semibold block mb-2 text-gray-700">Service Type</label>
                 <select name="serviceType" value={formData.serviceType} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-transparent">
@@ -273,7 +273,7 @@ export default function HomePage() {
               {errors.destination && <p className="text-red-600 text-sm mt-1 flex items-center gap-2"><FaExclamationTriangle />{errors.destination}</p>}
             </div>
 
-            <div className="grid md:grid-cols-2 gap-6">
+            <div className="grid md:grid-cols-2 gap-4 md:gap-6">
               <div>
                 <label className="text-sm font-semibold block mb-2 text-gray-700">Patient's Name</label>
                 <input type="text" name="patientName" value={formData.patientName} onChange={handleChange} className={`w-full p-3 border ${errors.patientName ? "border-red-500" : "border-gray-300"} rounded-xl focus:ring-2 focus:ring-red-500 focus:border-transparent`} />
@@ -286,7 +286,7 @@ export default function HomePage() {
               </div>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-6">
+            <div className="grid md:grid-cols-2 gap-4 md:gap-6">
               <div>
                 <label className="text-sm font-semibold block mb-2 text-gray-700">Email Address</label>
                 <input type="email" name="email" placeholder="email@example.com" value={formData.email} onChange={handleChange} className={`w-full p-3 border ${errors.email ? "border-red-500" : "border-gray-300"} rounded-xl focus:ring-2 focus:ring-red-500 focus:border-transparent`} />
