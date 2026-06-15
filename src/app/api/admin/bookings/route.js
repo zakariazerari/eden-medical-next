@@ -5,6 +5,23 @@ import { sendMail } from "@/lib/mailer";
 import { logError, logSuccess } from "@/lib/logger";
 import { validateBookingData } from '@/utils/secureValidation';
 
+const rateLimit = new Map();
+const RATE_LIMIT = 5;
+const WINDOW_MS = 10 * 60 * 1000;
+
+function checkRateLimit(ip) {
+  const now = Date.now();
+  const entry = rateLimit.get(ip) || { count: 0, start: now };
+  if (now - entry.start > WINDOW_MS) {
+    rateLimit.set(ip, { count: 1, start: now });
+    return false;
+  }
+  if (entry.count >= RATE_LIMIT) return true;
+  entry.count++;
+  rateLimit.set(ip, entry);
+  return false;
+}
+
 // GET: Fetch ALL bookings - OPTIMIZED
 export async function GET(request) {
   try {
@@ -57,6 +74,13 @@ export async function POST(req) {
     // Get IP address
     const forwarded = req.headers.get("x-forwarded-for");
     const ip = forwarded ? forwarded.split(",")[0] : req.ip || "unknown";
+
+    if (checkRateLimit(ip)) {
+      return NextResponse.json(
+        { message: "Too many requests. Please wait 10 minutes before trying again." },
+        { status: 429 }
+      );
+    }
 
     // Create booking with sanitized data
     const booking = await Booking.create({
