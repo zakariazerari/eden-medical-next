@@ -177,7 +177,7 @@ export default function HomePage() {
 
       {/* Booking Section */}
       <section className="relative min-h-screen flex items-center justify-center px-4 py-16 overflow-hidden bg-gradient-to-br from-gray-50 via-blue-50/30 to-red-50/20" id="book">
-        <div className="relative z-10 bg-white border border-gray-200 shadow-2xl rounded-3xl w-full max-w-4xl p-10">
+        <div className="relative z-10 bg-white border border-gray-200 shadow-2xl rounded-3xl w-full max-w-4xl p-4 md:p-10">
           <h2 className="text-4xl font-extrabold text-center text-gray-900 mb-10">Book Your Medical Ride</h2>
 
           <form onSubmit={handleSubmit} className="space-y-6">
@@ -200,7 +200,7 @@ export default function HomePage() {
             </div>
 
             {/* DATE & 3 TIMES */}
-            <div className="bg-gradient-to-r from-blue-50 to-purple-50 p-6 rounded-xl border-2 border-blue-200">
+            <div className="bg-gradient-to-r from-blue-50 to-purple-50 p-3 md:p-6 rounded-xl border-2 border-blue-200">
               <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
                 <FaClock className="text-blue-600" />
                 Schedule Details
@@ -219,7 +219,7 @@ export default function HomePage() {
                   {errors.date && <p className="text-red-600 text-sm mt-1 flex items-center gap-2"><FaExclamationTriangle />{errors.date}</p>}
                 </div>
 
-                <div className="grid md:grid-cols-3 gap-4">
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                   <div>
                     <label className="text-sm font-semibold block mb-2 text-gray-700">Pick-Up Time *</label>
                     <input 
@@ -246,7 +246,7 @@ export default function HomePage() {
                     <p className="text-xs text-gray-500 mt-1">Your appointment</p>
                   </div>
 
-                  <div>
+                  <div className="col-span-2 md:col-span-1">
                     <label className="text-sm font-semibold block mb-2 text-gray-700">Return Time <span className="text-green-600">(Optional)</span></label>
                     <input 
                       type="time" 
