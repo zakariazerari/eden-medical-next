@@ -214,7 +214,7 @@ export default function HomePage() {
                     name="date"
                     value={formData.date}
                     onChange={handleChange}
-                    className={`w-full p-3 text-sm border ${errors.date ? "border-red-500" : "border-gray-300"} rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                    className={`w-full p-3 border ${errors.date ? "border-red-500" : "border-gray-300"} rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none`}
                   />
                   {errors.date && <p className="text-red-600 text-xs mt-1 flex items-center gap-1"><FaExclamationTriangle className="text-[10px]" />{errors.date}</p>}
                 </div>
@@ -227,7 +227,7 @@ export default function HomePage() {
                       name="time"
                       value={formData.time}
                       onChange={handleChange}
-                      className={`w-full p-3 text-sm border ${errors.time ? "border-red-500" : "border-gray-300"} rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                      className={`w-full p-3 border ${errors.time ? "border-red-500" : "border-gray-300"} rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none`}
                     />
                     {errors.time && <p className="text-red-600 text-xs mt-1 flex items-center gap-1"><FaExclamationTriangle className="text-[10px]" />{errors.time}</p>}
                     <p className="text-xs text-gray-400 mt-1">When we pick you up</p>
@@ -240,7 +240,7 @@ export default function HomePage() {
                       name="appointmentTime"
                       value={formData.appointmentTime}
                       onChange={handleChange}
-                      className={`w-full p-3 text-sm border ${errors.appointmentTime ? "border-red-500" : "border-gray-300"} rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                      className={`w-full p-3 border ${errors.appointmentTime ? "border-red-500" : "border-gray-300"} rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none`}
                     />
                     {errors.appointmentTime && <p className="text-red-600 text-xs mt-1 flex items-center gap-1"><FaExclamationTriangle className="text-[10px]" />{errors.appointmentTime}</p>}
                     <p className="text-xs text-gray-400 mt-1">Your appointment time</p>
@@ -253,7 +253,7 @@ export default function HomePage() {
                       name="returnTime"
                       value={formData.returnTime}
                       onChange={handleChange}
-                      className="w-full p-3 text-sm border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                      className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent appearance-none"
                     />
                     <p className="text-xs text-gray-400 mt-1">Leave empty if no return</p>
                   </div>
