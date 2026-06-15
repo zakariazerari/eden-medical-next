@@ -200,7 +200,7 @@ export default function HomePage() {
             </div>
 
             {/* DATE & 3 TIMES */}
-            <div className="bg-gradient-to-r from-blue-50 to-purple-50 p-3 md:p-6 rounded-xl border-2 border-blue-200">
+            <div className="bg-gradient-to-r from-blue-50 to-purple-50 p-3 md:p-6 rounded-xl border-2 border-blue-200 overflow-hidden">
               <h3 className="text-base md:text-lg font-bold text-gray-900 mb-3 flex items-center gap-2">
                 <FaClock className="text-blue-600" />
                 Schedule Details
@@ -214,7 +214,7 @@ export default function HomePage() {
                     name="date"
                     value={formData.date}
                     onChange={handleChange}
-                    className={`w-full p-2 md:p-3 text-sm border ${errors.date ? "border-red-500" : "border-gray-300"} rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                    className={`w-full max-w-full py-1.5 px-2 md:p-3 text-sm border ${errors.date ? "border-red-500" : "border-gray-300"} rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent box-border`}
                   />
                   {errors.date && <p className="text-red-600 text-xs mt-1 flex items-center gap-1"><FaExclamationTriangle className="text-[10px]" />{errors.date}</p>}
                 </div>
@@ -227,7 +227,7 @@ export default function HomePage() {
                       name="time"
                       value={formData.time}
                       onChange={handleChange}
-                      className={`w-full p-2 md:p-3 text-sm border ${errors.time ? "border-red-500" : "border-gray-300"} rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                      className={`w-full max-w-full py-1.5 px-2 md:p-3 text-sm border ${errors.time ? "border-red-500" : "border-gray-300"} rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent box-border`}
                     />
                     {errors.time && <p className="text-red-600 text-xs mt-1 flex items-center gap-1"><FaExclamationTriangle className="text-[10px]" />{errors.time}</p>}
                     <p className="text-xs text-gray-400 mt-1">When we pick you up</p>
@@ -240,7 +240,7 @@ export default function HomePage() {
                       name="appointmentTime"
                       value={formData.appointmentTime}
                       onChange={handleChange}
-                      className={`w-full p-2 md:p-3 text-sm border ${errors.appointmentTime ? "border-red-500" : "border-gray-300"} rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                      className={`w-full max-w-full py-1.5 px-2 md:p-3 text-sm border ${errors.appointmentTime ? "border-red-500" : "border-gray-300"} rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent box-border`}
                     />
                     {errors.appointmentTime && <p className="text-red-600 text-xs mt-1 flex items-center gap-1"><FaExclamationTriangle className="text-[10px]" />{errors.appointmentTime}</p>}
                     <p className="text-xs text-gray-400 mt-1">Your appointment time</p>
@@ -253,7 +253,7 @@ export default function HomePage() {
                       name="returnTime"
                       value={formData.returnTime}
                       onChange={handleChange}
-                      className="w-full p-2 md:p-3 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                      className="w-full max-w-full py-1.5 px-2 md:p-3 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent box-border"
                     />
                     <p className="text-xs text-gray-400 mt-1">Leave empty if no return</p>
                   </div>
