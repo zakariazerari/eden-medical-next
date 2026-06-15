@@ -32,13 +32,7 @@ const nextConfig = {
 
   async redirects() {
     return [
-      {
-        source: '/:path*',
-        has: [{ type: 'host', value: 'www.edenmedtrans.com' }],
-        destination: 'https://edenmedtrans.com/:path*',
-        permanent: true,
-      },
-      {
+{
         source: '/medical-transportation-about-us',
         destination: '/about',
         permanent: true,

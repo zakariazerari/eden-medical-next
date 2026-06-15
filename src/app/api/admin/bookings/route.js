@@ -4,6 +4,7 @@ import Booking from "@/models/Booking";
 import { sendMail } from "@/lib/mailer";
 import { logError, logSuccess } from "@/lib/logger";
 import { validateBookingData } from '@/utils/secureValidation';
+import { requireAdminAuth } from '@/utils/adminAuth';
 
 const rateLimit = new Map();
 const RATE_LIMIT = 5;
@@ -24,6 +25,9 @@ function checkRateLimit(ip) {
 
 // GET: Fetch ALL bookings - OPTIMIZED
 export async function GET(request) {
+  const authError = await requireAdminAuth();
+  if (authError) return authError;
+
   try {
     await connectDB();
 
