@@ -230,6 +230,7 @@ export default function HomePage() {
                       className={`w-full p-2 md:p-3 text-sm border ${errors.time ? "border-red-500" : "border-gray-300"} rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
                     />
                     {errors.time && <p className="text-red-600 text-xs mt-1 flex items-center gap-1"><FaExclamationTriangle className="text-[10px]" />{errors.time}</p>}
+                    <p className="text-xs text-gray-400 mt-1">When we pick you up</p>
                   </div>
 
                   <div>
@@ -242,6 +243,7 @@ export default function HomePage() {
                       className={`w-full p-2 md:p-3 text-sm border ${errors.appointmentTime ? "border-red-500" : "border-gray-300"} rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
                     />
                     {errors.appointmentTime && <p className="text-red-600 text-xs mt-1 flex items-center gap-1"><FaExclamationTriangle className="text-[10px]" />{errors.appointmentTime}</p>}
+                    <p className="text-xs text-gray-400 mt-1">Your appointment time</p>
                   </div>
 
                   <div>
@@ -253,6 +255,7 @@ export default function HomePage() {
                       onChange={handleChange}
                       className="w-full p-2 md:p-3 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                     />
+                    <p className="text-xs text-gray-400 mt-1">Leave empty if no return</p>
                   </div>
                 </div>
               </div>
