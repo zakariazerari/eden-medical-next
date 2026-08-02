@@ -50,11 +50,11 @@ export async function generateMetadata({ params }) {
     openGraph: {
       title: `Medical Transportation ${county.name} | 24/7 Service`,
       description: county.description,
-      url: `https://edenmedical.com/locations/${params.county}`,
+      url: `https://edenmedtrans.com/locations/${params.county}`,
       type: 'website',
     },
     alternates: {
-      canonical: `https://edenmedical.com/locations/${params.county}`,
+      canonical: `https://edenmedtrans.com/locations/${params.county}`,
     },
   }
 }

@@ -19,16 +19,16 @@ export const metadata = {
   openGraph: {
     title: "Wheelchair Transportation Services East Bay | Eden Medical",
     description: "Safe, reliable wheelchair accessible medical transportation. ADA compliant vans, certified drivers, 24/7 service throughout East Bay.",
-    url: "https://edenmedical.com/services/wheelchair-transport",
+    url: "https://edenmedtrans.com/services/wheelchair-transport",
     type: "website",
     images: [{
-      url: "https://edenmedical.com/og-wheelchair.jpg",
+      url: "https://edenmedtrans.com/og-wheelchair.jpg",
       width: 1200,
       height: 630,
     }],
   },
   
   alternates: {
-    canonical: "https://edenmedical.com/services/wheelchair-transport",
+    canonical: "https://edenmedtrans.com/services/wheelchair-transport",
   },
 }

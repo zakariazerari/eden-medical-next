@@ -18,11 +18,11 @@ export const metadata = {
   openGraph: {
     title: "Frequently Asked Questions | Eden Medical Transport",
     description: "Find answers to common questions about our medical transportation services, insurance, booking, and more.",
-    url: "https://edenmedical.com/faq",
+    url: "https://edenmedtrans.com/faq",
     type: "website",
     images: [
       {
-        url: "https://edenmedical.com/og-faq.jpg",
+        url: "https://edenmedtrans.com/og-faq.jpg",
         width: 1200,
         height: 630,
         alt: "Eden Medical Transport FAQ"
@@ -31,6 +31,6 @@ export const metadata = {
   },
   
   alternates: {
-    canonical: "https://edenmedical.com/faq",
+    canonical: "https://edenmedtrans.com/faq",
   },
 }

@@ -43,7 +43,7 @@ export default function Breadcrumbs() {
       "@type": "ListItem",
       "position": index + 1,
       "name": item.name,
-      "item": `https://edenmedical.com${item.url}`
+      "item": `https://edenmedtrans.com${item.url}`
     }))
   }
 

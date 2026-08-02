@@ -19,11 +19,11 @@ export const metadata = {
   openGraph: {
     title: "Dialysis Transportation East Bay | Never Miss an Appointment",
     description: "Reliable, punctual transportation to dialysis centers 3-4x per week. Wheelchair accessible. Insurance accepted.",
-    url: "https://edenmedical.com/services/dialysis-transport",
+    url: "https://edenmedtrans.com/services/dialysis-transport",
     type: "website",
   },
   
   alternates: {
-    canonical: "https://edenmedical.com/services/dialysis-transport",
+    canonical: "https://edenmedtrans.com/services/dialysis-transport",
   },
 }

@@ -20,7 +20,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  metadataBase: new URL('https://edenmedical.com'),
+  metadataBase: new URL('https://edenmedtrans.com'),
   
   title: {
     default: "Eden Medical Transport | Professional Medical Rides in East Bay 24/7",
@@ -47,7 +47,7 @@ export const metadata = {
     "Medicare transport"
   ],
   
-  authors: [{ name: "Eden Medical Transport", url: "https://edenmedical.com" }],
+  authors: [{ name: "Eden Medical Transport", url: "https://edenmedtrans.com" }],
   creator: "Eden Medical Transport",
   publisher: "Eden Medical Transport",
   
@@ -72,7 +72,7 @@ export const metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://edenmedical.com',
+    url: 'https://edenmedtrans.com',
     title: 'Eden Medical Transport - Safe Medical Rides in East Bay',
     description: 'Professional non-emergency medical transportation across East Bay. Wheelchair accessible, licensed & insured. Available 24/7.',
     siteName: 'Eden Medical Transport',
@@ -91,11 +91,11 @@ export const metadata = {
     title: 'Eden Medical Transport | East Bay Medical Transportation 24/7',
     description: 'Professional medical transportation in East Bay. Wheelchair accessible, stretcher service, dialysis transport.',
     images: ['/twitter-image.jpg'],
-    creator: '@edenmedical',
+    creator: '@edentransport',
   },
   
   alternates: {
-    canonical: 'https://edenmedical.com',
+    canonical: 'https://edenmedtrans.com',
   },
   
   icons: {
@@ -136,20 +136,20 @@ export default function RootLayout({ children }) {
     "@graph": [
       {
         "@type": "MedicalBusiness",
-        "@id": "https://edenmedical.com/#organization",
+        "@id": "https://edenmedtrans.com/#organization",
         "name": "Eden Medical Transport",
         "legalName": "Eden Medical Transport LLC",
-        "url": "https://edenmedical.com",
+        "url": "https://edenmedtrans.com",
         "logo": {
           "@type": "ImageObject",
-          "url": "https://edenmedical.com/logo.png",
+          "url": "https://edenmedtrans.com/logo.png",
           "width": 600,
           "height": 600
         },
-        "image": "https://edenmedical.com/og-image.jpg",
+        "image": "https://edenmedtrans.com/og-image.jpg",
         "description": "Professional non-emergency medical transportation services in East Bay. Wheelchair accessible, stretcher service, dialysis transport. Licensed, insured, available 24/7.",
         "telephone": "+1-510-957-8383",
-        "email": "info@edenmedical.com",
+        "email": "edenmedtrans@gmail.com",
         "address": {
           "@type": "PostalAddress",
           "streetAddress": "123 Medical Plaza",
@@ -248,10 +248,10 @@ export default function RootLayout({ children }) {
           "contactOption": "TollFree"
         },
         "sameAs": [
-          "https://www.facebook.com/edenmedical",
-          "https://www.instagram.com/edenmedical",
-          "https://twitter.com/edenmedical",
-          "https://www.linkedin.com/company/edenmedical"
+          "https://www.facebook.com/edentransport",
+          "https://www.instagram.com/edentransport",
+          "https://twitter.com/edentransport",
+          "https://www.linkedin.com/company/edentransport"
         ],
         "aggregateRating": {
           "@type": "AggregateRating",
@@ -263,18 +263,18 @@ export default function RootLayout({ children }) {
       },
       {
         "@type": "WebSite",
-        "@id": "https://edenmedical.com/#website",
-        "url": "https://edenmedical.com",
+        "@id": "https://edenmedtrans.com/#website",
+        "url": "https://edenmedtrans.com",
         "name": "Eden Medical Transport",
         "description": "Professional non-emergency medical transportation services in East Bay",
         "publisher": {
-          "@id": "https://edenmedical.com/#organization"
+          "@id": "https://edenmedtrans.com/#organization"
         },
         "potentialAction": {
           "@type": "SearchAction",
           "target": {
             "@type": "EntryPoint",
-            "urlTemplate": "https://edenmedical.com/search?q={search_term_string}"
+            "urlTemplate": "https://edenmedtrans.com/search?q={search_term_string}"
           },
           "query-input": "required name=search_term_string"
         },
@@ -282,14 +282,14 @@ export default function RootLayout({ children }) {
       },
       {
         "@type": "WebPage",
-        "@id": "https://edenmedical.com/#webpage",
-        "url": "https://edenmedical.com",
+        "@id": "https://edenmedtrans.com/#webpage",
+        "url": "https://edenmedtrans.com",
         "name": "Eden Medical Transport - Professional Medical Rides in East Bay 24/7",
         "isPartOf": {
-          "@id": "https://edenmedical.com/#website"
+          "@id": "https://edenmedtrans.com/#website"
         },
         "about": {
-          "@id": "https://edenmedical.com/#organization"
+          "@id": "https://edenmedtrans.com/#organization"
         },
         "description": "Book safe, reliable non-emergency medical transportation in East Bay. Wheelchair accessible, stretcher service, dialysis transport.",
         "inLanguage": "en-US"
@@ -329,7 +329,7 @@ export default function RootLayout({ children }) {
           </>
         )}
       </head>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white text-gray-900`}>
+      <body suppressHydrationWarning className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white text-gray-900`}>
         <a 
           href="#main-content" 
           className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-blue-600 focus:text-white focus:rounded-lg"

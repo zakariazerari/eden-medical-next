@@ -32,7 +32,7 @@ export default function FAQPage() {
       questions: [
         {
           q: "How do I book a ride?",
-          a: "You can book in three easy ways: (1) Call our 24/7 hotline at (510) 957-8383, (2) Use our online booking form on the website, or (3) Email us at info@edentransport.com. We recommend booking in advance for scheduled trips, but we also accommodate same-day requests based on availability."
+          a: "You can book in three easy ways: (1) Call our 24/7 hotline at (510) 957-8383, (2) Use our online booking form on the website, or (3) Email us at edenmedtrans@gmail.com. We recommend booking in advance for scheduled trips, but we also accommodate same-day requests based on availability."
         },
         {
           q: "Do you provide 24/7 service?",

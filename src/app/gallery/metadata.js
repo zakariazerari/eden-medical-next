@@ -18,11 +18,11 @@ export const metadata = {
   openGraph: {
     title: "Eden Medical Transport Fleet Gallery | Modern Wheelchair Accessible Vehicles",
     description: "Explore our professional fleet of wheelchair accessible vans and stretcher vehicles. All ADA compliant and maintained to highest standards.",
-    url: "https://edenmedical.com/gallery",
+    url: "https://edenmedtrans.com/gallery",
     siteName: "Eden Medical Transport",
     images: [
       {
-        url: "https://edenmedical.com/og-image-gallery.jpg",
+        url: "https://edenmedtrans.com/og-image-gallery.jpg",
         width: 1200,
         height: 630,
         alt: "Eden Medical Transport Vehicle Fleet"
@@ -35,10 +35,10 @@ export const metadata = {
     card: "summary_large_image",
     title: "Eden Medical Transport Vehicle Gallery | Wheelchair Accessible Fleet",
     description: "See our modern, ADA-compliant medical transportation vehicles serving East Bay.",
-    images: ["https://edenmedical.com/og-image-gallery.jpg"],
+    images: ["https://edenmedtrans.com/og-image-gallery.jpg"],
   },
   
   alternates: {
-    canonical: "https://edenmedical.com/gallery",
+    canonical: "https://edenmedtrans.com/gallery",
   },
 }

@@ -97,7 +97,7 @@ export default function Contact() {
                   <FaEnvelope className="text-2xl text-blue-600 mt-1" />
                   <div>
                     <p className="font-bold text-gray-800">Email</p>
-                    <a href="mailto:info@edenmedical.com" className="text-blue-600 hover:text-blue-700">edenmedtrans@gmail.com</a>
+                    <a href="mailto:edenmedtrans@gmail.com" className="text-blue-600 hover:text-blue-700">edenmedtrans@gmail.com</a>
                   </div>
                 </div>
                 

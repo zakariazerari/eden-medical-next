@@ -23,11 +23,11 @@ export const metadata = {
   openGraph: {
     title: "Eden Medical Transport | Professional Medical Transportation East Bay",
     description: "Safe, reliable non-emergency medical transportation throughout East Bay. Wheelchair accessible vans, stretcher service, 24/7 availability.",
-    url: "https://edenmedical.com",
+    url: "https://edenmedtrans.com",
     siteName: "Eden Medical Transport",
     images: [
       {
-        url: "https://edenmedical.com/og-image-home.jpg",
+        url: "https://edenmedtrans.com/og-image-home.jpg",
         width: 1200,
         height: 630,
         alt: "Eden Medical Transport - East Bay Medical Transportation Service"
@@ -41,8 +41,8 @@ export const metadata = {
     card: "summary_large_image",
     title: "Eden Medical Transport | Non-Emergency Medical Transportation East Bay",
     description: "Professional medical transportation services in East Bay. Wheelchair accessible, stretcher service, 24/7 available.",
-    images: ["https://edenmedical.com/og-image-home.jpg"],
-    creator: "@edenmedical",
+    images: ["https://edenmedtrans.com/og-image-home.jpg"],
+    creator: "@edentransport",
   },
   
   robots: {
@@ -58,7 +58,7 @@ export const metadata = {
   },
   
   alternates: {
-    canonical: "https://edenmedical.com",
+    canonical: "https://edenmedtrans.com",
   },
   
   verification: {

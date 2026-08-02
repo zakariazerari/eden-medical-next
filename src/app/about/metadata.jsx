@@ -17,11 +17,11 @@ export const metadata = {
   openGraph: {
     title: "About Eden Transport Services | East Bay's Trusted Transportation Since 2014",
     description: "Discover Eden Transport Services' commitment to safe, reliable passenger transportation across East Bay. Licensed, certified, and available 24/7.",
-    url: "https://edentransport.com/about",
+    url: "https://edenmedtrans.com/about",
     siteName: "Eden Transport Services",
     images: [
       {
-        url: "https://edentransport.com/og-image-about.jpg",
+        url: "https://edenmedtrans.com/og-image-about.jpg",
         width: 1200,
         height: 630,
         alt: "About Eden Transport Services Team"
@@ -34,10 +34,10 @@ export const metadata = {
     card: "summary_large_image",
     title: "About Eden Transport Services | East Bay Transportation Since 2014",
     description: "Learn about our mission, values, and commitment to quality transportation in East Bay.",
-    images: ["https://edentransport.com/og-image-about.jpg"],
+    images: ["https://edenmedtrans.com/og-image-about.jpg"],
   },
   
   alternates: {
-    canonical: "https://edentransport.com/about",
+    canonical: "https://edenmedtrans.com/about",
   },
 }

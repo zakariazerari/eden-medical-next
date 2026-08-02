@@ -3,7 +3,7 @@ import { connectDB } from '@/lib/mongo'
 import BlogPost from '@/models/BlogPost'
 
 export default async function sitemap() {
-  const baseUrl = 'https://edenmedical.com'
+  const baseUrl = 'https://edenmedtrans.com'
   const now = new Date()
 
   // ✅ 1. Static pages (High Priority)

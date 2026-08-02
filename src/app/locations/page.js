@@ -18,16 +18,16 @@ export const metadata = {
   openGraph: {
     title: "Medical Transportation Service Locations | All California Counties",
     description: "Serving all 58 California counties with professional medical transportation. Wheelchair accessible, licensed & insured.",
-    url: "https://edenmedical.com/locations",
+    url: "https://edenmedtrans.com/locations",
     type: "website",
     images: [{
-      url: "https://edenmedical.com/og-locations.jpg",
+      url: "https://edenmedtrans.com/og-locations.jpg",
       width: 1200,
       height: 630,
     }],
   },
   alternates: {
-    canonical: "https://edenmedical.com/locations",
+    canonical: "https://edenmedtrans.com/locations",
   },
 }
 

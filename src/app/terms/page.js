@@ -262,7 +262,7 @@ export default function TermsPage() {
               </p>
               <div className="space-y-2 text-gray-800">
                 <p><strong>24/7 Hotline:</strong> <a href="tel:+15109578383" className="text-red-600 hover:text-red-700 font-bold text-xl">(510) 957-8383</a></p>
-                <p><strong>Email:</strong> <a href="mailto:info@edenmedical.com" className="text-red-600 hover:text-red-700 font-semibold">info@edenmedical.com</a></p>
+                <p><strong>Email:</strong> <a href="mailto:edenmedtrans@gmail.com" className="text-red-600 hover:text-red-700 font-semibold">edenmedtrans@gmail.com</a></p>
                 <p><strong>Address:</strong> Eden Medical Transport, Oakland, California</p>
               </div>
             </section>

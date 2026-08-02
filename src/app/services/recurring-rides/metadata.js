@@ -19,11 +19,11 @@ export const metadata = {
   openGraph: {
     title: "Stretcher Transportation East Bay | Non-Emergency Stretcher Service",
     description: "Safe professional stretcher transport with certified medical personnel. Available 24/7 for bed-bound patients throughout East Bay.",
-    url: "https://edenmedical.com/services/stretcher-transport",
+    url: "https://edenmedtrans.com/services/stretcher-transport",
     type: "website",
   },
   
   alternates: {
-    canonical: "https://edenmedical.com/services/stretcher-transport",
+    canonical: "https://edenmedtrans.com/services/stretcher-transport",
   },
 }

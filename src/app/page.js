@@ -36,7 +36,7 @@ export default function HomePage() {
     "@type": "LocalBusiness",
     name: "Eden Medical Transport",
     description: "Professional non-emergency medical transportation in East Bay",
-    url: "https://edenmedical.com",
+    url: "https://edenmedtrans.com",
     telephone: "+1-510-957-8383",
     address: {
       "@type": "PostalAddress",

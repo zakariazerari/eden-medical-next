@@ -1,6 +1,6 @@
 // app/robots.js - ✅ VERSION CORRIGÉE
 export default function robots() {
-  const baseUrl = 'https://edenmedical.com'
+  const baseUrl = 'https://edenmedtrans.com'
   
   return {
     rules: [

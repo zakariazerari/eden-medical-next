@@ -18,11 +18,11 @@ export const metadata = {
   openGraph: {
     title: "Contact Eden Medical Transport | 24/7 Booking Available",
     description: "Book your medical transportation now. Call (510) 957-8383 or use our online form. Serving East Bay and surrounding areas 24/7.",
-    url: "https://edenmedical.com/contact",
+    url: "https://edenmedtrans.com/contact",
     siteName: "Eden Medical Transport",
     images: [
       {
-        url: "https://edenmedical.com/og-image-contact.jpg",
+        url: "https://edenmedtrans.com/og-image-contact.jpg",
         width: 1200,
         height: 630,
         alt: "Contact Eden Medical Transport East Bay"
@@ -35,10 +35,10 @@ export const metadata = {
     card: "summary_large_image",
     title: "Contact Eden Medical Transport | Book Medical Ride East Bay",
     description: "24/7 booking available. Call (510) 957-8383 or book online.",
-    images: ["https://edenmedical.com/og-image-contact.jpg"],
+    images: ["https://edenmedtrans.com/og-image-contact.jpg"],
   },
   
   alternates: {
-    canonical: "https://edenmedical.com/contact",
+    canonical: "https://edenmedtrans.com/contact",
   },
 }

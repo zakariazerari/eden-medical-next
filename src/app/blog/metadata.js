@@ -18,16 +18,16 @@ export const metadata = {
   openGraph: {
     title: "Transport Services Blog | Expert Articles & Travel Tips",
     description: "Expert insights on transportation, travel tips, and industry news from Eden Transport Services East Bay.",
-    url: "https://edentransport.com/blog",
+    url: "https://edenmedtrans.com/blog",
     type: "website",
     images: [{
-      url: "https://edentransport.com/og-blog.jpg",
+      url: "https://edenmedtrans.com/og-blog.jpg",
       width: 1200,
       height: 630,
     }],
   },
   
   alternates: {
-    canonical: "https://edentransport.com/blog",
+    canonical: "https://edenmedtrans.com/blog",
   },
 }

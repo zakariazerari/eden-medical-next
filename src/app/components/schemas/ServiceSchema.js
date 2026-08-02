@@ -5,7 +5,7 @@ export default function ServiceSchema() {
     "@type": "Service",
     "serviceType": "Non-Emergency Medical Transportation",
     "provider": {
-      "@id": "https://edenmedical.com/#localbusiness"
+      "@id": "https://edenmedtrans.com/#localbusiness"
     },
     "areaServed": {
       "@type": "State",
@@ -51,7 +51,7 @@ export default function ServiceSchema() {
     },
     "availableChannel": {
       "@type": "ServiceChannel",
-      "serviceUrl": "https://edenmedical.com/contact",
+      "serviceUrl": "https://edenmedtrans.com/contact",
       "servicePhone": "+1-510-957-8383",
       "availableLanguage": ["English", "Spanish"]
     }

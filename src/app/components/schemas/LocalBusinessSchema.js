@@ -3,13 +3,13 @@ export default function LocalBusinessSchema() {
   const schema = {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
-    "@id": "https://edenmedical.com/#localbusiness",
+    "@id": "https://edenmedtrans.com/#localbusiness",
     "name": "Eden Medical Transport",
-    "image": "https://edenmedical.com/logo.png",
-    "logo": "https://edenmedical.com/logo.png",
-    "url": "https://edenmedical.com",
+    "image": "https://edenmedtrans.com/logo.png",
+    "logo": "https://edenmedtrans.com/logo.png",
+    "url": "https://edenmedtrans.com",
     "telephone": "+1-510-957-8383",
-    "email": "info@edenmedical.com",
+    "email": "edenmedtrans@gmail.com",
     "priceRange": "$$",
     "address": {
       "@type": "PostalAddress",
@@ -42,10 +42,10 @@ export default function LocalBusinessSchema() {
       }
     ],
     "sameAs": [
-      "https://www.facebook.com/edenmedical",
-      "https://www.instagram.com/edenmedical",
-      "https://twitter.com/edenmedical",
-      "https://www.linkedin.com/company/edenmedical"
+      "https://www.facebook.com/edentransport",
+      "https://www.instagram.com/edentransport",
+      "https://twitter.com/edentransport",
+      "https://www.linkedin.com/company/edentransport"
     ],
     "aggregateRating": {
       "@type": "AggregateRating",
